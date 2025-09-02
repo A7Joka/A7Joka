@@ -1,55 +1,59 @@
-<!-- 💀 Header Canvas -->
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=250&text=A7Joka&fontAlign=50&fontAlignY=40&color=gradient&customColorList=2,3,4,5,6,11&desc=Code%20%F0%9F%92%BB%20%7C%20Create%20%F0%9F%9A%80%20%7C%20Repeat%20%E2%9C%A8&descAlign=50&descAlignY=60" />
-</p>
-
-<!-- ⚡ Typing vibe -->
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=22&pause=1000&color=00FFFF&center=true&vCenter=true&width=500&lines=👾+Hey!+I'm+Joka;💡+Building+chaotic+cool+stuff;⚡+Debugging+life+one+commit+at+a+time" alt="Typing SVG" />
-</p>
+<div align="center">
+  <img src="https://example.com/your-photo.png" alt="Your Name's Profile Picture" width="150" style="border-radius: 50%;">
+  <h1>Hi there, I'm [Your Name] 👋</h1>
+  <p>A passionate and driven developer with expertise in multiple domains. I'm always eager to learn and build innovative solutions.</p>
+</div>
 
 ---
 
-## ✨ About Me
-- 🌀 Full-stack Developer • Chaos Engineer wannabe  
-- 🎮 Gamer • Meme Lord • Night Owl  
-- 🌱 Learning: Cloud + AI integrations  
-- 💬 Ask me about: React, Python APIs, Docker  
-- 📫 Reach me: **[LinkedIn](https://linkedin.com/in/your-handle)** • **[Email](mailto:you@example.com)**  
+### 💻 My Core Skills
+
+#### Web Development
+Experienced in building scalable and modern web applications.
+- **Frontend:** [React.js, Vue.js, Angular, Svelte, etc.]
+- **Backend:** [Node.js, Express, Django, Ruby on Rails, etc.]
+- **Databases:** [PostgreSQL, MongoDB, MySQL, Redis, etc.]
+
+#### Cybersecurity
+Dedicated to securing systems and data, with a focus on:
+- **Offensive Security:** [Penetration Testing, Vulnerability Assessment, etc.]
+- **Defensive Security:** [Threat Detection, Incident Response, etc.]
+- **Tools:** [Nmap, Wireshark, Metasploit, etc.]
+
+#### Programming Languages
+I'm proficient in several languages and constantly exploring new ones.
+- **Primary Languages:** [Python, JavaScript, Go, Rust, etc.]
+- **Other Languages:** [C++, Java, PHP, etc.]
 
 ---
 
-## 🛠️ Tech Playground
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=react,nextjs,tailwind,nodejs,express,python,django,fastapi,postgres,mongodb,docker,git,github,linux" />
-</p>
+### 🔧 Tools & Technologies
+
+Here are some of the tools and technologies I'm comfortable working with:
+
+| Category | Tools & Tech |
+| :--- | :--- |
+| **Cloud** | [AWS, Azure, Google Cloud, Docker, Kubernetes] |
+| **DevOps** | [Git, Jenkins, CI/CD, Terraform] |
+| **Operating Systems** | [Linux (Ubuntu, CentOS), macOS, Windows] |
+| **Version Control** | [Git, GitHub] |
 
 ---
 
-## 🚀 Featured Projects
-| Project | What it does | Stack | Links |
-|---------|--------------|-------|-------|
-| [⚡ InstaClone](https://github.com/A7Joka/instaclone) | Social media clone w/ extra drip | Next.js + Prisma + Tailwind | [Live](https://yourdemo.com) |
-| [🤖 AI Sidekick](https://github.com/A7Joka/ai-sidekick) | Chatbot buddy that vibes | Python + FastAPI + OpenAI | [Try it](https://demo.com) |
-| [🎮 Game Hub](https://github.com/A7Joka/gamehub) | Gaming portal for friends | React + Node + MongoDB | [Play](https://demo.com) |
+### 📊 GitHub Stats
+
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=[your-github-username]&show_icons=true&theme=onedark" alt="GitHub Stats">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=[your-github-username]&theme=onedark" alt="GitHub Streak">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=[your-github-username]&layout=compact&theme=onedark" alt="Top Languages">
+</div>
 
 ---
 
-## 📊 GitHub Stats
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=A7Joka&show_icons=true&theme=radical" />
-  <br/>
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=A7Joka&theme=radical" />
-  <br/>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=A7Joka&layout=compact&theme=radical" />
-</p>
+### 📫 Let's Connect!
+
+- **LinkedIn:** [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/[your-linkedin-username])
+- **Twitter:** [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/[your-twitter-username])
+- **Portfolio:** [![Website](https://img.shields.io/badge/Website-5D3FD3?style=for-the-badge&logo=github&logoColor=white)](https://[your-portfolio-website.com])
 
 ---
-
-## 🌌 Fun Section
-const joka = {
-  vibe: "chaotic-good 👾",
-  favEmoji: "🔥",
-  sleepSchedule: "undefined",
-  motto: "ship it till it breaks ⚡"
-};
