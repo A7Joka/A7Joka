@@ -1,156 +1,118 @@
-<!-- =========================
-     GitHub Profile README
-     Crafted for: A7Joka
-     Paste this into: A7Joka/A7Joka -> README.md
-   ========================= -->
-
+<!-- Banner -->
 <p align="center">
-  <!-- Banner: capsule-render - tweak text/colors via the URL -->
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=200&text=A7Joka&fontAlign=50&fontAlignY=40&color=gradient&desc=Code%20%7C%20Security%20%7C%20Design%20-%20Ship%20with%20intent&descAlignY=60" alt="A7Joka banner" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=200&text=A7Joka&fontAlign=50&fontAlignY=40&color=gradient&desc=Full-Stack%20Dev%20%7C%20Data%20Analytics%20%7C%20Cybersecurity&descAlign=50&descAlignY=65" />
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&pause=1000&color=00FFFF&center=true&vCenter=true&width=700&lines=Hi!+I'm+Joka+%F0%9F%91%8B;I+build+secure+web+apps+%26+clean+APIs.;Open+to+collabs+%2F+freelance+%F0%9F%9A%80" alt="typing" />
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&pause=1000&color=00FFFF&center=true&vCenter=true&width=700&lines=Turning+Data+into+Decisions+📊;Building+Web+%26+APIs+⚡;Security+first+always+🔐" />
 </p>
 
 ---
 
-## 👋 About
-Hi — I'm **Joka**. I build full-stack web applications with a focus on secure architecture and maintainable code. I like shipping small, useful products fast and iterating based on real feedback.
+## 👋 About Me
+I'm **Joka** — a full-stack developer with a passion for **data analytics** and **secure systems**.  
+I approach projects like datasets: structured, analyzed, and optimized for impact.
 
-- 🔭 Current: working on **[ProjectName — short tagline]**
-- 🌱 Learning: Cloud security & infra as code
-- ⚡ Fun: I build UX experiments and tiny developer tools
-- 📫 Reach: [hey@example.com](mailto:hey@example.com) • [LinkedIn](https://linkedin.com/in/your-handle) • [X/Twitter](https://x.com/your-handle)
-
----
-
-## 🧭 Quick navigation
-- **Experience:** Web · Backend · Mobile  
-- **Skills:** Languages · Frameworks · Tools  
-- **Security:** Pentesting basics · Secure CI/CD  
-- **Projects:** Featured apps & demos  
-- **Contact:** Hire / Collab / Mentorship
+- 🎯 Mission: build reliable apps & uncover insights from data  
+- 🌱 Learning: cloud security + advanced BI tools  
+- 🚀 Goal 2025: merge web dev, analytics, and cybersecurity into end-to-end solutions  
 
 ---
 
-## 🏗️ Experience Areas
-
-### Web & Frontend
-- Building accessible, responsive UIs with performance in mind.
-- Frameworks: **React**, **Next.js**, **Tailwind CSS**, **TypeScript**.
-- Focus: component design, SSR/SSG, SEO, and design systems.
-
-### Backend & APIs
-- Designing reliable REST & GraphQL APIs, transactional systems, and background workers.
-- Tech: **Node.js (Express/Nest)**, **FastAPI**, **Postgres**, **Redis**.
-- Patterns: DDD-lite, modular services, observability (logs/metrics/traces).
-
-### DevOps & Cloud
-- Containerized apps, CI/CD pipelines, infra-as-code basics.
-- Platforms: **Docker**, **GitHub Actions**, **AWS / DigitalOcean**.
-- Goals: reproducible deployments, secure defaults, cost-aware infra.
-
-### Data & Analytics (lightweight)
-- Event tracking, simple ETL pipelines, and dashboarding.
-- Tools: **Postgres**, **Supabase**, **Metabase** (or similar).
-
-### Cybersecurity (practical)
-- Threat modeling, secrets handling, dependency scanning, and secure CI.
-- Tools/practices: **OWASP Top 10**, SCA (Dependabot), static analysis, simple pentest checklists.
-- Objective: ship features without sacrificing security posture.
+## 🧭 Navigation (like a data index)
+- **01. Web Development**  
+- **02. Data Analytics**  
+- **03. Cybersecurity**  
+- **04. Languages & Tools**  
+- **05. Featured Projects**  
+- **06. GitHub Insights**  
+- **07. Contact**  
 
 ---
 
-## 🛠️ Tech Stack (Languages · Frameworks · Tools)
+## 01. 🏗️ Web Development
+- **Frontend:** React · Next.js · Tailwind CSS  
+- **Backend:** Node.js · FastAPI · Django  
+- **Databases:** Postgres · MongoDB  
+- **Focus:** clean UIs, secure APIs, SSR/SSG, scalability  
+
+---
+
+## 02. 📊 Data Analytics
+- **Languages/Libs:** Python (Pandas, NumPy, Matplotlib, Seaborn) · SQL  
+- **Visualization Tools:** Power BI · Tableau · Metabase  
+- **Strengths:**  
+  - ETL: clean + transform messy datasets  
+  - Dashboards: KPI-focused storytelling  
+  - Data pipelines: from raw → actionable insights  
+
+---
+
+## 03. 🔐 Cybersecurity
+- **Practices:** OWASP Top 10 · threat modeling · secure CI/CD  
+- **Skills:** pentesting basics, SAST/DAST tools, dependency scanning  
+- **Mindset:** “Ship fast, but secure by design”  
+
+---
+
+## 04. 🛠️ Languages & Tools
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=ts,js,python,react,nextjs,nodejs,express,fastapi,postgres,mongodb,docker,redis,git,github,aws" />
+  <img src="https://skillicons.dev/icons?i=python,ts,js,react,nextjs,nodejs,django,fastapi,postgres,mongodb,git,docker,github,linux,figma" />
 </p>
 
-**Languages:** TypeScript · JavaScript · Python · SQL  
-**Frontend:** React · Next.js · Tailwind CSS · Vite  
-**Backend:** Node.js · FastAPI · Postgres · Prisma/TypeORM  
-**Infra & DevOps:** Docker · GitHub Actions · Terraform (basic)  
-**Security & QA:** Dependabot · Snyk (optional) · ESLint · Prettier · Test (Jest/pytest)
+- **Languages:** Python · TypeScript · SQL  
+- **Frameworks:** React · Next.js · Django · FastAPI  
+- **Tools:** Docker · GitHub Actions · Power BI · Tableau · Excel  
+- **Other:** Linux · Figma (UI/UX collaboration)  
 
 ---
 
-## 🔐 Security & Best Practices
-- Secrets: never in repo — use GitHub Secrets or vaults.  
-- CI: run linters, tests, and SCA before merging.  
-- Branching: protected `main`, PR reviews required for merges.  
-- Minimal permissions: service accounts limited to least privilege.  
-- Regular dependency audits and periodic security refresh.
+## 05. 🚀 Featured Projects
+
+### Web Apps
+1. **[InstaClone](https://github.com/A7Joka/instaclone)** — social media clone with SSR  
+   - Tech: Next.js, Prisma, Tailwind  
+   - [Live Demo](https://demo-link.com)
+
+2. **[GameHub](https://github.com/A7Joka/gamehub)** — gaming community platform  
+   - Tech: React, Node.js, MongoDB  
+   - [Play it](https://demo-link.com)
+
+### Data Projects
+3. **[Sales Dashboard](https://github.com/A7Joka/sales-dashboard)**  
+   - Python + Power BI → sales KPIs, churn analysis  
+   - Data pipeline: raw CSV → clean dataset → visuals
+
+4. **[Customer Segmentation](https://github.com/A7Joka/customer-segmentation)**  
+   - Python (scikit-learn) → clustering customers by behavior  
+   - Deliverable: actionable segments for marketing  
+
+### Security
+5. **[Secure API Demo](https://github.com/A7Joka/secure-api)**  
+   - FastAPI + JWT + rate-limiting  
+   - OWASP-compliant API skeleton  
 
 ---
 
-## 🚀 Featured Projects
-> Click each repo to see code, readme, demo links and tech used.
-
-1. **[ProjectName-Frontend](https://github.com/A7Joka/project-frontend)** — UI for X  
-   - Stack: Next.js, Tailwind, Vercel  
-   - Highlights: accessible components, SSR for SEO, perf optimizations.
-
-2. **[ProjectName-API](https://github.com/A7Joka/project-api)** — REST & webhook service  
-   - Stack: FastAPI, Postgres, Redis  
-   - Highlights: typed schemas, background jobs, OpenAPI docs.
-
-3. **[Toolbox](https://github.com/A7Joka/toolbox)** — small dev tools & scripts  
-   - Stack: Node.js, Shell scripts  
-   - Highlights: CI helpers, deploy scripts, monitoring probes.
-
-*(Replace with your real repos, 3–6 items recommended — short description + stack + demo link if available.)*
-
----
-
-## 🧾 Open Source & Contributions
-- I contribute to useful OSS projects — PRs for docs, minor features, and bug fixes.  
-- Example contributions: [RepoName#123](https://github.com/example/repo/pull/123) — added feature X.
-
----
-
-## 📈 GitHub Activity & Stats
+## 06. 📈 GitHub Insights
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=A7Joka&show_icons=true&theme=default&hide_border=true" alt="GitHub stats" />
+  <img src="https://github-readme-stats.vercel.app/api?username=A7Joka&show_icons=true&theme=default&hide_border=true" />
   <br/>
-  <img src="https://github-readme-streak-stats.herokuapp.com?user=A7Joka&theme=default" alt="streak" />
+  <img src="https://github-readme-streak-stats.herokuapp.com?user=A7Joka&theme=default" />
   <br/>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=A7Joka&layout=compact&hide_border=true" alt="top langs" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=A7Joka&layout=compact&hide_border=true" />
 </p>
 
 ---
 
-## 🧩 Quick CV (TL;DR)
-- **Role:** Full-stack developer (web + APIs)  
-- **Years:** [X] years coding professionally / hobbyist  
-- **Focus:** secure, maintainable systems; product thinking  
-- **Availability:** open to freelance & collabs — DM me
+## 07. 📫 Contact
+- 📧 Email: [hey@example.com](mailto:hey@example.com)  
+- 💼 LinkedIn: [linkedin.com/in/your-handle](https://linkedin.com/in/your-handle)  
+- 🐦 X/Twitter: [x.com/your-handle](https://x.com/your-handle)  
+- 🖥️ Portfolio: [your-site.com](https://your-site.com)  
 
 ---
 
-## 📫 Contact & Hire
-- Email: [hey@example.com](mailto:hey@example.com)  
-- LinkedIn: https://linkedin.com/in/your-handle  
-- X/Twitter: https://x.com/your-handle  
-- Calendly/Portfolio: [your-site.com] (optional)
-
----
-
-## ⚙️ How to use this README (quick)
-1. Create repo named **`A7Joka`** (exact username). Make it **Public**.  
-2. Paste this `README.md` content and commit.  
-3. Pin your 3–6 top repos from your profile (Customize profile → Pinned repositories).  
-4. Replace placeholders (`[ProjectName]`, links, email) with real content.  
-5. Optionally add badges (Shields), GitHub trophies, and a contribution snake.
-
----
-
-## ✨ Final tips (pro moves)
-- Add **screenshots** or short GIF demos for each featured project — visuals > walls of text.  
-- Keep project descriptions outcome-focused: problem → your approach → result.  
-- Add `topics` in each repo so recruiters find you: `nextjs`, `fastapi`, `cybersecurity`, `frontend`.  
-- Keep commits regular — small meaningful commits look better than giant blobs.
-
----
-
-<p align="center">Made with ☕ + late-night commits • <em>Want me to fill this with your real projects & links? Send 3 repo links + short lines for each and I'll produce the final README copy ready to paste.</em></p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/platane/snk/output/github-contribution-grid-snake.svg" alt="snake animation" />
+</p>
