@@ -1,0 +1,3259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FitMate / TrainTwin — عرض التطوير التقني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-deep: #0b1120;
+    --bg-card: #141c2f;
+    --bg-surface: #1e293b;
+    --bg-elevated: #243045;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-blue: #38bdf8;
+    --accent-green: #10b981;
+    --accent-purple: #a78bfa;
+    --accent-orange: #fb923c;
+    --border-subtle: rgba(56,189,248,0.12);
+    --border-glow: rgba(56,189,248,0.35);
+    --glow-blue: 0 0 24px rgba(56,189,248,0.3), 0 0 48px rgba(56,189,248,0.1);
+    --glow-green: 0 0 24px rgba(16,185,129,0.3), 0 0 48px rgba(16,185,129,0.1);
+    --font: 'Cairo', sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 32px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-deep); }
+  ::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 3px; }
+
+  /* ── GLOBAL LAYOUT ── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  section { position: relative; overflow: hidden; }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(11,17,32,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .nav-logo {
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent-orange);
+    border: 1px solid var(--accent-orange);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.2);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+  }
+  .section-title span {
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .section-text {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+  }
+
+  /* ── FEATURE CARD ── */
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  .feature-card:hover {
+    border-color: var(--border-glow);
+    transform: translateY(-4px);
+    box-shadow: var(--glow-blue);
+  }
+  .feature-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+  }
+  .feature-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+
+  @media (max-width: 900px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .container { padding: 0 1rem; }
+  }
+
+  /* ══════════════════════════════════════════
+     SECTION 1: HERO
+  ══════════════════════════════════════════ */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -20%, rgba(56,189,248,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(16,185,129,0.07) 0%, transparent 60%),
+      var(--bg-deep);
+  }
+  .hero-inner {
+    text-align: center;
+    padding: 4rem 0;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent-blue);
+    background: rgba(56,189,248,0.07);
+    border: 1px solid rgba(56,189,248,0.2);
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    margin-bottom: 2rem;
+    animation: pulseGlow 2.5s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 rgba(56,189,248,0); }
+    50% { box-shadow: 0 0 20px rgba(56,189,248,0.3); }
+  }
+  .hero-title {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+  }
+  .hero-title .main-name {
+    display: block;
+    background: linear-gradient(135deg, var(--accent-blue) 0%, #7dd3fc 40%, var(--accent-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    line-height: 1.9;
+  }
+  .hero-cta-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--accent-blue), #0ea5e9);
+    color: #fff;
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.85rem 2rem;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(56,189,248,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(56,189,248,0.5); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.85rem 2rem;
+    border-radius: 40px;
+    border: 1px solid var(--border-subtle);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .stat-item { text-align: center; }
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--accent-blue);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* ══════════════════════════════════════════
+     SECTION 2: SHARED RESPONSIBILITY
+  ══════════════════════════════════════════ */
+  #shared {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, var(--bg-deep) 0%, rgba(20,28,47,0.5) 100%);
+  }
+  .partners-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 768px) { .partners-grid { grid-template-columns: 1fr; } }
+  .partner-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .partner-card:hover { transform: translateY(-6px); }
+  .partner-card.tech { border-color: rgba(56,189,248,0.3); }
+  .partner-card.tech::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(56,189,248,0.12), transparent 70%);
+    border-radius: 50%;
+  }
+  .partner-card.biz { border-color: rgba(16,185,129,0.3); }
+  .partner-card.biz::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%);
+    border-radius: 50%;
+  }
+  .partner-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .partner-card.tech .partner-label { color: var(--accent-blue); }
+  .partner-card.biz .partner-label { color: var(--accent-green); }
+  .partner-main-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  .partner-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .partner-list li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .partner-list li::before {
+    content: '→';
+    color: var(--accent-blue);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .partner-card.biz .partner-list li::before { color: var(--accent-green); }
+
+  /* ══════════════════════════════════════════
+     PHONE MOCKUP BASE STYLES
+  ══════════════════════════════════════════ */
+  .phone-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .phone-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+  .phone {
+    width: 320px;
+    height: 650px;
+    border-radius: 40px;
+    border: 14px solid #1e293b;
+    background: #0d1525;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(56,189,248,0.1), 0 30px 80px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+  /* Dynamic Island */
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 30px;
+    background: #060d1a;
+    border-radius: 20px;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+  }
+  .phone-content {
+    position: absolute;
+    inset: 0;
+    padding: 62px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+  }
+  .phone-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    padding: 0 4px;
+    margin-bottom: 2px;
+    flex-shrink: 0;
+  }
+  .phone-header {
+    text-align: center;
+    margin-bottom: 4px;
+    flex-shrink: 0;
+  }
+  .phone-app-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .phone-app-subtitle {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+  }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 1: PRIVATE COACH / STREAK
+  ══════════════════════════════════════════ */
+  .mockup-streak-badge {
+    background: linear-gradient(135deg, #ff6b35, #ff4500);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .streak-fire { font-size: 1.8rem; }
+  .streak-info { flex: 1; }
+  .streak-number { font-size: 1.6rem; font-weight: 900; color: #fff; line-height: 1; }
+  .streak-text { font-size: 0.55rem; color: rgba(255,255,255,0.7); }
+
+  .checkin-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .checkin-item {
+    background: var(--bg-card);
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+  }
+  .checkin-name { font-size: 0.75rem; color: var(--text-secondary); }
+  .toggle {
+    width: 34px;
+    height: 18px;
+    border-radius: 9px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .toggle.on { background: var(--accent-green); }
+  .toggle.off { background: var(--bg-elevated); }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: right 0.2s, left 0.2s;
+  }
+  .toggle.on::after { right: 2px; }
+  .toggle.off::after { left: 2px; }
+
+  .progress-section { flex-shrink: 0; }
+  .progress-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .progress-title { font-size: 0.65rem; color: var(--text-secondary); }
+  .progress-pct { font-size: 0.65rem; color: var(--accent-blue); font-weight: 700; }
+  .progress-bar {
+    height: 6px;
+    background: var(--bg-elevated);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+  }
+
+  .mini-workout-card {
+    background: linear-gradient(135deg, rgba(56,189,248,0.1), rgba(16,185,129,0.05));
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    flex-shrink: 0;
+  }
+  .mwc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .mwc-name { font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
+  .mwc-badge {
+    font-size: 0.55rem;
+    background: rgba(56,189,248,0.2);
+    color: var(--accent-blue);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .mwc-sets { display: flex; gap: 6px; flex-wrap: wrap; }
+  .mwc-set {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    padding: 3px 7px;
+    border-radius: 4px;
+  }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 2: LOCATION SWAP
+  ══════════════════════════════════════════ */
+  .location-toggle-group {
+    display: flex;
+    background: var(--bg-elevated);
+    border-radius: 12px;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+  .loc-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 9px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    transition: background 0.2s;
+  }
+  .loc-btn.active { background: var(--accent-blue); color: #fff; }
+  .loc-btn.inactive { color: var(--text-muted); }
+
+  .exercise-card-swap {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 14px;
+    border: 1px solid var(--border-subtle);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .exc-top { display: flex; align-items: center; gap: 10px; }
+  .exc-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent-blue), #0ea5e9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .exc-info { flex: 1; }
+  .exc-name { font-size: 0.9rem; font-weight: 800; color: var(--text-primary); }
+  .exc-muscle { font-size: 0.6rem; color: var(--accent-blue); }
+  .exc-params { display: flex; gap: 6px; }
+  .exc-param {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+  .swap-arrow {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--accent-orange);
+    animation: bounce 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 3: DIET SWAP
+  ══════════════════════════════════════════ */
+  .diet-card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    padding: 14px;
+    border: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+  }
+  .diet-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .diet-name { font-size: 0.9rem; font-weight: 800; }
+  .diet-amount { font-size: 0.7rem; color: var(--accent-blue); font-weight: 700; }
+  .macro-row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .macro-pill {
+    flex: 1;
+    background: var(--bg-elevated);
+    border-radius: 8px;
+    padding: 6px 4px;
+    text-align: center;
+  }
+  .macro-val { font-size: 0.75rem; font-weight: 700; }
+  .macro-lbl { font-size: 0.5rem; color: var(--text-muted); }
+  .macro-pill.protein .macro-val { color: var(--accent-blue); }
+  .macro-pill.carb .macro-val { color: var(--accent-orange); }
+  .macro-pill.fat .macro-val { color: #a78bfa; }
+
+  .swap-btn {
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.08));
+    border: 1px solid var(--accent-green);
+    border-radius: 8px;
+    color: var(--accent-green);
+    font-family: var(--font);
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .swap-result {
+    background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(56,189,248,0.05));
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 14px;
+    padding: 14px;
+    flex-shrink: 0;
+  }
+  .swap-result-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .swap-result-badge {
+    font-size: 0.55rem;
+    background: var(--accent-green);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .swap-result-name { font-size: 0.85rem; font-weight: 800; color: var(--text-primary); }
+  .swap-result-match { font-size: 0.6rem; color: var(--accent-green); }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 4: HISTORY TIMELINE
+  ══════════════════════════════════════════ */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+  .timeline-item {
+    display: flex;
+    gap: 10px;
+    position: relative;
+  }
+  .timeline-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+  }
+  .tl-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .tl-dot.blue { background: var(--accent-blue); box-shadow: 0 0 8px var(--accent-blue); }
+  .tl-dot.green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+  .tl-dot.purple { background: var(--accent-purple); box-shadow: 0 0 8px var(--accent-purple); }
+  .tl-dot.orange { background: var(--accent-orange); box-shadow: 0 0 8px var(--accent-orange); }
+  .tl-connector {
+    flex: 1;
+    width: 2px;
+    background: var(--border-subtle);
+    margin: 2px 0;
+    min-height: 20px;
+  }
+  .tl-content {
+    background: var(--bg-card);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border-subtle);
+    flex: 1;
+  }
+  .tl-title { font-size: 0.72rem; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+  .tl-date { font-size: 0.55rem; color: var(--text-muted); margin-bottom: 4px; }
+  .tl-detail { font-size: 0.65rem; color: var(--text-secondary); }
+  .tl-badge {
+    display: inline-block;
+    font-size: 0.5rem;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-weight: 700;
+    margin-top: 3px;
+  }
+  .tl-badge.up { background: rgba(16,185,129,0.2); color: var(--accent-green); }
+  .tl-badge.down { background: rgba(251,146,60,0.2); color: var(--accent-orange); }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 5: GAMIFICATION
+  ══════════════════════════════════════════ */
+  .rank-card {
+    background: linear-gradient(135deg, rgba(167,139,250,0.12), rgba(56,189,248,0.06));
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 12px;
+    padding: 10px 12px;
+    flex-shrink: 0;
+  }
+  .rank-row { display: flex; align-items: center; justify-content: space-between; }
+  .rank-name { font-size: 0.7rem; font-weight: 700; color: var(--accent-purple); }
+  .rank-pts { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); }
+  .rank-lbl { font-size: 0.5rem; color: var(--text-muted); }
+
+  .leaderboard { flex: 1; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+  .lb-title {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    flex-shrink: 0;
+  }
+  .lb-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--border-subtle);
+  }
+  .lb-rank {
+    font-size: 0.7rem;
+    font-weight: 900;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .lb-rank.gold { color: #fbbf24; }
+  .lb-rank.silver { color: #94a3b8; }
+  .lb-rank.bronze { color: #b45309; }
+  .lb-rank.you { color: var(--accent-blue); }
+  .lb-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+  }
+  .lb-uname { font-size: 0.7rem; font-weight: 600; flex: 1; color: var(--text-secondary); }
+  .lb-upts { font-size: 0.65rem; font-weight: 700; color: var(--text-primary); }
+
+  .qr-box {
+    border: 2px dashed var(--accent-blue);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    background: rgba(56,189,248,0.04);
+    animation: scanPulse 2s ease-in-out infinite;
+  }
+  @keyframes scanPulse {
+    0%, 100% { border-color: var(--accent-blue); }
+    50% { border-color: var(--accent-green); box-shadow: 0 0 12px rgba(16,185,129,0.3); }
+  }
+  .qr-scan-icon { font-size: 1.4rem; }
+  .qr-scan-text { font-size: 0.6rem; color: var(--accent-blue); font-weight: 600; }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 6: AI CAMERA
+  ══════════════════════════════════════════ */
+  .camera-view {
+    flex: 1;
+    background: linear-gradient(180deg, #020810 0%, #040d18 100%);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* AR GRID */
+  .ar-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(56,189,248,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.06) 1px, transparent 1px);
+    background-size: 25px 25px;
+  }
+
+  /* STICK FIGURE */
+  .stick-figure {
+    position: relative;
+    width: 110px;
+    height: 200px;
+    z-index: 2;
+  }
+  /* Head */
+  .sf-head {
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-blue);
+    box-shadow: 0 0 10px var(--accent-blue);
+  }
+  /* Joints (glowing dots) */
+  .sf-joint {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
+    transform: translate(-50%, -50%);
+  }
+  /* Limb lines */
+  .sf-limb {
+    position: absolute;
+    background: linear-gradient(to bottom, var(--accent-blue), var(--accent-green));
+    box-shadow: 0 0 6px rgba(56,189,248,0.5);
+    transform-origin: top center;
+    border-radius: 2px;
+  }
+
+  .ar-corner {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--accent-blue);
+    border-style: solid;
+    opacity: 0.6;
+  }
+  .ar-corner.tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+  .ar-corner.tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+  .ar-corner.bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+  .ar-corner.br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+  .ar-label {
+    position: absolute;
+    font-size: 0.55rem;
+    color: var(--accent-green);
+    font-weight: 700;
+    background: rgba(16,185,129,0.15);
+    border: 1px solid rgba(16,185,129,0.3);
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+  .ar-label.angle { bottom: 12px; right: 12px; }
+  .ar-label.status { top: 12px; left: 12px; color: var(--accent-blue); background: rgba(56,189,248,0.15); border-color: rgba(56,189,248,0.3); }
+
+  .camera-controls {
+    display: flex;
+    justify-content: space-around;
+    flex-shrink: 0;
+    padding: 6px 0;
+  }
+  .cam-ctrl {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .cam-ctrl-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+  }
+  .cam-ctrl-dot.active { border-color: var(--accent-blue); background: rgba(56,189,248,0.1); }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 7: AI CHATBOT
+  ══════════════════════════════════════════ */
+  .chat-area { flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .chat-bubble-container { display: flex; flex-direction: column; gap: 6px; }
+  .chat-bubble {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 14px;
+    font-size: 0.68rem;
+    line-height: 1.5;
+  }
+  .chat-bubble.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--accent-blue), #0ea5e9);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .chat-bubble.ai {
+    align-self: flex-start;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    border-bottom-left-radius: 4px;
+  }
+  .chat-bubble.ai.warning {
+    border-color: rgba(251,146,60,0.4);
+    background: rgba(251,146,60,0.05);
+    color: var(--text-primary);
+  }
+  .ai-name-tag {
+    font-size: 0.5rem;
+    color: var(--accent-green);
+    font-weight: 700;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .ai-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-green); box-shadow: 0 0 4px var(--accent-green); }
+  .chat-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 6px 10px;
+    border: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+  }
+  .chat-input-fake {
+    flex: 1;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+  .chat-send-btn {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 8: DIGITAL TWIN
+  ══════════════════════════════════════════ */
+  .digital-twin-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    gap: 6px;
+  }
+  .body-silhouette {
+    position: relative;
+    width: 90px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  /* Head */
+  .bs-head {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 2px solid rgba(56,189,248,0.5);
+    background: rgba(56,189,248,0.05);
+    box-shadow: 0 0 12px rgba(56,189,248,0.3);
+    flex-shrink: 0;
+  }
+  /* Neck */
+  .bs-neck {
+    width: 8px; height: 8px;
+    background: rgba(56,189,248,0.3);
+    flex-shrink: 0;
+  }
+  /* Torso */
+  .bs-torso {
+    width: 44px; height: 52px;
+    border: 2px solid rgba(56,189,248,0.4);
+    border-radius: 6px 6px 10px 10px;
+    background: rgba(56,189,248,0.04);
+    box-shadow: inset 0 0 20px rgba(56,189,248,0.08);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .bs-torso-line {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px;
+    height: 80%;
+    background: rgba(56,189,248,0.2);
+  }
+  /* Hips */
+  .bs-hips {
+    width: 50px; height: 14px;
+    border: 2px solid rgba(56,189,248,0.3);
+    border-radius: 8px;
+    background: rgba(56,189,248,0.03);
+    flex-shrink: 0;
+  }
+  /* Legs */
+  .bs-legs {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .bs-leg {
+    width: 16px; height: 48px;
+    border: 2px solid rgba(56,189,248,0.35);
+    border-radius: 4px 4px 8px 8px;
+    background: rgba(56,189,248,0.03);
+  }
+
+  /* Data point hotspots */
+  .data-point {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .dp-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    animation: dpPulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes dpPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.6; }
+  }
+  .dp-line {
+    height: 1px;
+    background: var(--border-glow);
+    flex-shrink: 0;
+  }
+  .dp-label {
+    font-size: 0.5rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ══════════════════════════════════════════
+     MOCKUPS SECTION CONTAINERS
+  ══════════════════════════════════════════ */
+  .mockups-row {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 3rem 0;
+  }
+  .mockup-scale-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ══════════════════════════════════════════
+     DESKTOP MOCKUP BASE
+  ══════════════════════════════════════════ */
+  .desktop-mockup {
+    width: 100%;
+    max-width: 900px;
+    height: 550px;
+    border-radius: 12px;
+    background: #0a1020;
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+  }
+  .desktop-titlebar {
+    height: 36px;
+    background: #111827;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .mac-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .mac-dot.red { background: #ff5f57; }
+  .mac-dot.yellow { background: #febc2e; }
+  .mac-dot.green { background: #28c840; }
+  .desktop-url-bar {
+    flex: 1;
+    height: 20px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 6px;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin: 0 16px;
+  }
+  .url-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green); flex-shrink: 0; }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 9: SUPER ADMIN DASHBOARD
+  ══════════════════════════════════════════ */
+  .admin-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+  .admin-sidebar {
+    width: 160px;
+    background: #0d1525;
+    border-left: 1px solid var(--border-subtle);
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .sidebar-logo {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--accent-blue);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .sidebar-item.active { background: rgba(56,189,248,0.1); color: var(--accent-blue); }
+  .sidebar-item.active::before { content: ''; width: 3px; height: 14px; background: var(--accent-blue); border-radius: 2px; flex-shrink: 0; }
+  .sidebar-icon { font-size: 0.8rem; flex-shrink: 0; }
+
+  .admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .admin-topbar {
+    height: 48px;
+    background: #0d1525;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    flex-shrink: 0;
+  }
+  .admin-page-title { font-size: 0.8rem; font-weight: 700; }
+  .admin-topbar-actions { display: flex; gap: 8px; align-items: center; }
+  .topbar-btn {
+    font-size: 0.55rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(56,189,248,0.1);
+    color: var(--accent-blue);
+    border: 1px solid rgba(56,189,248,0.2);
+  }
+
+  .admin-content { flex: 1; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+
+  .stat-cards-row { display: flex; gap: 12px; flex-shrink: 0; }
+  .stat-card {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sc-label { font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .sc-value { font-size: 1.4rem; font-weight: 900; line-height: 1; }
+  .sc-change { font-size: 0.55rem; }
+  .sc-change.up { color: var(--accent-green); }
+  .sc-change.down { color: var(--accent-orange); }
+  .sc-value.blue { color: var(--accent-blue); }
+  .sc-value.green { color: var(--accent-green); }
+  .sc-value.purple { color: var(--accent-purple); }
+  .sc-value.orange { color: var(--accent-orange); }
+
+  .charts-row { display: flex; gap: 12px; flex: 1; overflow: hidden; }
+  .chart-panel {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+  }
+  .chart-title { font-size: 0.65rem; font-weight: 700; color: var(--text-secondary); flex-shrink: 0; }
+  .bar-chart { flex: 1; display: flex; align-items: flex-end; gap: 6px; padding-top: 4px; }
+  .bar-col { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; }
+  .bar-fill {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(180deg, var(--accent-blue), rgba(56,189,248,0.3));
+    min-height: 4px;
+    position: relative;
+  }
+  .bar-fill.green-bar { background: linear-gradient(180deg, var(--accent-green), rgba(16,185,129,0.3)); }
+  .bar-lbl { font-size: 0.45rem; color: var(--text-muted); }
+
+  .heatmap { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+  .heatmap-row { display: flex; gap: 3px; }
+  .hm-cell {
+    flex: 1;
+    height: 14px;
+    border-radius: 2px;
+  }
+  .hm-empty { background: var(--bg-elevated); }
+  .hm-1 { background: rgba(56,189,248,0.2); }
+  .hm-2 { background: rgba(56,189,248,0.4); }
+  .hm-3 { background: rgba(56,189,248,0.65); }
+  .hm-4 { background: var(--accent-blue); }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 10: GYM B2B DASHBOARD
+  ══════════════════════════════════════════ */
+  .gym-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+  .gym-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .gym-topbar {
+    height: 48px;
+    background: #0d1525;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    flex-shrink: 0;
+  }
+  .gym-page-title { font-size: 0.8rem; font-weight: 700; }
+  .gym-badge {
+    font-size: 0.55rem;
+    background: rgba(16,185,129,0.15);
+    color: var(--accent-green);
+    border: 1px solid rgba(16,185,129,0.3);
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+  .gym-content { flex: 1; padding: 16px 20px; display: flex; gap: 16px; overflow: hidden; }
+  .qr-panel {
+    width: 220px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .qr-panel-title { font-size: 0.7rem; font-weight: 700; color: var(--text-secondary); }
+  .css-qr {
+    width: 120px;
+    height: 120px;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 2px;
+    border: 3px solid var(--accent-blue);
+    border-radius: 6px;
+    padding: 4px;
+    box-shadow: 0 0 20px rgba(56,189,248,0.3), inset 0 0 20px rgba(56,189,248,0.05);
+    animation: qrPulse 3s ease-in-out infinite;
+  }
+  @keyframes qrPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(56,189,248,0.3), inset 0 0 20px rgba(56,189,248,0.05); }
+    50% { box-shadow: 0 0 40px rgba(56,189,248,0.5), inset 0 0 30px rgba(56,189,248,0.1); }
+  }
+  .qr-cell { border-radius: 1px; }
+  .qr-on { background: var(--accent-blue); }
+  .qr-off { background: transparent; }
+  .qr-corner-block { border-radius: 2px; }
+
+  .qr-token {
+    font-size: 0.6rem;
+    color: var(--accent-green);
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .qr-timer {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+  }
+  .qr-regen-btn {
+    font-size: 0.6rem;
+    background: linear-gradient(135deg, var(--accent-blue), #0ea5e9);
+    color: #fff;
+    border: none;
+    padding: 5px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font);
+    font-weight: 700;
+  }
+
+  .gym-stats-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+  }
+  .gym-stat-row { display: flex; gap: 10px; flex-shrink: 0; }
+  .gym-stat-card {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .gsc-label { font-size: 0.5rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+  .gsc-value { font-size: 1.2rem; font-weight: 900; }
+  .gsc-sub { font-size: 0.5rem; color: var(--accent-green); }
+  .gsc-value.blue { color: var(--accent-blue); }
+  .gsc-value.green { color: var(--accent-green); }
+  .gsc-value.orange { color: var(--accent-orange); }
+
+  .gym-chart-panel {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .visitors-bars { flex: 1; display: flex; align-items: flex-end; gap: 4px; }
+  .vb-col { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; }
+  .vb-fill {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    min-height: 4px;
+  }
+  .vb-today { background: linear-gradient(180deg, var(--accent-green), rgba(16,185,129,0.3)); }
+  .vb-past { background: rgba(56,189,248,0.3); }
+
+  /* ══════════════════════════════════════════
+     SECTIONS 3-6 MAIN STYLING
+  ══════════════════════════════════════════ */
+  .section-pad { padding: 6rem 0; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+  }
+
+  /* ══════════════════════════════════════════
+     TECH STACK
+  ══════════════════════════════════════════ */
+  #techstack {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, var(--bg-deep), rgba(20,28,47,0.3));
+  }
+  .tech-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  @media (max-width: 768px) { .tech-cards { grid-template-columns: 1fr; } }
+  .tech-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .tech-card:hover { transform: translateY(-4px); box-shadow: var(--glow-blue); }
+  .tech-emoji { font-size: 2.2rem; }
+  .tech-name { font-size: 1.1rem; font-weight: 800; }
+  .tech-stack-name { font-size: 0.85rem; color: var(--accent-blue); font-weight: 600; }
+  .tech-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
+
+  /* ══════════════════════════════════════════
+     ROADMAP
+  ══════════════════════════════════════════ */
+  #roadmap { padding: 6rem 0; }
+  .roadmap-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+    position: relative;
+  }
+  .roadmap-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 16.67%;
+    right: 16.67%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+    z-index: 0;
+  }
+  @media (max-width: 768px) {
+    .roadmap-steps { grid-template-columns: 1fr; }
+    .roadmap-steps::before { display: none; }
+  }
+  .roadmap-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .roadmap-step:hover { transform: translateY(-4px); }
+  .roadmap-step.v1 { border-color: rgba(56,189,248,0.3); }
+  .roadmap-step.v2 { border-color: rgba(16,185,129,0.3); }
+  .roadmap-step.v3 { border-color: rgba(167,139,250,0.3); }
+  .step-version {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+  .step-version.v1 { background: rgba(56,189,248,0.15); color: var(--accent-blue); border: 2px solid var(--accent-blue); }
+  .step-version.v2 { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 2px solid var(--accent-green); }
+  .step-version.v3 { background: rgba(167,139,250,0.15); color: var(--accent-purple); border: 2px solid var(--accent-purple); }
+  .step-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .step-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+  .step-flag { font-size: 0.7rem; font-weight: 700; margin-top: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+  .step-flag.v1 { color: var(--accent-blue); }
+  .step-flag.v2 { color: var(--accent-green); }
+  .step-flag.v3 { color: var(--accent-purple); }
+
+  /* ══════════════════════════════════════════
+     FINANCIALS
+  ══════════════════════════════════════════ */
+  #financials {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, var(--bg-deep), rgba(14,22,42,0.8));
+  }
+  .financials-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 900px) { .financials-wrapper { grid-template-columns: 1fr; } }
+
+  .total-box {
+    background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(16,185,129,0.05));
+    border: 1px solid var(--border-glow);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+    box-shadow: var(--glow-blue);
+  }
+  .total-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
+  .total-amount {
+    font-size: 2.8rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .total-currency { font-size: 0.9rem; color: var(--text-muted); }
+
+  .payment-phases { display: flex; flex-direction: column; gap: 1rem; }
+  .phase-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .phase-card:hover { border-color: var(--border-glow); }
+  .phase-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+  .phase-name { font-size: 0.9rem; font-weight: 700; }
+  .phase-amount {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--accent-blue);
+  }
+  .phase-amount.green { color: var(--accent-green); }
+  .phase-amount.purple { color: var(--accent-purple); }
+  .phase-milestones { display: flex; flex-direction: column; gap: 0.4rem; }
+  .milestone-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+  .milestone-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .milestone-dot.blue { background: var(--accent-blue); }
+  .milestone-dot.green { background: var(--accent-green); }
+  .milestone-pct {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-right: auto;
+  }
+  .milestone-val { font-size: 0.78rem; font-weight: 700; color: var(--text-primary); }
+
+  /* ══════════════════════════════════════════
+     TERMS
+  ══════════════════════════════════════════ */
+  #terms { padding: 6rem 0; }
+  .terms-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 768px) { .terms-grid { grid-template-columns: 1fr; } }
+  .term-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .term-card:hover { border-color: var(--border-glow); transform: translateY(-3px); }
+  .term-icon { font-size: 1.6rem; margin-bottom: 0.6rem; display: block; }
+  .term-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .term-text { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+
+  /* ══════════════════════════════════════════
+     FOOTER / CTA
+  ══════════════════════════════════════════ */
+  #footer {
+    padding: 8rem 0 4rem;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 120%, rgba(56,189,248,0.08) 0%, transparent 70%),
+      var(--bg-deep);
+    text-align: center;
+    border-top: 1px solid var(--border-subtle);
+    position: relative;
+  }
+  .footer-glow {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse at bottom, rgba(56,189,248,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .footer-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .footer-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.8;
+  }
+  .footer-cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-large {
+    font-size: 1.05rem;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    box-shadow: 0 8px 32px rgba(56,189,248,0.4);
+  }
+  .footer-note {
+    margin-top: 4rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .footer-note .validity {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-orange);
+    font-weight: 600;
+  }
+
+  /* ══════════════════════════════════════════
+     DIVIDER
+  ══════════════════════════════════════════ */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+    margin: 0;
+  }
+
+  /* ══════════════════════════════════════════
+     BACKGROUND GRID DECORATION
+  ══════════════════════════════════════════ */
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border-subtle) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, transparent 30%, black 100%);
+    pointer-events: none;
+  }
+
+  /* ══════════════════════════════════════════
+     SECTION ACCENT LINES
+  ══════════════════════════════════════════ */
+  .accent-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .accent-line-bar {
+    width: 40px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+  }
+  .accent-line-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE PHONE SCALING
+  ══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .phone {
+      transform: scale(0.8);
+      transform-origin: top center;
+      margin-bottom: -130px;
+    }
+    .mockups-row { gap: 0; }
+  }
+  @media (max-width: 500px) {
+    .phone {
+      transform: scale(0.7);
+      margin-bottom: -195px;
+    }
+  }
+
+  /* ══════════════════════════════════════════
+     DESKTOP MOCKUP RESPONSIVE
+  ══════════════════════════════════════════ */
+  @media (max-width: 1000px) {
+    .desktop-mockup { height: 420px; }
+    .admin-sidebar { width: 120px; }
+  }
+  @media (max-width: 700px) {
+    .desktop-mockup { height: 320px; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav>
+  <div class="nav-logo">FitMate · TrainTwin</div>
+  <span class="nav-badge">🔒 سري — صالح 14 يوماً</span>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     SECTION 1: HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="bg-grid"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-eyebrow reveal">
+        ✦ عرض تقني وتجاري حصري
+      </div>
+      <h1 class="hero-title reveal reveal-delay-1">
+        <span class="main-name">FitMate / TrainTwin</span>
+      </h1>
+      <p class="hero-subtitle reveal reveal-delay-2">هندسة اللياقة البدنية والذكاء الاصطناعي.</p>
+      <p class="hero-desc reveal reveal-delay-3">
+        أكثر من مجرد تطبيق رياضي؛ نحن نبني نظاماً بيئياً (Ecosystem) متكاملاً يربط المتدربين، المدربين، والصالات الرياضية تحت سقف تكنولوجي واحد مدعوم بالذكاء الاصطناعي لضمان أعلى معدلات الالتزام.
+      </p>
+      <div class="hero-cta-group reveal reveal-delay-4">
+        <a href="#footer" class="btn-primary">ابدأ التنفيذ الآن ←</a>
+        <a href="#shared" class="btn-secondary">استعرض العرض</a>
+      </div>
+      <div class="hero-stats reveal reveal-delay-4">
+        <div class="stat-item">
+          <span class="stat-number">3</span>
+          <span class="stat-label">إصدارات تطوير</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">10</span>
+          <span class="stat-label">وحدات تقنية</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">225K</span>
+          <span class="stat-label">ج.م إجمالي الاستثمار</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">14</span>
+          <span class="stat-label">يوماً صلاحية العرض</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 2: SHARED RESPONSIBILITY
+══════════════════════════════════════════ -->
+<section id="shared">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">✦ مسؤولية مشتركة</div>
+      <h2 class="section-title">نجاح المنظومة.. <span>مسؤولية مشتركة</span></h2>
+      <p class="section-text">
+        لضمان خروج المشروع بأعلى معايير الجودة العالمية، نعمل بنظام الشراكة التكاملية:
+      </p>
+    </div>
+    <div class="partners-grid">
+      <div class="partner-card tech reveal reveal-delay-1">
+        <div class="partner-label">
+          <span>💻</span> الشريك التقني
+        </div>
+        <div class="partner-main-title">نحن — قيادة تقنية كاملة</div>
+        <ul class="partner-list">
+          <li>هندسة النظام (Architecture) من الصفر</li>
+          <li>التطوير البرمجي لجميع التطبيقات ولوحات التحكم</li>
+          <li>دمج خوارزميات الذكاء الاصطناعي المتقدمة</li>
+          <li>ضمان استقرار وسرعة الأداء لتجربة مستخدم لا تشوبها شائبة</li>
+        </ul>
+      </div>
+      <div class="partner-card biz reveal reveal-delay-2">
+        <div class="partner-label">
+          <span>👔</span> صاحب الرؤية
+        </div>
+        <div class="partner-main-title">العميل — قيادة تجارية</div>
+        <ul class="partner-list">
+          <li>توفير المحتوى المرئي (فيديوهات التمارين)</li>
+          <li>بناء قواعد البيانات الغذائية</li>
+          <li>إدارة التسويق والتوزيع</li>
+          <li>صياغة الشراكات الاستراتيجية مع المنشآت الرياضية (الجيمات)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 3: V1.0 – CORE ENGINE
+══════════════════════════════════════════ -->
+<section id="v1" class="section-pad">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">🚩 الإصدار الأول — V1.0</div>
+      <h2 class="section-title">تجربة متدرب <span>ذكية، مرنة،</span> ولا تقبل الأعذار</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🔄</span>
+        <div class="feature-title">مرونة مكان التمرين الشاملة</div>
+        <div class="feature-desc">المستخدم يختار بين (جيم، بيت، مكتب). التطبيق يبدل التمارين فوراً لنفس العضلة (بنش بريس يتحول لضغط).</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">🥗</span>
+        <div class="feature-title">نظام الدايت الذكي والديناميكي</div>
+        <div class="feature-desc">استبدال الوجبات. التطبيق يضبطها برمجياً لتعطي نفس السعرات والماكروز تماماً.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">📋</span>
+        <div class="feature-title">البرامج والباقات (Planning)</div>
+        <div class="feature-desc">برامج جاهزة (Arnold, Push/Pull/Legs) باشتراكات وباقات، وتخصيصات دقيقة للسيدات والأولاد.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">👤</span>
+        <div class="feature-title">مركز القيادة (User Hub)</div>
+        <div class="feature-desc">تحديث الطول والوزن وإضافة تحاليل InBody لمتابعة التطور الجسدي الكامل.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">💡</span>
+        <div class="feature-title">التبريرات والملاحظات (Insights)</div>
+        <div class="feature-desc">الـ AI يقرأ تحديثات المستخدم ويطلعله تبريرات مخصصة بناءً على بياناته الشخصية.</div>
+      </div>
+    </div>
+
+    <!-- MOCKUPS 1 & 2 -->
+    <div class="mockups-row">
+      <!-- MOCKUP 1: PRIVATE COACH / STREAK -->
+      <div class="mockup-scale-wrapper reveal reveal-delay-1">
+        <div class="phone">
+          <div class="phone-content">
+            <div class="phone-status-bar">
+              <span>9:41</span><span>●●● ⚡ 87%</span>
+            </div>
+            <div class="phone-header">
+              <div class="phone-app-title">الكوتش الخاص</div>
+              <div class="phone-app-subtitle">يوم الاثنين — تمرين الصدر</div>
+            </div>
+
+            <div class="mockup-streak-badge">
+              <span class="streak-fire">🔥</span>
+              <div class="streak-info">
+                <div class="streak-number">18</div>
+                <div class="streak-text">يوم متواصل — سلسلة ذهبية</div>
+              </div>
+              <div style="font-size:1.1rem;color:rgba(255,255,255,0.5);">🏆</div>
+            </div>
+
+            <div class="checkin-label">تسجيل حضور اليوم</div>
+            <div class="checkin-item">
+              <span class="checkin-name">🏋️ تمرين اليوم</span>
+              <div class="toggle on"></div>
+            </div>
+            <div class="checkin-item">
+              <span class="checkin-name">🥗 الوجبات اليومية</span>
+              <div class="toggle on"></div>
+            </div>
+            <div class="checkin-item">
+              <span class="checkin-name">😴 النوم (8 ساعات)</span>
+              <div class="toggle off"></div>
+            </div>
+            <div class="checkin-item">
+              <span class="checkin-name">💧 المياه (3 لتر)</span>
+              <div class="toggle on"></div>
+            </div>
+
+            <div class="progress-section">
+              <div class="progress-header">
+                <span class="progress-title">إنجاز الأسبوع</span>
+                <span class="progress-pct">73%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:73%"></div>
+              </div>
+            </div>
+
+            <div class="mini-workout-card">
+              <div class="mwc-top">
+                <span class="mwc-name">بنش بريس</span>
+                <span class="mwc-badge">صدر</span>
+              </div>
+              <div class="mwc-sets">
+                <span class="mwc-set">4 × 10 تكرار</span>
+                <span class="mwc-set">80 كيلو</span>
+                <span class="mwc-set">90 ث راحة</span>
+              </div>
+            </div>
+
+            <div class="mini-workout-card" style="background:rgba(16,185,129,0.06); border-color:rgba(16,185,129,0.2);">
+              <div class="mwc-top">
+                <span class="mwc-name">دمبل كتف</span>
+                <span class="mwc-badge" style="background:rgba(16,185,129,0.2);color:#10b981;">كتف</span>
+              </div>
+              <div class="mwc-sets">
+                <span class="mwc-set">3 × 12 تكرار</span>
+                <span class="mwc-set">20 كيلو</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Private Coach UI</div>
+      </div>
+
+      <!-- MOCKUP 2: LOCATION SWAP -->
+      <div class="mockup-scale-wrapper reveal reveal-delay-2">
+        <div class="phone">
+          <div class="phone-content">
+            <div class="phone-status-bar">
+              <span>9:41</span><span>●●● ⚡ 87%</span>
+            </div>
+            <div class="phone-header">
+              <div class="phone-app-title">مرونة المكان</div>
+              <div class="phone-app-subtitle">اختر بيئة تمرينك</div>
+            </div>
+
+            <div class="location-toggle-group">
+              <div class="loc-btn active">🏋️ جيم</div>
+              <div class="loc-btn inactive">🏠 بيت</div>
+              <div class="loc-btn inactive">💼 مكتب</div>
+            </div>
+
+            <div style="font-size:0.6rem; color:var(--text-muted); text-align:center; flex-shrink:0;">تمرين الصدر — الجيم محدد</div>
+
+            <div class="exercise-card-swap">
+              <div class="exc-top">
+                <div class="exc-icon-box">🔵</div>
+                <div class="exc-info">
+                  <div class="exc-name">بنش بريس حديد</div>
+                  <div class="exc-muscle">▲ الصدر العلوي</div>
+                </div>
+              </div>
+              <div class="exc-params">
+                <span class="exc-param">4 × 10</span>
+                <span class="exc-param">80 كجم</span>
+                <span class="exc-param">جيم ✓</span>
+              </div>
+            </div>
+
+            <div class="swap-arrow">⟳ تبديل فوري</div>
+
+            <div class="exercise-card-swap" style="border-color:rgba(16,185,129,0.3); background:linear-gradient(135deg,rgba(16,185,129,0.07),rgba(56,189,248,0.03));">
+              <div class="exc-top">
+                <div class="exc-icon-box" style="background:linear-gradient(135deg,var(--accent-green),#059669);">🟢</div>
+                <div class="exc-info">
+                  <div class="exc-name">ضغط أرضي</div>
+                  <div class="exc-muscle" style="color:var(--accent-green);">▲ الصدر العلوي</div>
+                </div>
+              </div>
+              <div class="exc-params">
+                <span class="exc-param">4 × 15</span>
+                <span class="exc-param">وزن الجسم</span>
+                <span class="exc-param" style="color:var(--accent-green);border-color:rgba(16,185,129,0.3);">بيت ✓</span>
+              </div>
+            </div>
+
+            <div style="font-size:0.6rem; color:var(--accent-green); text-align:center; flex-shrink:0;">✓ نفس العضلة — نفس الحجم التدريبي</div>
+
+            <div class="progress-section" style="margin-top:auto;">
+              <div class="progress-header">
+                <span class="progress-title">التمارين المتبقية اليوم</span>
+                <span class="progress-pct">3 / 6</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:50%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Location Swap UI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 4: V2.0 – GAMIFICATION
+══════════════════════════════════════════ -->
+<section id="v2" class="section-pad" style="background: linear-gradient(180deg, var(--bg-deep), rgba(16,28,56,0.4));">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">🚀 الإصدار الثاني — V2.0</div>
+      <h2 class="section-title">التلعيب، التحديات، <span>وربط الصالات الرياضية</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🏆</span>
+        <div class="feature-title">نظام الرانك والولاء</div>
+        <div class="feature-desc">رانك محلي وعالمي. نقاط حسب مستوى التمرين والمستخدم تُشكّل دوافع مستمرة للتفوق.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">⚔️</span>
+        <div class="feature-title">التحديات الجماعية</div>
+        <div class="feature-desc">مسابقات بين المستخدمين والجيمات وتحليل العدادات بالكاميرا بشكل لحظي.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">📍</span>
+        <div class="feature-title">الرادار المحلي (GPS Radar)</div>
+        <div class="feature-desc">إيجاد أقرب جيم معتمد في محيط 10 كيلومترات مع عروض حصرية.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">📱</span>
+        <div class="feature-title">الـ QR الديناميكي اللحظي</div>
+        <div class="feature-desc">كود يتولد لحظياً (Time-stamped Token) لمنع الغش. الجيم يأخذ تمارينه لرفع الماركت شير.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">👥</span>
+        <div class="feature-title">الديجيتال توين</div>
+        <div class="feature-desc">بروفايل مصغر ديناميكي للمنافسة الاجتماعية ومشاركة التحولات الجسدية.</div>
+      </div>
+    </div>
+
+    <!-- MOCKUPS 3 & 4 -->
+    <div class="mockups-row">
+      <!-- MOCKUP 3: DIET SWAP -->
+      <div class="mockup-scale-wrapper reveal reveal-delay-1">
+        <div class="phone">
+          <div class="phone-content">
+            <div class="phone-status-bar">
+              <span>9:41</span><span>●●● ⚡ 87%</span>
+            </div>
+            <div class="phone-header">
+              <div class="phone-app-title">الدايت الذكي</div>
+              <div class="phone-app-subtitle">وجبة الغداء — استبدال ذكي</div>
+            </div>
+
+            <div style="font-size:0.6rem; color:var(--text-muted); flex-shrink:0;">الوجبة الأصلية</div>
+            <div class="diet-card">
+              <div class="diet-top">
+                <span class="diet-name">صدر دجاج مشوي</span>
+                <span class="diet-amount">150 جم</span>
+              </div>
+              <div class="macro-row">
+                <div class="macro-pill protein"><div class="macro-val">33g</div><div class="macro-lbl">بروتين</div></div>
+                <div class="macro-pill carb"><div class="macro-val">0g</div><div class="macro-lbl">كارب</div></div>
+                <div class="macro-pill fat"><div class="macro-val">3.5g</div><div class="macro-lbl">دهون</div></div>
+              </div>
+              <div style="text-align:center; font-size:0.6rem; color:var(--text-muted);">165 سعرة حرارية</div>
+              <button class="swap-btn">⟳ استبدال بنفس الماكروز</button>
+            </div>
+
+            <div class="swap-arrow">↓</div>
+
+            <div style="font-size:0.6rem; color:var(--text-muted); flex-shrink:0;">الوجبة البديلة المقترحة</div>
+            <div class="swap-result">
+              <div class="swap-result-top">
+                <span class="swap-result-badge">✓ مطابق</span>
+                <span class="swap-result-name">سمك بلطي مشوي</span>
+              </div>
+              <div class="macro-row">
+                <div class="macro-pill protein"><div class="macro-val">34g</div><div class="macro-lbl">بروتين</div></div>
+                <div class="macro-pill carb"><div class="macro-val">0g</div><div class="macro-lbl">كارب</div></div>
+                <div class="macro-pill fat"><div class="macro-val">3g</div><div class="macro-lbl">دهون</div></div>
+              </div>
+              <div class="swap-result-match">✓ +1g بروتين · -0.5g دهون · 160 سعرة</div>
+            </div>
+
+            <div style="display:flex; gap:6px; flex-shrink:0; margin-top:auto;">
+              <button style="flex:1; padding:7px; background:rgba(16,185,129,0.15); border:1px solid var(--accent-green); border-radius:8px; color:var(--accent-green); font-family:var(--font); font-size:0.65rem; font-weight:700; cursor:pointer;">✓ تأكيد البديل</button>
+              <button style="flex:1; padding:7px; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); border-radius:8px; color:var(--accent-blue); font-family:var(--font); font-size:0.65rem; font-weight:700; cursor:pointer;">↓ بدائل أخرى</button>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Diet Swap UI</div>
+      </div>
+
+      <!-- MOCKUP 4: HISTORY TIMELINE -->
+      <div class="mockup-scale-wrapper reveal reveal-delay-2">
+        <div class="phone">
+          <div class="phone-content">
+            <div class="phone-status-bar">
+              <span>9:41</span><span>●●● ⚡ 87%</span>
+            </div>
+            <div class="phone-header">
+              <div class="phone-app-title">سجل التطور</div>
+              <div class="phone-app-subtitle">التاريخ الكامل لرحلتي</div>
+            </div>
+
+            <!-- Mini stats bar -->
+            <div style="display:flex; gap:6px; flex-shrink:0;">
+              <div style="flex:1; background:var(--bg-card); border-radius:8px; padding:6px; text-align:center; border:1px solid var(--border-subtle);">
+                <div style="font-size:1rem; font-weight:900; color:var(--accent-blue);">78.5</div>
+                <div style="font-size:0.5rem; color:var(--text-muted);">الوزن كجم</div>
+              </div>
+              <div style="flex:1; background:var(--bg-card); border-radius:8px; padding:6px; text-align:center; border:1px solid var(--border-subtle);">
+                <div style="font-size:1rem; font-weight:900; color:var(--accent-green);">14.2%</div>
+                <div style="font-size:0.5rem; color:var(--text-muted);">نسبة الدهون</div>
+              </div>
+              <div style="flex:1; background:var(--bg-card); border-radius:8px; padding:6px; text-align:center; border:1px solid var(--border-subtle);">
+                <div style="font-size:1rem; font-weight:900; color:var(--accent-purple);">42</div>
+                <div style="font-size:0.5rem; color:var(--text-muted);">يوم في الجيم</div>
+              </div>
+            </div>
+
+            <div style="font-size:0.6rem; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; flex-shrink:0;">السجل الزمني</div>
+
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-line">
+                  <div class="tl-dot blue"></div>
+                  <div class="tl-connector"></div>
+                </div>
+                <div class="tl-content">
+                  <div class="tl-title">تحديث InBody</div>
+                  <div class="tl-date">اليوم، 10:00 ص</div>
+                  <div class="tl-detail">كتلة عضلية: 38.2 كجم</div>
+                  <span class="tl-badge up">▲ +0.5 كجم عضلة</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-line">
+                  <div class="tl-dot orange"></div>
+                  <div class="tl-connector"></div>
+                </div>
+                <div class="tl-content">
+                  <div class="tl-title">تغيير الوزن</div>
+                  <div class="tl-date">أمس، 8:30 ص</div>
+                  <div class="tl-detail">من 79.0 → 78.5 كجم</div>
+                  <span class="tl-badge down">▼ -0.5 كجم</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-line">
+                  <div class="tl-dot green"></div>
+                  <div class="tl-connector"></div>
+                </div>
+                <div class="tl-content">
+                  <div class="tl-title">أتممت تمرين الساق 🦵</div>
+                  <div class="tl-date">الأحد، 6:00 م</div>
+                  <div class="tl-detail">6 تمارين — 52 دقيقة</div>
+                  <span class="tl-badge up">▲ +85 نقطة خبرة</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-line">
+                  <div class="tl-dot purple"></div>
+                  <div class="tl-connector"></div>
+                </div>
+                <div class="tl-content">
+                  <div class="tl-title">رفع مستوى الرانك 🎖️</div>
+                  <div class="tl-date">السبت، 9:00 ص</div>
+                  <div class="tl-detail">Gold → Platinum</div>
+                  <span class="tl-badge up">▲ ترقية</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-line">
+                  <div class="tl-dot blue"></div>
+                  <div class="tl-connector"></div>
+                </div>
+                <div class="tl-content">
+                  <div class="tl-title">تحديث InBody</div>
+                  <div class="tl-date">الجمعة، 11:00 ص</div>
+                  <div class="tl-detail">دهون: 14.8% → 14.2%</div>
+                  <span class="tl-badge up">▲ -0.6% دهون</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">History UI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 5: V3.0 – AI MAGIC
+══════════════════════════════════════════ -->
+<section id="v3" class="section-pad">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">🤖 الإصدار الثالث — V3.0</div>
+      <h2 class="section-title">On-Device AI: <span>الكاميرا والذكاء الاصطناعي</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">📐</span>
+        <div class="feature-title">التهيئة البصرية (AR Camera Setup)</div>
+        <div class="feature-desc">رسم مخطط كروكي 3D لتحديد مسافة الموبايل قبل بدء التحليل بدقة عالية.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">🎯</span>
+        <div class="feature-title">تحليل التمرين اللحظي (Real-time Tracking)</div>
+        <div class="feature-desc">الكاميرا تقرأ المفاصل (X, Y, Z) وتحلل التمرين من 3 مناظير في الوقت الفعلي.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">🤖</span>
+        <div class="feature-title">الكوتش الذكي (24/7 AI Coach)</div>
+        <div class="feature-desc">يكلم المستخدم بناءً على تاريخه وتفاصيله الكاملة، يمنعه من تمارين لظروف إصابته.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🔮</span>
+        <div class="feature-title">توقع شكل الجسم (Predictive Body Scan)</div>
+        <div class="feature-desc">توقع ورسم شكل الجسم المستقبلي بناءً على تحليل InBody والبرنامج التدريبي المتبع.</div>
+      </div>
+    </div>
+
+    <!-- MOCKUPS 5, 6, 7, 8 -->
+    <div class="mockups-row" style="flex-wrap:wrap; gap:1.5rem;">
+
+      <!-- MOCKUP 5: GAMIFICATION/LEADERBOARD -->
+      <div class="mockup-scale-wrapper reveal reveal-delay-1">
+        <div class="phone">
+          <div class="phone-content">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ⚡ 87%</span></div>
+            <div class="phone-header">
+              <div class="phone-app-title">الرانك والتحديات</div>
+              <div class="phone-app-subtitle">منافسات لحظية</div>
+            </div>
+
+            <div class="rank-card">
+              <div class="rank-row">
+                <div>
+                  <div class="rank-name">🥇 Platinum Fighter</div>
+                  <div style="font-size:0.55rem;color:var(--text-muted);">رتبتك الحالية</div>
+                </div>
+                <div style="text-align:center;">
+                  <div class="rank-pts">4,820</div>
+                  <div class="rank-lbl">نقطة خبرة</div>
+                </div>
+              </div>
+              <div style="margin-top:6px;">
+                <div class="progress-header">
+                  <span class="progress-title" style="font-size:0.55rem;">للوصول لـ Diamond</span>
+                  <span class="progress-pct" style="font-size:0.55rem;">96%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:96%;background:linear-gradient(90deg,#a78bfa,#7c3aed);"></div></div>
+              </div>
+            </div>
+
+            <div class="leaderboard">
+              <div class="lb-title">🏆 لوحة المتصدرين المحلية</div>
+              <div class="lb-item">
+                <span class="lb-rank gold">1</span>
+                <div class="lb-avatar" style="background:rgba(251,191,36,0.2);color:#fbbf24;">أ</div>
+                <span class="lb-uname">Ahmed_Fit</span>
+                <span class="lb-upts">5,240</span>
+              </div>
+              <div class="lb-item">
+                <span class="lb-rank silver">2</span>
+                <div class="lb-avatar" style="background:rgba(148,163,184,0.2);color:#94a3b8;">م</div>
+                <span class="lb-uname">Mohamed_Pro</span>
+                <span class="lb-upts">5,100</span>
+              </div>
+              <div class="lb-item">
+                <span class="lb-rank bronze">3</span>
+                <div class="lb-avatar" style="background:rgba(180,83,9,0.2);color:#b45309;">ي</div>
+                <span class="lb-uname">Yasser_King</span>
+                <span class="lb-upts">4,950</span>
+              </div>
+              <div class="lb-item" style="border-color:rgba(56,189,248,0.3); background:rgba(56,189,248,0.04);">
+                <span class="lb-rank you">4</span>
+                <div class="lb-avatar" style="background:rgba(56,189,248,0.2);color:var(--accent-blue);">أ</div>
+                <span class="lb-uname" style="color:var(--accent-blue);font-weight:700;">أنت</span>
+                <span class="lb-upts" style="color:var(--accent-blue);">4,820</span>
+              </div>
+            </div>
+
+            <div class="qr-box">
+              <div class="qr-scan-icon">⬚</div>
+              <div>
+                <div class="qr-scan-text">QR لدخول الجيم</div>
+                <div style="font-size:0.5rem;color:var(--text-muted);">صالح لـ 30 ثانية فقط</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Gamification UI</div>
+      </div>
+
+      <!-- MOCKUP 6: AI CAMERA -->
+      <div class="mockup-scale-wrapper reveal reveal-delay-2">
+        <div class="phone">
+          <div class="phone-content">
+            <div class="phone-status-bar" style="color:rgba(255,255,255,0.4);">
+              <span>REC ●</span><span style="color:var(--accent-green);">AI ACTIVE</span>
+            </div>
+
+            <div class="camera-view">
+              <div class="ar-grid"></div>
+              <div class="ar-corner tl"></div>
+              <div class="ar-corner tr"></div>
+              <div class="ar-corner bl"></div>
+              <div class="ar-corner br"></div>
+              <div class="ar-label status">SQUAT DETECTED</div>
+              <div class="ar-label angle">Angle: 92°</div>
+
+              <!-- STICK FIGURE SQUAT POSE -->
+              <div class="stick-figure">
+                <!-- Head -->
+                <div class="sf-head" style="top:0;left:50%;transform:translateX(-50%);"></div>
+
+                <!-- Neck joint -->
+                <div class="sf-joint" style="top:24px;left:55px;"></div>
+
+                <!-- Torso (vertical line) -->
+                <div class="sf-limb" style="width:2px;height:35px;top:24px;left:54px;transform:rotate(0deg);"></div>
+
+                <!-- Left shoulder joint -->
+                <div class="sf-joint" style="top:26px;left:30px;background:var(--accent-blue);box-shadow:0 0 8px var(--accent-blue);"></div>
+                <!-- Right shoulder joint -->
+                <div class="sf-joint" style="top:26px;left:72px;background:var(--accent-blue);box-shadow:0 0 8px var(--accent-blue);"></div>
+
+                <!-- Left upper arm -->
+                <div class="sf-limb" style="width:2px;height:25px;top:30px;left:29px;transform:rotate(-30deg);"></div>
+                <!-- Right upper arm -->
+                <div class="sf-limb" style="width:2px;height:25px;top:30px;left:72px;transform:rotate(30deg);"></div>
+
+                <!-- Left elbow joint -->
+                <div class="sf-joint" style="top:52px;left:18px;width:6px;height:6px;"></div>
+                <!-- Right elbow joint -->
+                <div class="sf-joint" style="top:52px;left:84px;width:6px;height:6px;"></div>
+
+                <!-- Left forearm -->
+                <div class="sf-limb" style="width:2px;height:20px;top:57px;left:17px;transform:rotate(20deg);"></div>
+                <!-- Right forearm -->
+                <div class="sf-limb" style="width:2px;height:20px;top:57px;left:84px;transform:rotate(-20deg);"></div>
+
+                <!-- Hip joint -->
+                <div class="sf-joint" style="top:58px;left:51px;background:var(--accent-orange);box-shadow:0 0 8px var(--accent-orange);"></div>
+
+                <!-- Left hip side -->
+                <div class="sf-joint" style="top:60px;left:36px;width:6px;height:6px;"></div>
+                <!-- Right hip side -->
+                <div class="sf-joint" style="top:60px;left:66px;width:6px;height:6px;"></div>
+
+                <!-- Left upper leg (squat angle) -->
+                <div class="sf-limb" style="width:2px;height:32px;top:64px;left:35px;transform:rotate(-40deg);"></div>
+                <!-- Right upper leg -->
+                <div class="sf-limb" style="width:2px;height:32px;top:64px;left:66px;transform:rotate(40deg);"></div>
+
+                <!-- Left knee joint -->
+                <div class="sf-joint" style="top:88px;left:14px;background:#f59e0b;box-shadow:0 0 10px #f59e0b;width:10px;height:10px;"></div>
+                <!-- Right knee joint -->
+                <div class="sf-joint" style="top:88px;left:84px;background:#f59e0b;box-shadow:0 0 10px #f59e0b;width:10px;height:10px;"></div>
+
+                <!-- Left lower leg -->
+                <div class="sf-limb" style="width:2px;height:28px;top:96px;left:13px;transform:rotate(35deg);"></div>
+                <!-- Right lower leg -->
+                <div class="sf-limb" style="width:2px;height:28px;top:96px;left:84px;transform:rotate(-35deg);"></div>
+
+                <!-- Left ankle -->
+                <div class="sf-joint" style="top:122px;left:28px;width:6px;height:6px;"></div>
+                <!-- Right ankle -->
+                <div class="sf-joint" style="top:122px;left:70px;width:6px;height:6px;"></div>
+              </div>
+
+              <!-- Angle arc indicator -->
+              <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:3;">
+                <div style="width:50px;height:2px;background:linear-gradient(90deg,transparent,var(--accent-green));"></div>
+                <div style="font-size:0.65rem;color:var(--accent-green);font-weight:700;background:rgba(16,185,129,0.15);padding:2px 8px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">✓ شكل صحيح</div>
+                <div style="width:50px;height:2px;background:linear-gradient(90deg,var(--accent-green),transparent);"></div>
+              </div>
+            </div>
+
+            <div class="camera-controls">
+              <div class="cam-ctrl">
+                <div class="cam-ctrl-dot">↗</div>
+                <span>ظهر</span>
+              </div>
+              <div class="cam-ctrl">
+                <div class="cam-ctrl-dot active">●</div>
+                <span>تسجيل</span>
+              </div>
+              <div class="cam-ctrl">
+                <div class="cam-ctrl-dot">👁</div>
+                <span>عداد</span>
+              </div>
+              <div class="cam-ctrl">
+                <div class="cam-ctrl-dot">📊</div>
+                <span>تقرير</span>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:6px;flex-shrink:0;">
+              <div style="flex:1;background:var(--bg-card);border-radius:8px;padding:5px 8px;border:1px solid var(--border-subtle);font-size:0.55rem;text-align:center;">
+                <div style="color:var(--accent-blue);font-weight:700;font-size:0.8rem;">12</div>
+                <div style="color:var(--text-muted);">تكرار</div>
+              </div>
+              <div style="flex:1;background:var(--bg-card);border-radius:8px;padding:5px 8px;border:1px solid var(--border-subtle);font-size:0.55rem;text-align:center;">
+                <div style="color:var(--accent-green);font-weight:700;font-size:0.8rem;">3</div>
+                <div style="color:var(--text-muted);">سيت</div>
+              </div>
+              <div style="flex:1;background:var(--bg-card);border-radius:8px;padding:5px 8px;border:1px solid var(--border-subtle);font-size:0.55rem;text-align:center;">
+                <div style="color:var(--accent-orange);font-weight:700;font-size:0.8rem;">92°</div>
+                <div style="color:var(--text-muted);">زاوية</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">AI Camera UI</div>
+      </div>
+
+      <!-- MOCKUP 7: AI CHATBOT -->
+      <div class="mockup-scale-wrapper reveal reveal-delay-3">
+        <div class="phone">
+          <div class="phone-content">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ⚡ 87%</span></div>
+            <div class="phone-header">
+              <div class="phone-app-title">الكوتش الذكي 24/7</div>
+              <div class="phone-app-subtitle" style="color:var(--accent-green);">● متصل الآن</div>
+            </div>
+
+            <!-- Context bar -->
+            <div style="background:rgba(251,146,60,0.08); border:1px solid rgba(251,146,60,0.25); border-radius:8px; padding:6px 10px; flex-shrink:0; display:flex; align-items:center; gap:6px;">
+              <span style="font-size:0.8rem;">⚠️</span>
+              <span style="font-size:0.55rem; color:var(--accent-orange);">ملاحظة: إصابة في الرباط الصليبي الأيسر — تمارين محدودة</span>
+            </div>
+
+            <div class="chat-area">
+              <div class="chat-bubble-container">
+                <div class="chat-bubble user">عايز أعمل تمرين squats النهارده</div>
+                <div style="margin-top:2px;">
+                  <div class="ai-name-tag"><div class="ai-dot"></div> FitMate AI</div>
+                  <div class="chat-bubble ai warning">
+                    أنا شايف إن عندك إصابة في الرباط الصليبي، التمرين ده ممكن يضر حالتك دلوقتي. مش هينفع.
+                  </div>
+                </div>
+                <div class="chat-bubble user">طب إيه البديل؟</div>
+                <div style="margin-top:2px;">
+                  <div class="ai-name-tag"><div class="ai-dot"></div> FitMate AI</div>
+                  <div class="chat-bubble ai">
+                    بناءً على تاريخك، الأنسب دلوقتي هو:
+                    ✓ Leg Press زاوية خفيفة
+                    ✓ Wall Sit (30 ث)
+                    ✓ Hip Abduction
+                    
+                    هيوصّلك نفس نتيجة الساق من غير ضغط على الركبة 💪
+                  </div>
+                </div>
+                <div class="chat-bubble user">تمام، فين الفيديو؟</div>
+                <div style="margin-top:2px;">
+                  <div class="ai-name-tag"><div class="ai-dot"></div> FitMate AI</div>
+                  <div class="chat-bubble ai">
+                    ↗ شوف الفيديوهات دي في التطبيق، فيه زاوية أمامية وجانبية لكل تمرين.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-input-bar">
+              <span class="chat-input-fake">اسأل كوتشك...</span>
+              <div class="chat-send-btn">→</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">AI Chatbot UI</div>
+      </div>
+
+      <!-- MOCKUP 8: DIGITAL TWIN -->
+      <div class="mockup-scale-wrapper reveal reveal-delay-4">
+        <div class="phone">
+          <div class="phone-content">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ⚡ 87%</span></div>
+            <div class="phone-header">
+              <div class="phone-app-title">Digital Twin</div>
+              <div class="phone-app-subtitle">بروفايلك الرقمي</div>
+            </div>
+
+            <!-- Tabs -->
+            <div style="display:flex;background:var(--bg-elevated);border-radius:8px;padding:3px;flex-shrink:0;">
+              <div style="flex:1;text-align:center;padding:5px;border-radius:6px;background:var(--accent-blue);color:#fff;font-size:0.6rem;font-weight:700;">الحالي</div>
+              <div style="flex:1;text-align:center;padding:5px;color:var(--text-muted);font-size:0.6rem;">توقع 3 أشهر</div>
+              <div style="flex:1;text-align:center;padding:5px;color:var(--text-muted);font-size:0.6rem;">المقارنة</div>
+            </div>
+
+            <div class="digital-twin-view" style="position:relative;">
+              <!-- Glow aura behind body -->
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:180px;background:radial-gradient(ellipse,rgba(56,189,248,0.08),transparent 70%);border-radius:50%;pointer-events:none;"></div>
+
+              <div class="body-silhouette">
+                <div class="bs-head"></div>
+                <div class="bs-neck"></div>
+                <div class="bs-torso">
+                  <div class="bs-torso-line"></div>
+                  <!-- Chest muscle area -->
+                  <div style="position:absolute;top:10px;left:5px;right:5px;height:14px;background:rgba(56,189,248,0.08);border-radius:3px;border-top:1px solid rgba(56,189,248,0.2);"></div>
+                </div>
+                <div class="bs-hips"></div>
+                <div class="bs-legs">
+                  <div class="bs-leg"></div>
+                  <div class="bs-leg"></div>
+                </div>
+              </div>
+
+              <!-- Left side data points -->
+              <div class="data-point" style="top:22px;left:4px;">
+                <div class="dp-label" style="color:var(--accent-blue);">الكتف</div>
+                <div class="dp-line" style="width:16px;"></div>
+                <div class="dp-dot" style="background:var(--accent-blue);box-shadow:0 0 6px var(--accent-blue);"></div>
+              </div>
+              <div class="data-point" style="top:52px;left:0px;">
+                <div class="dp-label" style="color:var(--accent-green);">الصدر</div>
+                <div class="dp-line" style="width:14px;"></div>
+                <div class="dp-dot" style="background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);"></div>
+              </div>
+              <div class="data-point" style="top:95px;left:4px;">
+                <div class="dp-label" style="color:var(--accent-purple);">الخصر</div>
+                <div class="dp-line" style="width:14px;"></div>
+                <div class="dp-dot" style="background:var(--accent-purple);box-shadow:0 0 6px var(--accent-purple);"></div>
+              </div>
+
+              <!-- Right side data points -->
+              <div class="data-point" style="top:22px;right:4px;flex-direction:row-reverse;">
+                <div class="dp-label" style="color:var(--accent-blue);">العضلة</div>
+                <div class="dp-line" style="width:16px;"></div>
+                <div class="dp-dot" style="background:var(--accent-blue);"></div>
+              </div>
+              <div class="data-point" style="top:52px;right:0px;flex-direction:row-reverse;">
+                <div class="dp-label" style="color:var(--accent-orange);">الذراع</div>
+                <div class="dp-line" style="width:14px;"></div>
+                <div class="dp-dot" style="background:var(--accent-orange);box-shadow:0 0 6px var(--accent-orange);"></div>
+              </div>
+              <div class="data-point" style="top:118px;right:4px;flex-direction:row-reverse;">
+                <div class="dp-label" style="color:var(--accent-green);">الساق</div>
+                <div class="dp-line" style="width:14px;"></div>
+                <div class="dp-dot" style="background:var(--accent-green);"></div>
+              </div>
+            </div>
+
+            <!-- Body stats row -->
+            <div style="display:flex;gap:5px;flex-shrink:0;margin-top:auto;">
+              <div style="flex:1;background:var(--bg-card);border-radius:7px;padding:5px;text-align:center;border:1px solid var(--border-subtle);">
+                <div style="font-size:0.8rem;font-weight:900;color:var(--accent-blue);">78.5</div>
+                <div style="font-size:0.45rem;color:var(--text-muted);">كجم</div>
+              </div>
+              <div style="flex:1;background:var(--bg-card);border-radius:7px;padding:5px;text-align:center;border:1px solid var(--border-subtle);">
+                <div style="font-size:0.8rem;font-weight:900;color:var(--accent-green);">38.2</div>
+                <div style="font-size:0.45rem;color:var(--text-muted);">عضلة كجم</div>
+              </div>
+              <div style="flex:1;background:var(--bg-card);border-radius:7px;padding:5px;text-align:center;border:1px solid var(--border-subtle);">
+                <div style="font-size:0.8rem;font-weight:900;color:var(--accent-orange);">14.2</div>
+                <div style="font-size:0.45rem;color:var(--text-muted);">دهون %</div>
+              </div>
+              <div style="flex:1;background:var(--bg-card);border-radius:7px;padding:5px;text-align:center;border:1px solid rgba(167,139,250,0.3);">
+                <div style="font-size:0.8rem;font-weight:900;color:var(--accent-purple);">22.8</div>
+                <div style="font-size:0.45rem;color:var(--text-muted);">BMI</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Digital Twin UI</div>
+      </div>
+
+    </div><!-- end mockups-row -->
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 6: ENGINE ROOM – RBAC DASHBOARDS
+══════════════════════════════════════════ -->
+<section id="dashboards" class="section-pad" style="background:linear-gradient(180deg,rgba(14,22,42,0.6),var(--bg-deep));">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">👑 لوحات التحكم المؤسسية</div>
+      <h2 class="section-title">مركز القيادة المؤسسي <span>(Role-Based Access Control)</span></h2>
+    </div>
+    <div class="features-grid" style="margin-bottom:3rem;">
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">👑</span>
+        <div class="feature-title">لوحة المالك (Super Admin)</div>
+        <div class="feature-desc">يملك Access كامل. يرى تحليلات كاملة وتوزيع جغرافي لكل المستخدمين والجيمات.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">🏢</span>
+        <div class="feature-title">لوحة تحكم الجيمات</div>
+        <div class="feature-desc">توليد الـ QR اللحظي (Token) وإحصائيات الزوار والمبيعات بشكل فوري.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">🏋️</span>
+        <div class="feature-title">مسؤول التمرين</div>
+        <div class="feature-desc">يضيف شجرة التمارين، الفيديوهات (أمامي/جانبي/علوي) لخوارزميات الـ AI.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🥗</span>
+        <div class="feature-title">قطاع التغذية</div>
+        <div class="feature-desc">إدخال الوجبات الغذائية ومتابعة المستخدمين وضبط الماكروز والسعرات.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">🤝</span>
+        <div class="feature-title">مسؤول العلاقات العامة</div>
+        <div class="feature-desc">إضافة الجيمات المعتمدة وإدارة خدمة العملاء والشراكات الاستراتيجية.</div>
+      </div>
+    </div>
+
+    <!-- DESKTOP MOCKUP 9: SUPER ADMIN -->
+    <div class="reveal" style="margin-bottom:3rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem;text-align:center;">لوحة المالك — Super Admin Dashboard</div>
+      <div class="desktop-mockup">
+        <div class="desktop-titlebar">
+          <span class="mac-dot red"></span>
+          <span class="mac-dot yellow"></span>
+          <span class="mac-dot green"></span>
+          <div class="desktop-url-bar">
+            <div class="url-dot"></div>
+            <span>admin.fitmate.app/dashboard</span>
+          </div>
+          <div style="font-size:0.6rem;color:var(--text-muted);">Super Admin</div>
+        </div>
+        <div class="admin-body">
+          <!-- Sidebar -->
+          <div class="admin-sidebar">
+            <div class="sidebar-logo">FitMate<br>Admin</div>
+            <div class="sidebar-item active">
+              <span class="sidebar-icon">📊</span> Dashboard
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-icon">👥</span> المستخدمون
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-icon">🏢</span> الجيمات
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-icon">💰</span> الإيرادات
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-icon">🤖</span> الذكاء الاصطناعي
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-icon">📍</span> الخريطة
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-icon">⚙️</span> الإعدادات
+            </div>
+          </div>
+          <!-- Main area -->
+          <div class="admin-main">
+            <div class="admin-topbar">
+              <div class="admin-page-title">نظرة عامة — يونيو 2025</div>
+              <div class="admin-topbar-actions">
+                <span class="topbar-btn">↓ تصدير</span>
+                <span class="topbar-btn" style="background:rgba(16,185,129,0.1);color:var(--accent-green);border-color:rgba(16,185,129,0.2);">● مباشر</span>
+              </div>
+            </div>
+            <div class="admin-content">
+              <!-- Stat cards -->
+              <div class="stat-cards-row">
+                <div class="stat-card">
+                  <span class="sc-label">المستخدمون</span>
+                  <span class="sc-value blue">12,840</span>
+                  <span class="sc-change up">▲ +8.4% هذا الشهر</span>
+                </div>
+                <div class="stat-card">
+                  <span class="sc-label">الجيمات المفعلة</span>
+                  <span class="sc-value green">148</span>
+                  <span class="sc-change up">▲ +12 هذا الشهر</span>
+                </div>
+                <div class="stat-card">
+                  <span class="sc-label">الإيرادات (ج.م)</span>
+                  <span class="sc-value orange">284,500</span>
+                  <span class="sc-change up">▲ +22.1%</span>
+                </div>
+                <div class="stat-card">
+                  <span class="sc-label">معدل الالتزام</span>
+                  <span class="sc-value purple">73.2%</span>
+                  <span class="sc-change up">▲ +4.5%</span>
+                </div>
+              </div>
+              <!-- Charts row -->
+              <div class="charts-row">
+                <div class="chart-panel" style="flex:2;">
+                  <div class="chart-title">نمو المستخدمين — آخر 8 أشهر</div>
+                  <div class="bar-chart">
+                    <div class="bar-col"><div class="bar-fill" style="height:30%;"></div><span class="bar-lbl">نوف</span></div>
+                    <div class="bar-col"><div class="bar-fill" style="height:40%;"></div><span class="bar-lbl">ديس</span></div>
+                    <div class="bar-col"><div class="bar-fill" style="height:50%;"></div><span class="bar-lbl">يان</span></div>
+                    <div class="bar-col"><div class="bar-fill" style="height:44%;"></div><span class="bar-lbl">فبر</span></div>
+                    <div class="bar-col"><div class="bar-fill" style="height:62%;"></div><span class="bar-lbl">مار</span></div>
+                    <div class="bar-col"><div class="bar-fill" style="height:74%;"></div><span class="bar-lbl">أبر</span></div>
+                    <div class="bar-col"><div class="bar-fill" style="height:85%;"></div><span class="bar-lbl">ماي</span></div>
+                    <div class="bar-col"><div class="bar-fill" style="height:100%;box-shadow:0 0 10px rgba(56,189,248,0.5);"></div><span class="bar-lbl">يون</span></div>
+                  </div>
+                </div>
+                <div class="chart-panel" style="flex:2;">
+                  <div class="chart-title">الإيرادات (ج.م) — آخر 8 أشهر</div>
+                  <div class="bar-chart">
+                    <div class="bar-col"><div class="bar-fill green-bar" style="height:20%;"></div><span class="bar-lbl">نوف</span></div>
+                    <div class="bar-col"><div class="bar-fill green-bar" style="height:32%;"></div><span class="bar-lbl">ديس</span></div>
+                    <div class="bar-col"><div class="bar-fill green-bar" style="height:41%;"></div><span class="bar-lbl">يان</span></div>
+                    <div class="bar-col"><div class="bar-fill green-bar" style="height:38%;"></div><span class="bar-lbl">فبر</span></div>
+                    <div class="bar-col"><div class="bar-fill green-bar" style="height:58%;"></div><span class="bar-lbl">مار</span></div>
+                    <div class="bar-col"><div class="bar-fill green-bar" style="height:69%;"></div><span class="bar-lbl">أبر</span></div>
+                    <div class="bar-col"><div class="bar-fill green-bar" style="height:80%;"></div><span class="bar-lbl">ماي</span></div>
+                    <div class="bar-col"><div class="bar-fill green-bar" style="height:96%;box-shadow:0 0 10px rgba(16,185,129,0.5);"></div><span class="bar-lbl">يون</span></div>
+                  </div>
+                </div>
+                <div class="chart-panel" style="flex:1.5;">
+                  <div class="chart-title">خريطة الحرارة — نشاط أسبوعي</div>
+                  <div class="heatmap">
+                    <div class="heatmap-row"><div class="hm-cell hm-1"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-1"></div></div>
+                    <div class="heatmap-row"><div class="hm-cell hm-2"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div></div>
+                    <div class="heatmap-row"><div class="hm-cell hm-3"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-1"></div></div>
+                    <div class="heatmap-row"><div class="hm-cell hm-1"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div></div>
+                    <div class="heatmap-row"><div class="hm-cell hm-2"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-1"></div><div class="hm-cell hm-empty"></div></div>
+                    <div class="heatmap-row"><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-1"></div><div class="hm-cell hm-empty"></div><div class="hm-cell hm-empty"></div></div>
+                  </div>
+                  <div style="display:flex;gap:3px;align-items:center;margin-top:4px;">
+                    <span style="font-size:0.45rem;color:var(--text-muted);">أقل</span>
+                    <div class="hm-cell hm-empty" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
+                    <div class="hm-cell hm-1" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
+                    <div class="hm-cell hm-2" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
+                    <div class="hm-cell hm-3" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
+                    <div class="hm-cell hm-4" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
+                    <span style="font-size:0.45rem;color:var(--text-muted);">أكثر</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP MOCKUP 10: GYM B2B -->
+    <div class="reveal">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem;text-align:center;">لوحة الجيم — Gym B2B Dashboard</div>
+      <div class="desktop-mockup">
+        <div class="desktop-titlebar">
+          <span class="mac-dot red"></span>
+          <span class="mac-dot yellow"></span>
+          <span class="mac-dot green"></span>
+          <div class="desktop-url-bar">
+            <div class="url-dot"></div>
+            <span>gym.fitmate.app/powerhouse-cairo</span>
+          </div>
+          <div style="font-size:0.6rem;color:var(--text-muted);">Gym Manager</div>
+        </div>
+        <div class="gym-body">
+          <div class="gym-main">
+            <div class="gym-topbar">
+              <div class="gym-page-title">PowerHouse Cairo — لوحة التحكم</div>
+              <span class="gym-badge">● مفعل ومتصل</span>
+            </div>
+            <div class="gym-content">
+              <!-- QR Panel -->
+              <div class="qr-panel">
+                <div class="qr-panel-title">🔑 QR الدخول اللحظي</div>
+                <!-- CSS QR Code -->
+                <div class="css-qr">
+                  <!-- Row 1 -->
+                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div>
+                  <!-- Row 2 -->
+                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
+                  <!-- Row 3 -->
+                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
+                  <!-- Row 4 -->
+                  <div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div>
+                  <!-- Row 5 -->
+                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
+                  <!-- Row 6 -->
+                  <div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div>
+                  <!-- Row 7 -->
+                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
+                  <!-- Row 8 -->
+                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
+                  <!-- Row 9 -->
+                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div>
+                </div>
+                <div class="qr-token">TKN-7X4F-29QM</div>
+                <div class="qr-timer">⏱ ينتهي خلال 00:24</div>
+                <button class="qr-regen-btn">↺ تجديد Token</button>
+              </div>
+
+              <!-- Stats Panel -->
+              <div class="gym-stats-panel">
+                <div class="gym-stat-row">
+                  <div class="gym-stat-card">
+                    <div class="gsc-label">الزوار اليوم</div>
+                    <div class="gsc-value blue">127</div>
+                    <div class="gsc-sub">▲ +18 عن أمس</div>
+                  </div>
+                  <div class="gym-stat-card">
+                    <div class="gsc-label">الأعضاء النشطون</div>
+                    <div class="gsc-value green">480</div>
+                    <div class="gsc-sub">▲ +24 هذا الشهر</div>
+                  </div>
+                  <div class="gym-stat-card">
+                    <div class="gsc-label">دخول عبر QR اليوم</div>
+                    <div class="gsc-value orange">94</div>
+                    <div class="gsc-sub">74% من الكل</div>
+                  </div>
+                </div>
+
+                <div class="gym-chart-panel">
+                  <div class="chart-title">زوار اليوم بالساعة</div>
+                  <div class="visitors-bars">
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:20%;"></div><span class="bar-lbl">6ص</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:35%;"></div><span class="bar-lbl">7ص</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:55%;"></div><span class="bar-lbl">8ص</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:48%;"></div><span class="bar-lbl">9ص</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:30%;"></div><span class="bar-lbl">10ص</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:20%;"></div><span class="bar-lbl">11ص</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:15%;"></div><span class="bar-lbl">12م</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:25%;"></div><span class="bar-lbl">1م</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:42%;"></div><span class="bar-lbl">2م</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-past" style="height:60%;"></div><span class="bar-lbl">3م</span></div>
+                    <div class="vb-col"><div class="vb-fill vb-today" style="height:80%;box-shadow:0 0 8px rgba(16,185,129,0.4);"></div><span class="bar-lbl" style="color:var(--accent-green);">4م</span></div>
+                    <div class="vb-col"><div class="vb-fill" style="height:10%;background:rgba(56,189,248,0.15);border:1px dashed rgba(56,189,248,0.3);border-radius:2px 2px 0 0;"></div><span class="bar-lbl">5م</span></div>
+                  </div>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                  <div class="gym-stat-card" style="flex:1;">
+                    <div class="gsc-label">أكثر تمرين اليوم</div>
+                    <div style="font-size:0.85rem;font-weight:800;color:var(--text-primary);">بنش بريس</div>
+                    <div class="gsc-sub" style="color:var(--accent-blue);">34 مستخدم</div>
+                  </div>
+                  <div class="gym-stat-card" style="flex:1;">
+                    <div class="gsc-label">متوسط وقت التمرين</div>
+                    <div style="font-size:0.85rem;font-weight:800;color:var(--text-primary);">58 دقيقة</div>
+                    <div class="gsc-sub">▲ +7 دق عن الشهر الماضي</div>
+                  </div>
+                  <div class="gym-stat-card" style="flex:1;">
+                    <div class="gsc-label">اشتراكات منتهية</div>
+                    <div style="font-size:0.85rem;font-weight:800;color:var(--accent-orange);">12 عضو</div>
+                    <div class="gsc-sub" style="color:var(--accent-orange);">⚠ تحتاج تجديد</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 7: TECH STACK
+══════════════════════════════════════════ -->
+<section id="techstack">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">⚙️ البنية التقنية</div>
+      <h2 class="section-title">بنية تحتية مصممة <span>للتوسع المليوني</span></h2>
+    </div>
+    <div class="tech-cards">
+      <div class="tech-card reveal reveal-delay-1">
+        <span class="tech-emoji">📱</span>
+        <div class="tech-name">تطبيق الموبايل</div>
+        <div class="tech-stack-name">Flutter · Dart</div>
+        <div class="tech-desc">كود موحد يعمل على iOS وAndroid بكفاءة عالية وتحديثات سريعة من قاعدة كود واحدة.</div>
+      </div>
+      <div class="tech-card reveal reveal-delay-2">
+        <span class="tech-emoji">🗄️</span>
+        <div class="tech-name">الخادم وقاعدة البيانات</div>
+        <div class="tech-stack-name">Supabase · PostgreSQL</div>
+        <div class="tech-desc">مزامنة لحظية بين كل الأجهزة مع بنية تحتية مرنة تنمو تلقائياً مع حجم المستخدمين.</div>
+      </div>
+      <div class="tech-card reveal reveal-delay-3">
+        <span class="tech-emoji">🤖</span>
+        <div class="tech-name">محرك الذكاء الاصطناعي</div>
+        <div class="tech-stack-name">MediaPipe · On-Device AI</div>
+        <div class="tech-desc">تحليل الحركة على الجهاز مباشرة بسرعة صفرية (Zero Latency) بدون الحاجة لإنترنت.</div>
+      </div>
+    </div>
+
+    <!-- Divider tech visual -->
+    <div class="reveal" style="margin-top:3rem; text-align:center;">
+      <div style="display:inline-flex; align-items:center; gap:0.75rem; background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:50px; padding:0.75rem 2rem; flex-wrap:wrap; justify-content:center; gap:1.5rem;">
+        <span style="font-size:0.75rem; color:var(--text-muted);">Tech Stack:</span>
+        <span style="font-size:0.8rem; font-weight:700; color:var(--accent-blue);">Flutter</span>
+        <span style="color:var(--border-subtle);">·</span>
+        <span style="font-size:0.8rem; font-weight:700; color:var(--accent-green);">Supabase</span>
+        <span style="color:var(--border-subtle);">·</span>
+        <span style="font-size:0.8rem; font-weight:700; color:var(--accent-purple);">MediaPipe</span>
+        <span style="color:var(--border-subtle);">·</span>
+        <span style="font-size:0.8rem; font-weight:700; color:var(--accent-orange);">PostgreSQL</span>
+        <span style="color:var(--border-subtle);">·</span>
+        <span style="font-size:0.8rem; font-weight:700; color:var(--accent-blue);">TensorFlow Lite</span>
+        <span style="color:var(--border-subtle);">·</span>
+        <span style="font-size:0.8rem; font-weight:700; color:var(--accent-green);">Firebase FCM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 8: ROADMAP
+══════════════════════════════════════════ -->
+<section id="roadmap">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">🗺️ خريطة الطريق</div>
+      <h2 class="section-title">خريطة الطريق <span>(من MVP إلى منصة متكاملة)</span></h2>
+    </div>
+    <div class="roadmap-steps">
+      <div class="roadmap-step v1 reveal reveal-delay-1">
+        <div class="step-version v1">V1</div>
+        <div class="step-title">المرحلة الأولى — Core MVP</div>
+        <div class="step-desc">تطبيق برايفت كوتش، الدايت والتمارين المرنة، أرشيف InBody، وبوابات الدفع الكاملة.</div>
+        <div class="step-flag v1">🚩 الأساس والانطلاق</div>
+      </div>
+      <div class="roadmap-step v2 reveal reveal-delay-2">
+        <div class="step-version v2">V2</div>
+        <div class="step-title">المرحلة الثانية — Viral Loop</div>
+        <div class="step-desc">تفعيل الجيمات بالكامل، QR ديناميكي، خرائط GPS، الرانك المحلي والعالمي.</div>
+        <div class="step-flag v2">🚀 التوسع والانتشار</div>
+      </div>
+      <div class="roadmap-step v3 reveal reveal-delay-3">
+        <div class="step-version v3">V3</div>
+        <div class="step-title">المرحلة الثالثة — AI Automation</div>
+        <div class="step-desc">تحليل الفيديو اللحظي، AR، الكوتش الذكي 24/7، وتوقع شكل الجسم المستقبلي.</div>
+        <div class="step-flag v3">🤖 الأتمتة الكاملة</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 9: FINANCIALS
+══════════════════════════════════════════ -->
+<section id="financials">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">💰 الاستثمار المالي</div>
+      <h2 class="section-title">الاستثمار المالي <span>(شفافية كاملة)</span></h2>
+      <p class="section-text">إجمالي الاستثمار المالي 225,000 ج.م، مقسمة استراتيجياً على ثلاث مراحل تطوير واضحة:</p>
+    </div>
+    <div class="financials-wrapper">
+      <div class="total-box reveal reveal-delay-1">
+        <span class="total-label">إجمالي الاستثمار</span>
+        <span class="total-amount">225,000</span>
+        <span class="total-currency">جنيه مصري</span>
+        <div style="height:1px;width:100%;background:var(--border-subtle);margin:1rem 0;"></div>
+        <div style="font-size:0.8rem;color:var(--text-muted);text-align:center;line-height:1.6;">3 مراحل تطوير<br>ضمان شهر مجاناً<br>تسليم احترافي</div>
+      </div>
+      <div class="payment-phases reveal reveal-delay-2">
+        <!-- V1.0 -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <span class="phase-name">🚩 أولاً: V1.0 — Core MVP</span>
+            <span class="phase-amount">125,000 ج.م</span>
+          </div>
+          <div class="phase-milestones">
+            <div class="milestone-item">
+              <div class="milestone-dot blue"></div>
+              <span class="milestone-pct">40%</span>
+              <span style="flex:1;">الدفعة المقدمة — تأسيس البنية التحتية</span>
+              <span class="milestone-val">50,000 ج.م</span>
+            </div>
+            <div class="milestone-item">
+              <div class="milestone-dot blue"></div>
+              <span class="milestone-pct">30%</span>
+              <span style="flex:1;">تسليم النظام الأساسي</span>
+              <span class="milestone-val">37,500 ج.م</span>
+            </div>
+            <div class="milestone-item">
+              <div class="milestone-dot blue"></div>
+              <span class="milestone-pct">20%</span>
+              <span style="flex:1;">النسخة التجريبية والتكامل</span>
+              <span class="milestone-val">25,000 ج.م</span>
+            </div>
+            <div class="milestone-item">
+              <div class="milestone-dot green"></div>
+              <span class="milestone-pct">10%</span>
+              <span style="flex:1;">التسليم النهائي والإطلاق الرسمي</span>
+              <span class="milestone-val">12,500 ج.م</span>
+            </div>
+          </div>
+        </div>
+        <!-- V2.0 -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <span class="phase-name">🚀 ثانياً: V2.0 — إصدار الجيمات</span>
+            <span class="phase-amount green">50,000 ج.م</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-muted);">تُنفذ لاحقاً — بعد نجاح V1.0 وتأكيد الشراكات مع الجيمات.</div>
+        </div>
+        <!-- V3.0 -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <span class="phase-name">🤖 ثالثاً: V3.0 — محركات AI</span>
+            <span class="phase-amount purple">50,000 ج.م</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-muted);">تُنفذ لاحقاً — بعد جمع البيانات الكافية لتدريب النماذج وتفعيل V2.0.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 10: TERMS & IP
+══════════════════════════════════════════ -->
+<section id="terms">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">📜 الشروط والأحكام</div>
+      <h2 class="section-title">القواعد الحاكمة <span>للمشروع</span></h2>
+    </div>
+    <div class="terms-grid">
+      <div class="term-card reveal reveal-delay-1">
+        <span class="term-icon">🌐</span>
+        <div class="term-title">المصاريف التشغيلية (OpEx)</div>
+        <div class="term-text">حسابات Apple Developer وGoogle Play وخوادم Supabase تُدفع مباشرة لمزودي الخدمة. غير مشمولة في عقد التطوير.</div>
+      </div>
+      <div class="term-card reveal reveal-delay-2">
+        <span class="term-icon">📜</span>
+        <div class="term-title">حقوق الملكية الفكرية (IP)</div>
+        <div class="term-text">يمتلك العميل حق الاستخدام التجاري الحصري الكامل. لا يسمح بإعادة بيع الكود أو White-labeling لأي طرف ثالث.</div>
+      </div>
+      <div class="term-card reveal reveal-delay-3">
+        <span class="term-icon">🤝</span>
+        <div class="term-title">الشراكة الاستراتيجية (Equity)</div>
+        <div class="term-text">الميزات المتقدمة قد تتحول لشراكة تقنية رسمية لاحقاً بعد نجاح المنصة وتوسعها إقليمياً.</div>
+      </div>
+      <div class="term-card reveal reveal-delay-4">
+        <span class="term-icon">🛡️</span>
+        <div class="term-title">الدعم الفني والصيانة</div>
+        <div class="term-text">ضمان شهر واحد مجاناً بعد الإطلاق، مع إمكانية التعاقد على عقود صيانة دورية اختيارية.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 11: FOOTER & CTA
+══════════════════════════════════════════ -->
+<section id="footer">
+  <div class="footer-glow"></div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag" style="display:inline-flex; margin: 0 auto 1.5rem; display:table;">✦ الخطوة التالية</div>
+    </div>
+    <h2 class="footer-title reveal reveal-delay-1">
+      جاهزون لبناء<br><span style="background:linear-gradient(135deg,var(--accent-blue),var(--accent-green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">المنصة الرياضية الأكبر عربياً؟</span>
+    </h2>
+    <p class="footer-desc reveal reveal-delay-2">
+      هذا العرض يمثل الأساس التقني الصلب والتسعير العادل لضمان خروج المشروع بأعلى معايير الجودة، ويمهد الطريق لتحويل المنصة إلى "Unicorn".
+    </p>
+    <div class="footer-cta-group reveal reveal-delay-3">
+      <a href="#" class="btn-primary btn-large">✓ اعتماد خطة التطوير وبدء التنفيذ</a>
+      <a href="#shared" class="btn-secondary btn-large">مراجعة العرض مجدداً</a>
+    </div>
+
+    <div class="footer-note reveal reveal-delay-4">
+      <span>FitMate / TrainTwin — عرض تقني وتجاري مفصل</span>
+      <span class="validity">⏱ هذا العرض صالح لمدة 14 يوماً من تاريخ الإرسال</span>
+      <span>🔒 هذا العرض سري. أي شاشات غير مذكورة نصاً تخضع لتسعير منفصل.</span>
+      <span style="margin-top:0.5rem; color:var(--border-glow);">مصمم ومطور بواسطة Joka · Dev — 2025</span>
+    </div>
+  </div>
+</section>
+
+<script>
+// ── INTERSECTION OBSERVER FOR REVEALS ──
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+revealEls.forEach(el => revealObserver.observe(el));
+
+// ── PARALLAX HERO GLOW ──
+document.addEventListener('mousemove', (e) => {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  const rect = hero.getBoundingClientRect();
+  if (e.clientY < rect.bottom) {
+    const x = (e.clientX / window.innerWidth) * 100;
+    const y = (e.clientY / window.innerHeight) * 100;
+    hero.style.background = `
+      radial-gradient(ellipse 70% 60% at ${x}% ${Math.min(y, 60)}%, rgba(56,189,248,0.1) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(16,185,129,0.07) 0%, transparent 60%),
+      #0b1120
+    `;
+  }
+});
+
+// ── ANIMATE STREAK NUMBER ──
+function animateCounter(el, target, duration = 1200) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { el.textContent = target.toLocaleString(); clearInterval(timer); }
+    else el.textContent = Math.floor(start).toLocaleString();
+  }, 16);
+}
+
+const statNumbers = document.querySelectorAll('.stat-number');
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const raw = el.textContent.replace(/,/g, '');
+      if (!isNaN(raw) && !el.dataset.animated) {
+        el.dataset.animated = '1';
+        animateCounter(el, parseInt(raw));
+      }
+      statsObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+statNumbers.forEach(el => statsObserver.observe(el));
+
+// ── QR TOKEN COUNTDOWN ──
+const timerEl = document.querySelector('.qr-timer');
+if (timerEl) {
+  let secs = 24;
+  setInterval(() => {
+    secs = secs > 0 ? secs - 1 : 30;
+    const pad = n => String(n).padStart(2, '0');
+    timerEl.textContent = `⏱ ينتهي خلال 00:${pad(secs)}`;
+    if (secs === 0) {
+      const tokenEl = document.querySelector('.qr-token');
+      if (tokenEl) {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        const rand = () => Array.from({length: 4}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+        tokenEl.textContent = `TKN-${rand()}-${rand()}`;
+      }
+    }
+  }, 1000);
+}
+
+// ── ACTIVE NAV SECTION HIGHLIGHT ──
+const sections = document.querySelectorAll('section[id]');
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.title = `FitMate · ${entry.target.id.toUpperCase()}`;
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>
