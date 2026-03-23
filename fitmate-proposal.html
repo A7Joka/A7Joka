@@ -1796,6 +1796,167 @@
   @media (max-width: 700px) {
     .desktop-mockup { height: 320px; overflow-x: auto; }
   }
+  /* ═══════════════════════════════════════════════════════════════
+   JOKA UX STUDIO — ISOLATED COMPONENT
+═══════════════════════════════════════════════════════════════ */
+.jux-wrapper {
+  /* Scoped Variables */
+  --jux-bg-card: #162032;
+  --jux-bg-elevated: #1e293b;
+  --jux-accent-blue: #38bdf8;
+  --jux-accent-blue-dim: #0ea5e9;
+  --jux-accent-green: #10b981;
+  --jux-accent-amber: #f59e0b;
+  --jux-accent-purple: #a78bfa;
+  --jux-accent-orange: #fb923c;
+  --jux-text-primary: #f8fafc;
+  --jux-text-secondary: #94a3b8;
+  --jux-text-muted: #475569;
+  --jux-border: rgba(56,189,248,0.12);
+  --jux-border-strong: rgba(56,189,248,0.25);
+  
+  /* Font & Reset within wrapper */
+  font-family: 'Cairo', 'Tajawal', sans-serif;
+  direction: rtl;
+  text-align: right;
+  color: var(--jux-text-primary);
+  background: transparent; /* Inherits from parent or can be set */
+  line-height: 1.75;
+  box-sizing: border-box;
+}
+
+.jux-wrapper *, .jux-wrapper *::before, .jux-wrapper *::after {
+  box-sizing: border-box;
+}
+
+/* Container & Header */
+.jux-container { width: min(1280px, 95vw); margin-inline: auto; position: relative; z-index: 1; }
+.jux-section { padding-block: 4rem; position: relative; }
+.jux-studio-header { text-align: center; margin-bottom: 3rem; }
+
+.jux-sec-label {
+  display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem;
+  font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--jux-accent-blue);
+  background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.2);
+  padding: 6px 14px; border-radius: 99px; margin-bottom: 1rem; margin-inline: auto;
+}
+.jux-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--jux-accent-blue); animation: jux-pulse-dot 2s ease-in-out infinite; }
+@keyframes jux-pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
+
+.jux-sec-title { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; line-height: 1.25; margin-bottom: 1rem; }
+.jux-highlight { background: linear-gradient(135deg, var(--jux-accent-blue) 0%, var(--jux-accent-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.jux-sec-subtitle { font-size: 1.1rem; color: var(--jux-text-secondary); max-width: 65ch; line-height: 1.8; margin-inline: auto; }
+
+/* Tabs System */
+.jux-tab-control {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--jux-border); border-radius: 999px;
+  padding: 6px; width: fit-content; margin-inline: auto; margin-bottom: 3rem; flex-wrap: wrap;
+}
+.jux-tab-btn {
+  font-family: inherit; font-size: 0.875rem; font-weight: 700; color: var(--jux-text-secondary);
+  background: transparent; border: none; border-radius: 999px; padding: clamp(10px, 1.5vw, 14px) clamp(18px, 3vw, 28px);
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap;
+}
+.jux-tab-btn.jux-active { background: linear-gradient(135deg, var(--jux-accent-blue), var(--jux-accent-blue-dim)); color: #fff; box-shadow: 0 4px 20px rgba(56,189,248,0.35); }
+.jux-tab-btn:not(.jux-active):hover { color: var(--jux-text-primary); background: rgba(255,255,255,0.04); }
+.jux-tab-count {
+  display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;
+  border-radius: 50%; font-size: 10px; font-weight: 800; background: rgba(255,255,255,0.12); margin-inline-start: 6px;
+}
+.jux-tab-panels { position: relative; }
+.jux-tab-panel { display: none; animation: jux-tab-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.jux-tab-panel.jux-active { display: block; }
+@keyframes jux-tab-fade-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Mockup Group Labels */
+.jux-mock-label { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; margin-top: 3rem; }
+.jux-mock-label:first-child { margin-top: 0; }
+.jux-mock-label h3 { font-size: 1.2rem; font-weight: 700; white-space: nowrap; margin: 0; }
+.jux-mock-line { flex: 1; height: 1px; background: linear-gradient(to left, transparent, var(--jux-border-strong)); }
+.jux-mock-tag { font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 99px; white-space: nowrap; }
+.jux-tag-blue { background: rgba(56,189,248,0.12); color: var(--jux-accent-blue); border: 1px solid rgba(56,189,248,0.2); }
+.jux-tag-amber { background: rgba(245,158,11,0.12); color: var(--jux-accent-amber); border: 1px solid rgba(245,158,11,0.2); }
+.jux-tag-purple { background: rgba(167,139,250,0.12); color: var(--jux-accent-purple); border: 1px solid rgba(167,139,250,0.2); }
+
+/* Reveal Animations */
+.jux-reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease-out, transform 0.65s ease-out; }
+.jux-reveal.jux-visible { opacity: 1; transform: translateY(0); }
+.jux-reveal-d1 { transition-delay: 0.08s; } .jux-reveal-d2 { transition-delay: 0.16s; }
+.jux-reveal-d3 { transition-delay: 0.24s; } .jux-reveal-d4 { transition-delay: 0.32s; }
+.jux-reveal-d5 { transition-delay: 0.40s; } .jux-reveal-d6 { transition-delay: 0.48s; }
+.jux-reveal-d7 { transition-delay: 0.56s; } .jux-reveal-d8 { transition-delay: 0.64s; }
+
+/* ══════ PHONE MOCKUP (.jux-pm) ══════ */
+/* تحويل الحاوية لنظام Flex وتوسيط العناصر دائماً */
+.jux-phone-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(16px, 2.5vw, 28px); }
+/* إجبار الهواتف على أخذ 25% من المساحة (4 في الصف) وتوسيط محتواها */
+.jux-pm { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; max-width: 240px; min-width: 200px; flex: 0 1 calc(25% - 24px); }
+.jux-pm-shell {
+  width: 100%; aspect-ratio: 9/19.5; background: #0a1526; border: 10px solid #1a2540; border-radius: 28px; position: relative; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(56,189,248,.15), 0 20px 60px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.04); transition: transform 0.3s ease-out, box-shadow 0.3s;
+}
+.jux-pm:hover .jux-pm-shell { transform: translateY(-6px) scale(1.02); box-shadow: 0 0 0 1px rgba(56,189,248,.3), 0 30px 80px rgba(0,0,0,.7), 0 0 40px rgba(56,189,248,.12); }
+.jux-pm-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 35%; height: 10px; background: #1a2540; border-radius: 0 0 8px 8px; z-index: 10; }
+.jux-pm-screen { width: 100%; height: 100%; overflow: hidden; display: flex; flex-direction: column; font-family: 'Cairo', sans-serif; direction: rtl; }
+.jux-pm-topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 8px 4px; flex-shrink: 0; line-height: 1; }
+.jux-pm-label { text-align: center; line-height: 1.2; }
+.jux-pm-num { font-size: 9px; font-weight: 800; color: var(--jux-accent-blue); letter-spacing: 0.1em; opacity: 0.7; margin-bottom: 2px; }
+.jux-pm-title { font-size: 10px; font-weight: 700; color: var(--jux-text-secondary); }
+
+/* Phone internal visuals (MediaPipe, Audio, Radar, Digital Twin) */
+.jux-mp-joint { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 6px rgba(56,189,248,.8); z-index: 2; }
+.jux-mp-joint.green { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,.8); }
+.jux-mp-joint.amber { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,.8); }
+.jux-mp-limb { position: absolute; width: 2px; background: rgba(56,189,248,.5); border-radius: 1px; z-index: 1; }
+.jux-sw-bar { width: 3px; height: var(--h, 20px); background: var(--c, #38bdf8); border-radius: 2px; animation: jux-sw-bounce 0.8s ease-in-out infinite alternate; box-shadow: 0 0 4px var(--c, rgba(56,189,248,.4)); }
+@keyframes jux-sw-bounce { from { transform: scaleY(0.4); } to { transform: scaleY(1); } }
+.jux-twin-dot { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,.7); animation: jux-twin-pulse 2s ease-in-out infinite; }
+.jux-twin-dot.green { background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,.7); }
+.jux-twin-dot.amber { background: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,.7); }
+@keyframes jux-twin-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.7; } }
+@keyframes jux-scan-line { 0% { top: 10%; } 50% { top: 85%; } 100% { top: 10%; } }
+@keyframes jux-radar-ping { 0% { transform: scale(0.5); opacity: 0.8; } 100% { transform: scale(2); opacity: 0; } }
+
+/* ══════ DESKTOP MOCKUP (.jux-dw) ══════ */
+.jux-dw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(520px, 100%), 1fr)); gap: clamp(20px, 3vw, 36px); }
+.jux-dw { background: #0c1628; border: 1px solid rgba(56,189,248,.12); border-radius: 12px; overflow: hidden; transition: transform 0.3s ease-out, border-color 0.3s, box-shadow 0.3s; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.jux-dw:hover { transform: translateY(-5px); border-color: rgba(56,189,248,.28); box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 30px rgba(56,189,248,.08); }
+.jux-dw-titlebar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,.03); border-bottom: 1px solid rgba(56,189,248,.08); }
+.jux-dw-dots { display: flex; gap: 5px; } .jux-dw-dot { width: 9px; height: 9px; border-radius: 50%; }
+.jux-dw-red { background: #ef4444; } .jux-dw-yellow { background: #f59e0b; } .jux-dw-green { background: #10b981; }
+.jux-dw-url { flex: 1; font-size: 8px; color: #475569; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06); border-radius: 4px; padding: 2px 8px; text-align: center; letter-spacing: .02em; }
+.jux-dw-badge { font-size: 8px; font-weight: 700; flex-shrink: 0; }
+.jux-dw-body { display: flex; height: 220px; overflow: hidden; }
+.jux-dw-sidebar { width: 70px; flex-shrink: 0; background: rgba(0,0,0,.25); border-left: 1px solid rgba(255,255,255,.04); padding: 8px 6px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+.jux-dw-logo { font-size: 9px; font-weight: 900; color: var(--jux-accent-blue); text-align: center; padding: 4px; background: rgba(56,189,248,.08); border-radius: 6px; margin-bottom: 4px; letter-spacing: .02em; }
+.jux-dw-nav { font-size: 7.5px; color: #475569; padding: 4px 5px; border-radius: 5px; cursor: default; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.5; }
+.jux-dw-nav-active { background: rgba(56,189,248,.1); color: #38bdf8; border: 1px solid rgba(56,189,248,.15); }
+.jux-dw-main { flex: 1; padding: 8px 10px; overflow: hidden; display: flex; flex-direction: column; }
+.jux-dw-stat-card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06); border-radius: 6px; padding: 5px; text-align: center; position: relative; overflow: hidden; }
+.jux-dw-stat-card::after { content: ''; position: absolute; bottom: 0; inset-inline: 0; height: 2px; background: var(--sc, var(--jux-accent-blue)); border-radius: 0 0 6px 6px; }
+.jux-dw-stat-val { font-size: 11px; font-weight: 900; color: var(--sc, var(--jux-accent-blue)); line-height: 1; margin-bottom: 2px; }
+.jux-dw-stat-lbl { font-size: 6.5px; color: #475569; }
+.jux-dw-chart-box { background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.04); border-radius: 6px; padding: 5px 6px; }
+.jux-dw-chart-title { font-size: 7px; color: #64748b; margin-bottom: 5px; font-weight: 600; }
+.jux-dw-bar-group { display: flex; align-items: flex-end; gap: 3px; height: 30px; }
+.jux-dw-bar { flex: 1; height: var(--bh, 50%); background: var(--bc, var(--jux-accent-blue)); border-radius: 2px 2px 0 0; opacity: 0.7; }
+.jux-dw-heat { height: 8px; background: var(--jux-accent-blue); opacity: var(--op, .3); border-radius: 1px; }
+.jux-dw-table { font-size: 7.5px; width: 100%; }
+.jux-dw-table-head { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 4px; padding: 3px 5px; background: rgba(255,255,255,.03); border-radius: 4px 4px 0 0; color: #475569; font-weight: 700; margin-bottom: 2px; font-size: 7px; }
+.jux-dw-table-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 4px; padding: 4px 5px; border-bottom: 1px solid rgba(255,255,255,.03); color: #94a3b8; align-items: center; }
+.jux-dw-footer { padding: 6px 12px; background: rgba(0,0,0,.2); border-top: 1px solid rgba(56,189,248,.07); display: flex; align-items: center; justify-content: space-between; }
+
+@media (max-width: 768px) {
+  .jux-pm { flex: 0 1 calc(50% - 16px); }
+  .jux-dw-grid { grid-template-columns: 1fr; }
+  .jux-dw-body { height: auto; min-height: 200px; }
+  .jux-dw-sidebar { width: 60px; }
+  .jux-dw-table-head, .jux-dw-table-row { grid-template-columns: 2fr 1fr 1fr; }
+  .jux-dw-table-head > div:nth-child(4), .jux-dw-table-head > div:nth-child(5), .jux-dw-table-row > div:nth-child(4), .jux-dw-table-row > div:nth-child(5) { display: none; }
+}
+@media (max-width: 480px) { .jux-phone-grid { gap: 12px; } .jux-pm { max-width: 100%; } }
+
 </style>
 </head>
 <body>
@@ -1851,8 +2012,1337 @@
 
 <div class="section-divider"></div>
 
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 2: UI STUDIO & VISUAL PROOF
+═══════════════════════════════════════════════════════════════ -->
+<div class="jux-wrapper" dir="rtl">
+  <section class="jux-section" id="jux-ui-studio">
+    <div class="jux-container">
+
+      <div class="jux-studio-header jux-reveal">
+        <div class="jux-sec-label" style="margin-inline: auto;"><span class="jux-dot"></span> UI Studio</div>
+        <h2 class="jux-sec-title">
+          استوديو الواجهات <span class="jux-highlight">والتحليل البصري</span>
+        </h2>
+        <p class="jux-sec-subtitle">
+          نظرة شاملة (28 واجهة) تعرض مسماراً مسماراً في المنظومة — من رحلة المستخدم اليومية حتى أعمق أدوات الإدارة المؤسسية.
+        </p>
+      </div>
+
+      <div class="jux-tab-control jux-reveal jux-reveal-d2">
+        <button class="jux-tab-btn jux-active" data-tab="user-app">
+          📱 تطبيق المستخدم — الرحلة الكاملة
+          <span class="jux-tab-count">20</span>
+        </button>
+        <button class="jux-tab-btn" data-tab="admin-system">
+          🖥️ منظومة الإدارة المؤسسية — RBAC
+          <span class="jux-tab-count">8</span>
+        </button>
+      </div>
+
+      <div class="jux-tab-panels">
+
+        <div class="jux-tab-panel jux-active" id="jux-tab-user-app">
+
+          <div class="jux-mock-label jux-reveal">
+            <h3>V1.0 — Wow Foundation</h3>
+            <div class="jux-mock-line"></div>
+            <span class="jux-mock-tag jux-tag-blue">8 شاشات · المرحلة الأولى</span>
+          </div>
+
+          <div class="jux-phone-grid">
+
+<div class="jux-pm jux-reveal jux-reveal-d1">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:linear-gradient(180deg,#060d1f 0%,#0b1628 100%);">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#38bdf8;font-size:9px;">●●●</span></div>
+      <div style="padding:8px 10px 0;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:8px;color:#64748b;">صباح الخير 👋</div>
+          <div style="font-size:11px;font-weight:800;color:#f8fafc;">يوسف</div>
+        </div>
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#10b981);display:flex;align-items:center;justify-content:center;font-size:12px;">🏋️</div>
+      </div>
+      <div style="margin:8px 10px;background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(239,68,68,.1));border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:7px 10px;display:flex;align-items:center;gap:6px;">
+        <span style="font-size:14px;">🔥</span>
+        <div>
+          <div style="font-size:10px;font-weight:800;color:#fbbf24;">18 يوم متتالي</div>
+          <div style="font-size:7.5px;color:#94a3b8;">استمر — أنت رائع!</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin:6px 0;">
+        <div style="position:relative;width:72px;height:72px;">
+          <div style="width:72px;height:72px;border-radius:50%;background:conic-gradient(#38bdf8 0% 74%,rgba(56,189,248,.12) 74% 100%);display:flex;align-items:center;justify-content:center;">
+            <div style="width:56px;height:56px;border-radius:50%;background:#0b1628;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <div style="font-size:14px;font-weight:900;color:#38bdf8;">74%</div>
+              <div style="font-size:6px;color:#64748b;">هدف اليوم</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 10px;">
+        <div style="font-size:8px;font-weight:700;color:#64748b;margin-bottom:5px;">تمارين اليوم</div>
+        <div style="background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.15);border-radius:8px;padding:6px 8px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:8px;color:#f8fafc;">سكوات × 4 sets</div>
+          <div style="width:14px;height:14px;border-radius:50%;background:#10b981;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;">✓</div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:6px 8px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:8px;color:#94a3b8;">ضغط × 3 sets</div>
+          <div style="width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.15);"></div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:6px 8px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:8px;color:#94a3b8;">ديدليفت × 3 sets</div>
+          <div style="width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.15);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">01</div><div class="jux-pm-title">Private Coach / Streak</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d2">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#060d1f;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#38bdf8;font-size:9px;">●●●</span></div>
+      <div style="padding:6px 10px 4px;">
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">مكان التمرين</div>
+        <div style="font-size:7.5px;color:#64748b;">اختر — التمارين ستتكيف تلقائياً</div>
+      </div>
+      <div style="margin:6px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:3px;display:flex;gap:3px;">
+        <div style="flex:1;background:linear-gradient(135deg,#38bdf8,#0ea5e9);border-radius:7px;padding:5px 0;text-align:center;font-size:7.5px;font-weight:700;color:#fff;">🏠 بيت</div>
+        <div style="flex:1;padding:5px 0;text-align:center;font-size:7.5px;color:#64748b;">🏋️ جيم</div>
+        <div style="flex:1;padding:5px 0;text-align:center;font-size:7.5px;color:#64748b;">🏢 مكتب</div>
+      </div>
+      <div style="margin:6px 10px;">
+        <div style="font-size:7.5px;color:#64748b;margin-bottom:4px;">تمرين مقترح</div>
+        <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:10px;padding:8px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <div style="font-size:9px;font-weight:700;color:#f8fafc;">Push-Up</div>
+            <div style="font-size:7px;background:rgba(56,189,248,.15);color:#38bdf8;padding:2px 6px;border-radius:99px;">بيت ✓</div>
+          </div>
+          <div style="display:flex;gap:4px;margin-bottom:5px;">
+            <div style="background:rgba(255,255,255,.05);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;">3 × 15</div>
+            <div style="background:rgba(255,255,255,.05);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;">صدر</div>
+            <div style="background:rgba(255,255,255,.05);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;">مبتدئ</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin:4px 0;font-size:13px;color:#38bdf8;">⇅</div>
+        <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:8px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <div style="font-size:9px;font-weight:700;color:#f8fafc;">Bench Press</div>
+            <div style="font-size:7px;background:rgba(16,185,129,.15);color:#10b981;padding:2px 6px;border-radius:99px;">جيم ✓</div>
+          </div>
+          <div style="display:flex;gap:4px;">
+            <div style="background:rgba(255,255,255,.05);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;">4 × 10</div>
+            <div style="background:rgba(255,255,255,.05);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;">صدر</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">02</div><div class="jux-pm-title">Location Swap UI</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d3">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#060d1f;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#38bdf8;font-size:9px;">●●●</span></div>
+      <div style="padding:6px 10px 4px;">
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">بدّل الوجبة</div>
+        <div style="font-size:7.5px;color:#64748b;">نفس الماكروز — بدائل ذكية</div>
+      </div>
+      <div style="margin:5px 10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:8px;">
+        <div style="font-size:8px;color:#fbbf24;font-weight:700;margin-bottom:4px;">🍗 دجاج مشوي</div>
+        <div style="font-size:7.5px;color:#94a3b8;margin-bottom:5px;">150 جرام</div>
+        <div style="display:flex;gap:4px;">
+          <div style="background:rgba(56,189,248,.12);border-radius:4px;padding:3px 5px;font-size:6.5px;color:#38bdf8;">بروتين 35g</div>
+          <div style="background:rgba(245,158,11,.12);border-radius:4px;padding:3px 5px;font-size:6.5px;color:#fbbf24;">كارب 0g</div>
+          <div style="background:rgba(244,63,94,.12);border-radius:4px;padding:3px 5px;font-size:6.5px;color:#f87171;">دهن 4g</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin:3px 0;font-size:12px;color:#10b981;">⇅ تبديل</div>
+      <div style="margin:0 10px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:10px;padding:8px;">
+        <div style="font-size:8px;color:#10b981;font-weight:700;margin-bottom:4px;">🐟 سمك تونة</div>
+        <div style="font-size:7.5px;color:#94a3b8;margin-bottom:5px;">140 جرام · تطابق 97%</div>
+        <div style="display:flex;gap:4px;">
+          <div style="background:rgba(56,189,248,.12);border-radius:4px;padding:3px 5px;font-size:6.5px;color:#38bdf8;">بروتين 33g</div>
+          <div style="background:rgba(245,158,11,.12);border-radius:4px;padding:3px 5px;font-size:6.5px;color:#fbbf24;">كارب 0g</div>
+          <div style="background:rgba(244,63,94,.12);border-radius:4px;padding:3px 5px;font-size:6.5px;color:#f87171;">دهن 3g</div>
+        </div>
+      </div>
+      <div style="margin:8px 10px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:7px;color:#64748b;">تطابق الماكروز</span><span style="font-size:7px;color:#10b981;">97%</span></div>
+        <div style="height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;"><div style="width:97%;height:100%;background:linear-gradient(90deg,#10b981,#38bdf8);border-radius:2px;"></div></div>
+      </div>
+      <div style="margin:4px 10px;"><div style="background:linear-gradient(135deg,#10b981,#059669);border-radius:8px;padding:7px;text-align:center;font-size:8px;font-weight:700;color:#fff;">اعتماد البديل ✓</div></div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">03</div><div class="jux-pm-title">Diet Swap UI</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d4">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:linear-gradient(180deg,#0f0618 0%,#080f1e 100%);">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#a78bfa;font-size:9px;">●●●</span></div>
+      <div style="padding:6px 10px 0;">
+        <div style="font-size:7px;color:#a78bfa;font-weight:700;letter-spacing:.08em;">برنامج السيدات</div>
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">مخصص لكِ</div>
+      </div>
+      <div style="display:flex;justify-content:center;margin:6px 0;">
+        <div style="position:relative;width:50px;height:80px;">
+          <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#7c3aed);"></div>
+          <div style="position:absolute;top:17px;left:50%;transform:translateX(-50%);width:22px;height:32px;border-radius:8px;background:linear-gradient(180deg,#a78bfa,#7c3aed);"></div>
+          <div style="position:absolute;top:20px;right:4px;width:8px;height:25px;border-radius:4px;background:rgba(167,139,250,.5);"></div>
+          <div style="position:absolute;top:20px;left:4px;width:8px;height:25px;border-radius:4px;background:rgba(167,139,250,.5);"></div>
+          <div style="position:absolute;top:48px;left:50%;transform:translateX(-50%) translateX(-6px);width:10px;height:30px;border-radius:5px;background:rgba(167,139,250,.6);"></div>
+          <div style="position:absolute;top:48px;left:50%;transform:translateX(-50%) translateX(5px);width:10px;height:30px;border-radius:5px;background:rgba(167,139,250,.6);"></div>
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(167,139,250,.25) 0%,transparent 60%);pointer-events:none;"></div>
+        </div>
+      </div>
+      <div style="padding:0 10px;">
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
+          <div style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:99px;padding:3px 8px;font-size:7px;color:#c4b5fd;">تمارين الأرداف</div>
+          <div style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:99px;padding:3px 8px;font-size:7px;color:#c4b5fd;">الدوره الشهرية</div>
+          <div style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:99px;padding:3px 8px;font-size:7px;color:#c4b5fd;">بدون معدات</div>
+          <div style="background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.25);border-radius:99px;padding:3px 8px;font-size:7px;color:#10b981;">تغذية السيدات</div>
+        </div>
+        <div style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.15);border-radius:10px;padding:7px;">
+          <div style="font-size:7.5px;font-weight:700;color:#c4b5fd;margin-bottom:3px;">هذا الأسبوع</div>
+          <div style="font-size:7px;color:#94a3b8;">الإثنين · Glute Bridge × 4</div>
+          <div style="font-size:7px;color:#94a3b8;">الأربعاء · Hip Thrust × 3</div>
+          <div style="font-size:7px;color:#94a3b8;">الجمعة · Squat Pulse × 3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">04</div><div class="jux-pm-title">Women Personalization</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d5">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#040810;overflow:hidden;">
+      <div class="jux-pm-topbar" style="background:rgba(0,0,0,.4);"><span style="color:#fff;font-size:9px;">Camera</span><span style="font-size:9px;color:#f87171;">● REC</span></div>
+      <div style="position:relative;height:110px;background:linear-gradient(135deg,#060e1c 0%,#0a1628 100%);overflow:hidden;">
+        <div style="position:absolute;inset:0;">
+          <div style="position:absolute;bottom:20px;left:0;right:0;height:1px;background:rgba(56,189,248,.2);"></div>
+          <div style="position:absolute;bottom:35px;left:0;right:0;height:1px;background:rgba(56,189,248,.12);"></div>
+          <div style="position:absolute;bottom:50px;left:0;right:0;height:1px;background:rgba(56,189,248,.08);"></div>
+          <div style="position:absolute;bottom:0;top:0;left:25%;width:1px;background:rgba(56,189,248,.1);"></div>
+          <div style="position:absolute;bottom:0;top:0;left:50%;width:1px;background:rgba(56,189,248,.15);"></div>
+          <div style="position:absolute;bottom:0;top:0;left:75%;width:1px;background:rgba(56,189,248,.1);"></div>
+        </div>
+        <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:40px;height:16px;border:2px solid #38bdf8;border-radius:50%;opacity:.7;box-shadow:0 0 10px rgba(56,189,248,.4);"></div>
+        <div style="position:absolute;top:8px;right:8px;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.3);border-radius:4px;padding:2px 6px;font-size:7px;color:#38bdf8;">AR Mode</div>
+      </div>
+      <div style="padding:6px 10px;">
+        <div style="background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.25);border-radius:10px;padding:8px;text-align:center;margin-bottom:6px;">
+          <div style="font-size:11px;margin-bottom:2px;">📍</div>
+          <div style="font-size:9px;font-weight:700;color:#38bdf8;">قف هنا</div>
+          <div style="font-size:7px;color:#94a3b8;">ابق في المنطقة الزرقاء</div>
+        </div>
+        <div style="display:flex;gap:4px;">
+          <div style="flex:1;background:rgba(255,255,255,.04);border-radius:6px;padding:5px;text-align:center;">
+            <div style="font-size:7.5px;color:#10b981;font-weight:700;">✓ إضاءة</div>
+          </div>
+          <div style="flex:1;background:rgba(255,255,255,.04);border-radius:6px;padding:5px;text-align:center;">
+            <div style="font-size:7.5px;color:#10b981;font-weight:700;">✓ مسافة</div>
+          </div>
+          <div style="flex:1;background:rgba(245,158,11,.08);border-radius:6px;padding:5px;text-align:center;">
+            <div style="font-size:7.5px;color:#fbbf24;font-weight:700;">↻ زاوية</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">05</div><div class="jux-pm-title">AR Camera Setup</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d6">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#030810;overflow:hidden;">
+      <div class="jux-pm-topbar" style="background:rgba(0,0,0,.5);"><span style="color:#f87171;font-size:9px;">● LIVE</span><span style="color:#38bdf8;font-size:9px;">AI ON</span></div>
+      <div style="position:relative;height:120px;background:linear-gradient(180deg,#040c1a,#060f1e);overflow:hidden;">
+        <div class="jux-mp-joint" style="top:12px;left:calc(50% - 5px);"></div> 
+        <div class="jux-mp-joint" style="top:24px;left:calc(50% - 5px);"></div> 
+        <div class="jux-mp-joint" style="top:35px;left:calc(50% - 14px);"></div> 
+        <div class="jux-mp-joint" style="top:35px;left:calc(50% + 4px);"></div>  
+        <div class="jux-mp-joint" style="top:52px;left:calc(50% - 17px);"></div> 
+        <div class="jux-mp-joint" style="top:52px;left:calc(50% + 7px);"></div>  
+        <div class="jux-mp-joint" style="top:68px;left:calc(50% - 19px);"></div> 
+        <div class="jux-mp-joint" style="top:68px;left:calc(50% + 9px);"></div>  
+        <div class="jux-mp-joint green" style="top:46px;left:calc(50% - 7px);"></div> 
+        <div class="jux-mp-joint green" style="top:46px;left:calc(50% + 3px);"></div> 
+        <div class="jux-mp-joint amber" style="top:68px;left:calc(50% - 12px);"></div> 
+        <div class="jux-mp-joint amber" style="top:68px;left:calc(50% + 6px);"></div>  
+        <div class="jux-mp-joint" style="top:88px;left:calc(50% - 14px);"></div> 
+        <div class="jux-mp-joint" style="top:88px;left:calc(50% + 4px);"></div>  
+        
+        <div class="jux-mp-limb" style="top:17px;left:calc(50% - 2px);height:19px;"></div> 
+        <div class="jux-mp-limb" style="top:37px;left:calc(50% - 11px);height:16px;transform:rotate(10deg);transform-origin:top center;"></div>
+        <div class="jux-mp-limb" style="top:37px;left:calc(50% + 6px);height:16px;transform:rotate(-10deg);transform-origin:top center;"></div>
+        <div class="jux-mp-limb" style="top:53px;left:calc(50% - 14px);height:16px;transform:rotate(6deg);transform-origin:top center;"></div>
+        <div class="jux-mp-limb" style="top:53px;left:calc(50% + 9px);height:16px;transform:rotate(-6deg);transform-origin:top center;"></div>
+        
+        <div class="jux-mp-limb" style="top:49px;left:calc(50% - 5px);height:22px;transform:rotate(-15deg);transform-origin:top center;"></div>
+        <div class="jux-mp-limb" style="top:49px;left:calc(50% + 4px);height:22px;transform:rotate(15deg);transform-origin:top center;"></div>
+        <div class="jux-mp-limb" style="top:70px;left:calc(50% - 11px);height:22px;transform:rotate(25deg);transform-origin:top center;"></div>
+        <div class="jux-mp-limb" style="top:70px;left:calc(50% + 7px);height:22px;transform:rotate(-25deg);transform-origin:top center;"></div>
+        
+        <div style="position:absolute;top:62px;right:8px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);border-radius:4px;padding:2px 5px;font-size:7.5px;color:#fbbf24;font-weight:700;">92°</div>
+      </div>
+      <div style="display:flex;gap:4px;padding:6px 10px;">
+        <div style="flex:1;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.15);border-radius:6px;padding:5px;text-align:center;">
+          <div style="font-size:10px;font-weight:800;color:#38bdf8;">8</div>
+          <div style="font-size:6.5px;color:#64748b;">تكرار</div>
+        </div>
+        <div style="flex:1;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15);border-radius:6px;padding:5px;text-align:center;">
+          <div style="font-size:10px;font-weight:800;color:#10b981;">3</div>
+          <div style="font-size:6.5px;color:#64748b;">سيت</div>
+        </div>
+        <div style="flex:1;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15);border-radius:6px;padding:5px;text-align:center;">
+          <div style="font-size:10px;font-weight:800;color:#fbbf24;">92°</div>
+          <div style="font-size:6.5px;color:#64748b;">زاوية</div>
+        </div>
+      </div>
+      <div style="margin:0 10px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:8px;padding:5px;text-align:center;font-size:7.5px;color:#10b981;font-weight:700;">✓ وضعية ممتازة!</div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">06</div><div class="jux-pm-title">Real-Time MediaPipe Tracking</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d7">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:linear-gradient(180deg,#060e1c,#080f1e);">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#10b981;font-size:9px;">▶ COACH</span></div>
+      <div style="padding:6px 10px 4px;">
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">الكوتش الصوتي</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:2px;height:50px;padding:0 10px;margin:4px 0;">
+        <div class="jux-sw-bar" style="--h:8px;--c:#38bdf8;"></div>
+        <div class="jux-sw-bar" style="--h:20px;--c:#38bdf8;animation-delay:.1s;"></div>
+        <div class="jux-sw-bar" style="--h:35px;--c:#38bdf8;animation-delay:.2s;"></div>
+        <div class="jux-sw-bar" style="--h:24px;--c:#10b981;animation-delay:.15s;"></div>
+        <div class="jux-sw-bar" style="--h:42px;--c:#10b981;animation-delay:.3s;"></div>
+        <div class="jux-sw-bar" style="--h:30px;--c:#38bdf8;animation-delay:.25s;"></div>
+        <div class="jux-sw-bar" style="--h:18px;--c:#38bdf8;animation-delay:.1s;"></div>
+        <div class="jux-sw-bar" style="--h:38px;--c:#a78bfa;animation-delay:.35s;"></div>
+        <div class="jux-sw-bar" style="--h:28px;--c:#a78bfa;animation-delay:.2s;"></div>
+        <div class="jux-sw-bar" style="--h:14px;--c:#38bdf8;animation-delay:.05s;"></div>
+        <div class="jux-sw-bar" style="--h:40px;--c:#10b981;animation-delay:.4s;"></div>
+        <div class="jux-sw-bar" style="--h:22px;--c:#38bdf8;animation-delay:.15s;"></div>
+        <div class="jux-sw-bar" style="--h:10px;--c:#38bdf8;animation-delay:.0s;"></div>
+      </div>
+      <div style="margin:4px 10px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:10px 10px 3px 10px;padding:7px;">
+        <div style="font-size:7.5px;color:#38bdf8;font-weight:700;margin-bottom:2px;">🎙️ الكوتش</div>
+        <div style="font-size:8px;color:#f8fafc;line-height:1.5;">"ممتاز! اخفض ظهرك أكثر قليلاً. 3 تكرارات باقية!"</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 10px;">
+        <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:11px;">⏮</div>
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 16px rgba(16,185,129,.4);">▶</div>
+        <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:11px;">⏭</div>
+      </div>
+      <div style="margin:0 10px;display:flex;gap:4px;">
+        <div style="flex:1;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.25);border-radius:6px;padding:5px;text-align:center;font-size:7px;color:#38bdf8;font-weight:700;">🤖 AI صوت</div>
+        <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:5px;text-align:center;font-size:7px;color:#64748b;">🎵 موسيقى</div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">07</div><div class="jux-pm-title">Hybrid Audio Coach</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d8">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#060d1f;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#38bdf8;font-size:9px;">●●●</span></div>
+      <div style="padding:6px 10px 4px;">
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">تقدمك</div>
+        <div style="font-size:7.5px;color:#64748b;">آخر 30 يوم</div>
+      </div>
+      <div style="padding:0 10px;margin-bottom:6px;">
+        <div style="display:flex;align-items:flex-end;gap:3px;height:40px;background:rgba(255,255,255,.02);border-radius:6px;padding:4px 5px;">
+          <div style="flex:1;background:rgba(56,189,248,.3);border-radius:2px;height:55%;"></div>
+          <div style="flex:1;background:rgba(56,189,248,.4);border-radius:2px;height:65%;"></div>
+          <div style="flex:1;background:rgba(56,189,248,.5);border-radius:2px;height:72%;"></div>
+          <div style="flex:1;background:rgba(56,189,248,.6);border-radius:2px;height:60%;"></div>
+          <div style="flex:1;background:rgba(56,189,248,.7);border-radius:2px;height:80%;"></div>
+          <div style="flex:1;background:rgba(56,189,248,.8);border-radius:2px;height:75%;"></div>
+          <div style="flex:1;background:#38bdf8;border-radius:2px;height:90%;box-shadow:0 0 6px rgba(56,189,248,.5);"></div>
+        </div>
+      </div>
+      <div style="padding:0 10px;">
+        <div style="font-size:7.5px;color:#64748b;margin-bottom:4px;">InBody آخر تحديث</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+          <div style="background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.12);border-radius:7px;padding:5px;">
+            <div style="font-size:8.5px;font-weight:800;color:#38bdf8;">78.4 kg</div>
+            <div style="font-size:6.5px;color:#64748b;">الوزن</div>
+            <div style="font-size:6.5px;color:#10b981;">↓ 1.2 kg</div>
+          </div>
+          <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.12);border-radius:7px;padding:5px;">
+            <div style="font-size:8.5px;font-weight:800;color:#10b981;">34.2 kg</div>
+            <div style="font-size:6.5px;color:#64748b;">عضلات</div>
+            <div style="font-size:6.5px;color:#10b981;">↑ 0.8 kg</div>
+          </div>
+          <div style="background:rgba(244,63,94,.07);border:1px solid rgba(244,63,94,.12);border-radius:7px;padding:5px;">
+            <div style="font-size:8.5px;font-weight:800;color:#f87171;">18.6%</div>
+            <div style="font-size:6.5px;color:#64748b;">دهون</div>
+            <div style="font-size:6.5px;color:#10b981;">↓ 1.1%</div>
+          </div>
+          <div style="background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.12);border-radius:7px;padding:5px;">
+            <div style="font-size:8.5px;font-weight:800;color:#c4b5fd;">B+</div>
+            <div style="font-size:6.5px;color:#64748b;">الرانك</div>
+            <div style="font-size:6.5px;color:#10b981;">↑ ترقية</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">08</div><div class="jux-pm-title">Habit Engine / InBody</div></div>
+</div>
+
+          </div><div class="jux-mock-label jux-reveal" style="margin-top: 3rem;">
+            <h3>V2.0 — Virtual Economy</h3>
+            <div class="jux-mock-line"></div>
+            <span class="jux-mock-tag jux-tag-amber">8 شاشات · المرحلة الثانية</span>
+          </div>
+
+          <div class="jux-phone-grid">
+
+<div class="jux-pm jux-reveal jux-reveal-d1">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:linear-gradient(180deg,#0a0618,#0d0f20);">
+      <div class="jux-pm-topbar"><span style="color:#fbbf24;font-size:9px;">🟡 1,240</span><span style="color:#f472b6;font-size:9px;">💎 88</span></div>
+      <div style="padding:4px 10px 0;">
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">متجر الأفاتار</div>
+      </div>
+      <div style="display:flex;gap:3px;padding:5px 10px;">
+        <div style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border-radius:99px;padding:3px 8px;font-size:7px;color:#fff;font-weight:700;">لبس</div>
+        <div style="background:rgba(255,255,255,.05);border-radius:99px;padding:3px 8px;font-size:7px;color:#64748b;">أقنعة</div>
+        <div style="background:rgba(255,255,255,.05);border-radius:99px;padding:3px 8px;font-size:7px;color:#64748b;">إكسسوار</div>
+      </div>
+      <div style="padding:0 10px;display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+        <div style="background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:8px;padding:6px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:3px;">👕</div>
+          <div style="font-size:7px;color:#f8fafc;font-weight:600;margin-bottom:3px;">Jersey Pro</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-size:7px;color:#fbbf24;">🟡 500</span></div>
+        </div>
+        <div style="background:rgba(244,114,182,.08);border:1px solid rgba(244,114,182,.2);border-radius:8px;padding:6px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:3px;">🥇</div>
+          <div style="font-size:7px;color:#f8fafc;font-weight:600;margin-bottom:3px;">Gold Mask</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-size:7px;color:#f472b6;">💎 20</span></div>
+        </div>
+        <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:8px;padding:6px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:3px;">🦺</div>
+          <div style="font-size:7px;color:#f8fafc;font-weight:600;margin-bottom:3px;">Titan Vest</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-size:7px;color:#fbbf24;">🟡 800</span></div>
+        </div>
+        <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:6px;text-align:center;">
+          <div style="font-size:18px;margin-bottom:3px;">⚡</div>
+          <div style="font-size:7px;color:#f8fafc;font-weight:600;margin-bottom:3px;">Energy Cape</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-size:7px;color:#f472b6;">💎 45</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">09</div><div class="jux-pm-title">Avatar Shop — Coins &amp; Gems</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d2">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#080510;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#f472b6;font-size:9px;">💎 88</span></div>
+      <div style="padding:6px 10px 4px;">
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">شحن الجواهر</div>
+        <div style="font-size:7.5px;color:#64748b;">اختر الباقة الأنسب</div>
+      </div>
+      <div style="padding:0 10px;display:flex;flex-direction:column;gap:5px;">
+        <div style="background:rgba(244,114,182,.08);border:1px solid rgba(244,114,182,.2);border-radius:9px;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:16px;">💎</span><div><div style="font-size:8.5px;font-weight:700;color:#f8fafc;">50 جوهرة</div><div style="font-size:7px;color:#64748b;">مبتدئ</div></div></div>
+          <div style="background:rgba(244,114,182,.2);border-radius:6px;padding:3px 8px;font-size:8px;color:#f472b6;font-weight:700;">9.99 ج</div>
+        </div>
+        <div style="background:rgba(167,139,250,.1);border:2px solid rgba(167,139,250,.35);border-radius:9px;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;position:relative;">
+          <div style="position:absolute;top:-8px;right:10px;background:linear-gradient(135deg,#a78bfa,#7c3aed);border-radius:99px;padding:2px 8px;font-size:6.5px;color:#fff;font-weight:700;">الأشهر</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:20px;">💎</span><div><div style="font-size:8.5px;font-weight:700;color:#f8fafc;">150 جوهرة</div><div style="font-size:7px;color:#a78bfa;">+ 20 مجاناً</div></div></div>
+          <div style="background:rgba(167,139,250,.2);border-radius:6px;padding:3px 8px;font-size:8px;color:#c4b5fd;font-weight:700;">24.99 ج</div>
+        </div>
+        <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:9px;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:22px;">💎</span><div><div style="font-size:8.5px;font-weight:700;color:#f8fafc;">500 جوهرة</div><div style="font-size:7px;color:#fbbf24;">+ 100 مجاناً</div></div></div>
+          <div style="background:rgba(245,158,11,.2);border-radius:6px;padding:3px 8px;font-size:8px;color:#fbbf24;font-weight:700;">69.99 ج</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">10</div><div class="jux-pm-title">Gem Purchase Bundles</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d3">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#050d1a;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#38bdf8;font-size:9px;">AI ●</span></div>
+      <div style="padding:6px 10px 0;">
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">محرك الخطة الذكي</div>
+        <div style="font-size:7.5px;color:#64748b;">AI يبني خطتك الآن...</div>
+      </div>
+      <div style="display:flex;justify-content:center;margin:10px 0;">
+        <div style="width:60px;height:60px;border-radius:50%;border:3px solid rgba(56,189,248,.15);border-top:3px solid #38bdf8;animation:spin 1s linear infinite;display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:18px;">🤖</div>
+        </div>
+      </div>
+      <div style="padding:0 10px;display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:14px;height:14px;border-radius:50%;background:#10b981;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;flex-shrink:0;">✓</div>
+          <div style="font-size:7.5px;color:#94a3b8;">تحليل بيانات الجسم</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:14px;height:14px;border-radius:50%;background:#10b981;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;flex-shrink:0;">✓</div>
+          <div style="font-size:7.5px;color:#94a3b8;">تطبيق القواعد التكيفية</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:14px;height:14px;border-radius:50%;background:rgba(56,189,248,.2);border:1px solid #38bdf8;flex-shrink:0;animation:pulse-border 1s ease-in-out infinite;"></div>
+          <div style="font-size:7.5px;color:#38bdf8;">بناء جدول الأسبوع...</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);flex-shrink:0;"></div>
+          <div style="font-size:7.5px;color:#475569;">توليد خطة التغذية</div>
+        </div>
+      </div>
+      <div style="padding:8px 10px 0;display:flex;flex-wrap:wrap;gap:3px;">
+        <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.15);border-radius:99px;padding:2px 6px;font-size:6.5px;color:#38bdf8;">IF وزن &gt; 90kg</div>
+        <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.15);border-radius:99px;padding:2px 6px;font-size:6.5px;color:#38bdf8;">THEN كارديو ×3</div>
+        <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15);border-radius:99px;padding:2px 6px;font-size:6.5px;color:#10b981;">+ بروتين ↑</div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">11</div><div class="jux-pm-title">Rule-based AI Plan Generator</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d4">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#030a14;overflow:hidden;">
+      <div class="jux-pm-topbar" style="background:rgba(0,0,0,.5);"><span style="color:#fff;font-size:9px;">مسح QR</span><span style="color:#10b981;font-size:9px;">● جاهز</span></div>
+      <div style="position:relative;height:105px;background:#040c18;overflow:hidden;">
+        <div style="position:absolute;top:12px;right:12px;width:18px;height:18px;border-top:2px solid #38bdf8;border-right:2px solid #38bdf8;border-radius:0 4px 0 0;"></div>
+        <div style="position:absolute;top:12px;left:12px;width:18px;height:18px;border-top:2px solid #38bdf8;border-left:2px solid #38bdf8;border-radius:4px 0 0 0;"></div>
+        <div style="position:absolute;bottom:12px;right:12px;width:18px;height:18px;border-bottom:2px solid #38bdf8;border-right:2px solid #38bdf8;border-radius:0 0 4px 0;"></div>
+        <div style="position:absolute;bottom:12px;left:12px;width:18px;height:18px;border-bottom:2px solid #38bdf8;border-left:2px solid #38bdf8;border-radius:0 0 0 4px;"></div>
+        <div style="position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,#38bdf8,transparent);animation:jux-scan-line 2s ease-in-out infinite;box-shadow:0 0 8px rgba(56,189,248,.6);"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:grid;grid-template-columns:repeat(7,8px);gap:1px;opacity:.5;">
+          <div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div><div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div><div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div><div style="width:8px;height:8px;"></div><div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div><div style="width:8px;height:8px;"></div><div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div>
+          <div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div><div style="width:8px;height:8px;"></div><div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div><div style="width:8px;height:8px;"></div><div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div><div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div><div style="background:#38bdf8;width:8px;height:8px;border-radius:1px;"></div>
+        </div>
+      </div>
+      <div style="padding:6px 10px;">
+        <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:9px;padding:7px;text-align:center;margin-bottom:5px;">
+          <div style="font-size:9px;font-weight:700;color:#38bdf8;margin-bottom:2px;">وجّه الكاميرا نحو QR الجيم</div>
+          <div style="font-size:7px;color:#64748b;">سيتم تسجيل حضورك تلقائياً</div>
+        </div>
+        <div style="text-align:center;font-size:7px;color:#475569;">أو أدخل رمز الجيم يدوياً</div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">12</div><div class="jux-pm-title">Dynamic QR Scanner</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d5">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#040e1a;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#10b981;font-size:9px;">🏋️ B2B</span></div>
+      <div style="padding:6px 10px 0;">
+        <div style="font-size:10px;font-weight:800;color:#f8fafc;">FitZone Gym — القاهرة</div>
+        <div style="font-size:7.5px;color:#10b981;">✓ موصل ومعتمد</div>
+      </div>
+      <div style="display:flex;justify-content:center;margin:7px 0;">
+        <div style="background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.2);border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="display:grid;grid-template-columns:repeat(6,7px);gap:1.5px;">
+            <div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div>
+            <div style="height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="height:7px;width:7px;"></div><div style="height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="height:7px;width:7px;"></div>
+            <div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div>
+            <div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div><div style="background:#38bdf8;border-radius:1px;height:7px;width:7px;"></div>
+          </div>
+          <div style="font-size:7.5px;color:#94a3b8;letter-spacing:.06em;">TKN-7X4F-29QM</div>
+        </div>
+      </div>
+      <div style="margin:0 10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:6px;text-align:center;margin-bottom:5px;">
+        <div style="font-size:8.5px;font-weight:800;color:#fbbf24;">⏱ ينتهي خلال 27 ثانية</div>
+      </div>
+      <div style="padding:0 10px;display:flex;gap:4px;">
+        <div style="flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:4px;text-align:center;font-size:7px;color:#64748b;">📊 إحصائيات</div>
+        <div style="flex:1;background:rgba(255,255,255,.03);border-radius:6px;padding:4px;text-align:center;font-size:7px;color:#64748b;">🔄 تجديد</div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">13</div><div class="jux-pm-title">Gym B2B QR Token</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d6">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#050d1a;overflow:hidden;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#38bdf8;font-size:9px;">GPS ●</span></div>
+      <div style="padding:4px 10px 2px;">
+        <div style="font-size:10px;font-weight:800;color:#f8fafc;">جيمات قريبة</div>
+      </div>
+      <div style="position:relative;height:100px;background:linear-gradient(135deg,#060f1c,#0a1525);overflow:hidden;margin:0 10px;border-radius:8px;border:1px solid rgba(56,189,248,.12);">
+        <div style="position:absolute;top:40%;left:0;right:0;height:1px;background:rgba(56,189,248,.15);"></div>
+        <div style="position:absolute;top:0;bottom:0;left:40%;width:1px;background:rgba(56,189,248,.15);"></div>
+        <div style="position:absolute;top:0;bottom:0;left:70%;width:1px;background:rgba(56,189,248,.1);"></div>
+        <div style="position:absolute;top:38%;left:38%;width:24%;height:24%;border-radius:50%;border:1px solid rgba(56,189,248,.2);animation:jux-radar-ping 2s ease-out infinite;"></div>
+        <div style="position:absolute;top:32%;left:32%;width:36%;height:36%;border-radius:50%;border:1px solid rgba(56,189,248,.1);animation:jux-radar-ping 2s ease-out infinite .5s;"></div>
+        <div style="position:absolute;top:38%;left:38%;width:8px;height:8px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px rgba(56,189,248,.8);transform:translate(-50%,-50%);"></div>
+        <div style="position:absolute;top:20%;left:60%;width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 6px rgba(16,185,129,.7);"></div>
+        <div style="position:absolute;top:55%;left:20%;width:7px;height:7px;border-radius:50%;background:#f59e0b;box-shadow:0 0 6px rgba(245,158,11,.7);"></div>
+        <div style="position:absolute;top:65%;left:65%;width:7px;height:7px;border-radius:50%;background:#a78bfa;box-shadow:0 0 6px rgba(167,139,250,.7);"></div>
+      </div>
+      <div style="padding:5px 10px;display:flex;flex-direction:column;gap:3px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#10b981;"></div><div style="font-size:7.5px;color:#f8fafc;">FitZone Elite</div></div>
+          <div style="font-size:7px;color:#10b981;">0.4 km ●</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#f59e0b;"></div><div style="font-size:7.5px;color:#f8fafc;">Power Gym</div></div>
+          <div style="font-size:7px;color:#f59e0b;">1.1 km</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:4px;"><div style="width:6px;height:6px;border-radius:50%;background:#a78bfa;"></div><div style="font-size:7.5px;color:#f8fafc;">BodyBuilders Club</div></div>
+          <div style="font-size:7px;color:#a78bfa;">2.3 km</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">14</div><div class="jux-pm-title">GPS Map — Nearby Gyms</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d7">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:linear-gradient(180deg,#08060f,#060d1a);">
+      <div class="jux-pm-topbar"><span style="color:#fbbf24;font-size:9px;">🏆 Global</span><span style="color:#94a3b8;font-size:9px;">W14</span></div>
+      <div style="padding:5px 10px 2px;">
+        <div style="font-size:11px;font-weight:800;color:#f8fafc;">المتصدرون</div>
+      </div>
+      <div style="display:flex;justify-content:center;align-items:flex-end;gap:6px;margin:6px 0;padding:0 10px;">
+        <div style="text-align:center;">
+          <div style="font-size:12px;">🥈</div>
+          <div style="width:28px;height:32px;background:rgba(148,163,184,.15);border:1px solid rgba(148,163,184,.25);border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:center;"><div style="font-size:7px;color:#94a3b8;font-weight:700;">2</div></div>
+          <div style="font-size:6px;color:#94a3b8;">Mohamed</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:14px;">🥇</div>
+          <div style="width:32px;height:44px;background:rgba(245,158,11,.12);border:2px solid rgba(245,158,11,.4);border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(245,158,11,.25);"><div style="font-size:8px;color:#fbbf24;font-weight:800;">1</div></div>
+          <div style="font-size:6px;color:#fbbf24;font-weight:700;">Ahmed</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:12px;">🥉</div>
+          <div style="width:28px;height:26px;background:rgba(180,83,9,.12);border:1px solid rgba(180,83,9,.25);border-radius:6px 6px 0 0;display:flex;align-items:center;justify-content:center;"><div style="font-size:7px;color:#d97706;font-weight:700;">3</div></div>
+          <div style="font-size:6px;color:#d97706;">Sara</div>
+        </div>
+      </div>
+      <div style="padding:0 10px;display:flex;flex-direction:column;gap:3px;">
+        <div style="background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.12);border-radius:6px;padding:4px 6px;display:flex;align-items:center;gap:5px;">
+          <div style="font-size:7px;color:#fbbf24;font-weight:800;width:14px;">4</div>
+          <div style="width:16px;height:16px;border-radius:50%;background:rgba(56,189,248,.2);display:flex;align-items:center;justify-content:center;font-size:8px;">🧑</div>
+          <div style="flex:1;font-size:7.5px;color:#f8fafc;">Youssef</div>
+          <div style="font-size:7px;color:#64748b;">12,400 pts</div>
+          <div style="font-size:7px;color:#94a3b8;">Platinum</div>
+        </div>
+        <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:6px;padding:4px 6px;display:flex;align-items:center;gap:5px;">
+          <div style="font-size:7px;color:#64748b;font-weight:800;width:14px;">5</div>
+          <div style="width:16px;height:16px;border-radius:50%;background:rgba(167,139,250,.2);display:flex;align-items:center;justify-content:center;font-size:8px;">🧑</div>
+          <div style="flex:1;font-size:7.5px;color:#94a3b8;">Nour</div>
+          <div style="font-size:7px;color:#64748b;">11,880 pts</div>
+          <div style="font-size:7px;color:#a78bfa;">Gold</div>
+        </div>
+        <div style="background:rgba(56,189,248,.08);border:2px solid rgba(56,189,248,.2);border-radius:6px;padding:4px 6px;display:flex;align-items:center;gap:5px;">
+          <div style="font-size:7px;color:#38bdf8;font-weight:800;width:14px;">7</div>
+          <div style="width:16px;height:16px;border-radius:50%;background:rgba(56,189,248,.25);display:flex;align-items:center;justify-content:center;font-size:8px;">😊</div>
+          <div style="flex:1;font-size:7.5px;color:#38bdf8;font-weight:700;">أنت</div>
+          <div style="font-size:7px;color:#38bdf8;">10,240 pts</div>
+          <div style="font-size:7px;color:#38bdf8;">Silver</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">15</div><div class="jux-pm-title">Global Leaderboard</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d8">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#050c1a;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#a78bfa;font-size:9px;">Digital Twin</span></div>
+      <div style="padding:5px 10px 0;">
+        <div style="font-size:10px;font-weight:800;color:#f8fafc;">توأمك الرقمي</div>
+        <div style="font-size:7px;color:#a78bfa;">تحديث: منذ ساعتين</div>
+      </div>
+      <div style="display:flex;justify-content:center;margin:5px 0;position:relative;height:85px;">
+        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);">
+          <div style="position:relative;width:40px;height:85px;">
+            <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:rgba(167,139,250,.3);border:1px solid #a78bfa;"></div>
+            <div style="position:absolute;top:13px;left:50%;transform:translateX(-50%);width:20px;height:28px;border-radius:8px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);"></div>
+            <div style="position:absolute;top:14px;right:1px;width:7px;height:22px;border-radius:4px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2);"></div>
+            <div style="position:absolute;top:14px;left:1px;width:7px;height:22px;border-radius:4px;background:rgba(167,139,248,.12);border:1px solid rgba(167,139,250,.2);"></div>
+            <div style="position:absolute;top:40px;left:50%;transform:translateX(-50%) translateX(-5px);width:9px;height:26px;border-radius:5px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2);"></div>
+            <div style="position:absolute;top:40px;left:50%;transform:translateX(-50%) translateX(5px);width:9px;height:26px;border-radius:5px;background:rgba(167,139,248,.12);border:1px solid rgba(167,139,250,.2);"></div>
+            <div class="jux-twin-dot" style="top:10px;right:-4px;" title="كتف"></div>
+            <div class="jux-twin-dot green" style="top:22px;left:-3px;" title="صدر"></div>
+            <div class="jux-twin-dot amber" style="top:32px;left:50%;transform:translateX(-50%);" title="خصر"></div>
+            <div class="jux-twin-dot" style="top:55px;right:2px;" title="فخذ"></div>
+            <div class="jux-twin-dot green" style="top:70px;left:8px;" title="ساق"></div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;">
+        <div style="background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.12);border-radius:6px;padding:4px;text-align:center;">
+          <div style="font-size:8px;font-weight:700;color:#38bdf8;">42 cm</div>
+          <div style="font-size:6px;color:#64748b;">ذراع</div>
+        </div>
+        <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.12);border-radius:6px;padding:4px;text-align:center;">
+          <div style="font-size:8px;font-weight:700;color:#10b981;">94 cm</div>
+          <div style="font-size:6px;color:#64748b;">صدر</div>
+        </div>
+        <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);border-radius:6px;padding:4px;text-align:center;">
+          <div style="font-size:8px;font-weight:700;color:#fbbf24;">80 cm</div>
+          <div style="font-size:6px;color:#64748b;">خصر</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">16</div><div class="jux-pm-title">Digital Twin Profile</div></div>
+</div>
+
+          </div><div class="jux-mock-label jux-reveal" style="margin-top: 3rem;">
+            <h3>V3.0 — Unicorn AI</h3>
+            <div class="jux-mock-line"></div>
+            <span class="jux-mock-tag jux-tag-purple">4 شاشات · المرحلة الثالثة</span>
+          </div>
+
+          <div class="jux-phone-grid">
+
+<div class="jux-pm jux-reveal jux-reveal-d1">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#060a1a;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">9:41</span><span style="color:#10b981;font-size:9px;">● متصل</span></div>
+      <div style="padding:6px 10px 0;">
+        <div style="font-size:10px;font-weight:800;color:#f8fafc;">Wearables</div>
+        <div style="font-size:7px;color:#64748b;">مزامنة البيانات الصحية</div>
+      </div>
+      <div style="padding:5px 10px;display:flex;flex-direction:column;gap:4px;">
+        <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:7px;display:flex;align-items:center;gap:6px;">
+          <div style="font-size:16px;">⌚</div>
+          <div style="flex:1;"><div style="font-size:8px;font-weight:700;color:#f8fafc;">Apple Watch</div><div style="font-size:6.5px;color:#10b981;">● مزامن · آخر تحديث ٣د</div></div>
+          <div style="font-size:7px;color:#10b981;">✓</div>
+        </div>
+        <div style="background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.2);border-radius:8px;padding:7px;display:flex;align-items:center;gap:6px;">
+          <div style="font-size:16px;">⌚</div>
+          <div style="flex:1;"><div style="font-size:8px;font-weight:700;color:#f8fafc;">Garmin Forerunner</div><div style="font-size:6.5px;color:#38bdf8;">● مزامن · آخر تحديث ١٢د</div></div>
+          <div style="font-size:7px;color:#38bdf8;">✓</div>
+        </div>
+      </div>
+      <div style="margin:0 10px;background:rgba(244,63,94,.07);border:1px solid rgba(244,63,94,.2);border-radius:8px;padding:7px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+          <div style="font-size:7.5px;color:#f87171;font-weight:700;">❤️ معدل القلب الآن</div>
+          <div style="font-size:12px;font-weight:900;color:#f87171;">120 bpm</div>
+        </div>
+        <div style="height:16px;display:flex;align-items:center;gap:0;overflow:hidden;">
+          <div style="flex:1;height:1px;background:rgba(244,63,94,.3);"></div>
+          <div style="width:2px;height:16px;background:#f87171;"></div>
+          <div style="width:4px;height:8px;background:rgba(244,63,94,.6);"></div>
+          <div style="flex:2;height:1px;background:rgba(244,63,94,.3);"></div>
+          <div style="width:2px;height:16px;background:#f87171;"></div>
+          <div style="width:4px;height:8px;background:rgba(244,63,94,.6);"></div>
+          <div style="flex:1;height:1px;background:rgba(244,63,94,.3);"></div>
+        </div>
+      </div>
+      <div style="padding:5px 10px;display:flex;gap:4px;">
+        <div style="flex:1;background:rgba(255,255,255,.03);border-radius:5px;padding:4px;text-align:center;"><div style="font-size:8px;color:#f8fafc;font-weight:700;">8,421</div><div style="font-size:6px;color:#64748b;">خطوة</div></div>
+        <div style="flex:1;background:rgba(255,255,255,.03);border-radius:5px;padding:4px;text-align:center;"><div style="font-size:8px;color:#f8fafc;font-weight:700;">420 cal</div><div style="font-size:6px;color:#64748b;">حرق</div></div>
+        <div style="flex:1;background:rgba(255,255,255,.03);border-radius:5px;padding:4px;text-align:center;"><div style="font-size:8px;color:#f8fafc;font-weight:700;">7.2 h</div><div style="font-size:6px;color:#64748b;">نوم</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">17</div><div class="jux-pm-title">Wearables Sync UI</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d2">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#050b18;">
+      <div class="jux-pm-topbar"><span style="color:#38bdf8;font-size:9px;">🤖 AI Coach</span><span style="color:#10b981;font-size:9px;">● Online</span></div>
+      <div style="padding:5px 10px;display:flex;flex-direction:column;gap:5px;overflow:hidden;">
+        <div style="align-self:flex-start;max-width:80%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px 10px 10px 3px;padding:6px 8px;">
+          <div style="font-size:7.5px;color:#f8fafc;">عندي ألم في الركبة، هل أكمل السكوات؟</div>
+        </div>
+        <div style="align-self:flex-end;max-width:85%;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);border-radius:10px 10px 3px 10px;padding:6px 8px;">
+          <div style="font-size:6.5px;color:#38bdf8;font-weight:700;margin-bottom:2px;">🤖 AI Coach</div>
+          <div style="font-size:7.5px;color:#e2e8f0;line-height:1.5;">أوقف السكوات الآن! ألم الركبة علامة تحذير. جرب البدائل:</div>
+        </div>
+        <div style="align-self:flex-end;max-width:90%;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:6px 8px;">
+          <div style="font-size:7px;color:#10b981;margin-bottom:3px;font-weight:700;">بدائل مقترحة 💡</div>
+          <div style="display:flex;gap:3px;flex-wrap:wrap;">
+            <div style="background:rgba(16,185,129,.12);border-radius:99px;padding:2px 6px;font-size:6.5px;color:#10b981;">Leg Press</div>
+            <div style="background:rgba(16,185,129,.12);border-radius:99px;padding:2px 6px;font-size:6.5px;color:#10b981;">Wall Sit</div>
+            <div style="background:rgba(16,185,129,.12);border-radius:99px;padding:2px 6px;font-size:6.5px;color:#10b981;">Hip Abduction</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin:4px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 10px;display:flex;align-items:center;gap:5px;">
+        <div style="flex:1;font-size:7px;color:#475569;">اسأل الكوتش...</div>
+        <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:8px;">▶</div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">18</div><div class="jux-pm-title">24/7 AI Coach Chatbot</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d3">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#050b18;">
+      <div class="jux-pm-topbar"><span style="color:#a78bfa;font-size:9px;">3D Scan</span><span style="color:#94a3b8;font-size:9px;">AI ●</span></div>
+      <div style="padding:5px 10px 0;">
+        <div style="font-size:10px;font-weight:800;color:#f8fafc;">توقع جسمك بعد 3 شهور</div>
+      </div>
+      <div style="display:flex;justify-content:space-around;align-items:flex-end;padding:6px 10px;gap:4px;">
+        <div style="text-align:center;">
+          <div style="font-size:6.5px;color:#64748b;margin-bottom:3px;">الآن</div>
+          <div style="position:relative;width:28px;height:72px;margin:0 auto;">
+            <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;background:rgba(148,163,184,.3);border:1px solid rgba(148,163,184,.5);"></div>
+            <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);width:18px;height:24px;border-radius:7px;background:rgba(148,163,184,.15);border:1px solid rgba(148,163,184,.3);"></div>
+            <div style="position:absolute;top:13px;right:0;width:6px;height:18px;border-radius:3px;background:rgba(148,163,184,.12);"></div>
+            <div style="position:absolute;top:13px;left:0;width:6px;height:18px;border-radius:3px;background:rgba(148,163,184,.12);"></div>
+            <div style="position:absolute;top:35px;left:50%;transform:translateX(-50%) translateX(-4px);width:7px;height:22px;border-radius:4px;background:rgba(148,163,184,.15);border:1px solid rgba(148,163,184,.2);"></div>
+            <div style="position:absolute;top:35px;left:50%;transform:translateX(-50%) translateX(4px);width:7px;height:22px;border-radius:4px;background:rgba(148,163,184,.15);border:1px solid rgba(148,163,184,.2);"></div>
+          </div>
+          <div style="font-size:6px;color:#94a3b8;margin-top:2px;">78.4 kg</div>
+        </div>
+        <div style="font-size:14px;color:#a78bfa;margin-bottom:20px;">→</div>
+        <div style="text-align:center;">
+          <div style="font-size:6.5px;color:#a78bfa;font-weight:700;margin-bottom:3px;">+3 شهور</div>
+          <div style="position:relative;width:28px;height:72px;margin:0 auto;">
+            <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:rgba(167,139,250,.4);border:1px solid #a78bfa;box-shadow:0 0 6px rgba(167,139,250,.4);"></div>
+            <div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:16px;height:22px;border-radius:7px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.4);"></div>
+            <div style="position:absolute;top:12px;right:1px;width:5px;height:17px;border-radius:3px;background:rgba(167,139,250,.2);"></div>
+            <div style="position:absolute;top:12px;left:1px;width:5px;height:17px;border-radius:3px;background:rgba(167,139,250,.2);"></div>
+            <div style="position:absolute;top:32px;left:50%;transform:translateX(-50%) translateX(-4px);width:7px;height:22px;border-radius:4px;background:rgba(167,139,250,.18);border:1px solid rgba(167,139,250,.3);"></div>
+            <div style="position:absolute;top:32px;left:50%;transform:translateX(-50%) translateX(4px);width:7px;height:22px;border-radius:4px;background:rgba(167,139,250,.18);border:1px solid rgba(167,139,250,.3);"></div>
+            <div style="position:absolute;inset:0;background:radial-gradient(circle at 50%,rgba(167,139,250,.15) 0%,transparent 60%);pointer-events:none;"></div>
+          </div>
+          <div style="font-size:6px;color:#a78bfa;margin-top:2px;font-weight:700;">72.1 kg ✨</div>
+        </div>
+      </div>
+      <div style="padding:0 10px;display:flex;flex-direction:column;gap:3px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:7px;color:#94a3b8;">فقدان دهون</div>
+          <div style="font-size:7.5px;font-weight:700;color:#10b981;">↓ 4.2 kg</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:7px;color:#94a3b8;">نمو عضلي</div>
+          <div style="font-size:7.5px;font-weight:700;color:#38bdf8;">↑ 1.8 kg</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:7px;color:#94a3b8;">رانك متوقع</div>
+          <div style="font-size:7.5px;font-weight:700;color:#a78bfa;">Gold ⬆</div>
+        </div>
+        <div style="font-size:6.5px;color:#475569;text-align:center;margin-top:2px;">* بناءً على معدل تقدمك الحالي</div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">19</div><div class="jux-pm-title">Predictive Body Scan 3D</div></div>
+</div>
+
+<div class="jux-pm jux-reveal jux-reveal-d4">
+  <div class="jux-pm-shell">
+    <div class="jux-pm-notch"></div>
+    <div class="jux-pm-screen" style="background:#060d1a;">
+      <div class="jux-pm-topbar"><span style="color:#94a3b8;font-size:9px;">Marketplace</span><span style="color:#fbbf24;font-size:9px;">★ 4.8</span></div>
+      <div style="padding:5px 10px 0;">
+        <div style="font-size:10px;font-weight:800;color:#f8fafc;">برامج المدربين</div>
+        <div style="font-size:7px;color:#64748b;">اختر من أفضل المدربين</div>
+      </div>
+      <div style="padding:5px 10px;display:flex;flex-direction:column;gap:4px;">
+        <div style="background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:9px;padding:7px;">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-size:10px;">💪</div>
+            <div><div style="font-size:7.5px;font-weight:700;color:#f8fafc;">Coach Omar — Mass Builder</div><div style="font-size:6.5px;color:#64748b;">12 أسبوع · مبني للحجم</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:6.5px;color:#fbbf24;">★★★★★ (128)</div>
+            <div style="background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:6px;padding:3px 8px;font-size:7.5px;color:#fff;font-weight:700;">199 ج</div>
+          </div>
+        </div>
+        <div style="background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.2);border-radius:9px;padding:7px;">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:10px;">🏃</div>
+            <div><div style="font-size:7.5px;font-weight:700;color:#f8fafc;">Coach Nada — Fat Burn X</div><div style="font-size:6.5px;color:#64748b;">8 أسابيع · حرق دهون</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:6.5px;color:#fbbf24;">★★★★☆ (94)</div>
+            <div style="background:linear-gradient(135deg,#38bdf8,#0ea5e9);border-radius:6px;padding:3px 8px;font-size:7.5px;color:#fff;font-weight:700;">149 ج</div>
+          </div>
+        </div>
+        <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:9px;padding:7px;">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;font-size:10px;">🧘</div>
+            <div><div style="font-size:7.5px;font-weight:700;color:#f8fafc;">Coach Mariam — Flexibility</div><div style="font-size:6.5px;color:#64748b;">6 أسابيع · مرونة وكور</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:6.5px;color:#fbbf24;">★★★★★ (57)</div>
+            <div style="background:linear-gradient(135deg,#10b981,#059669);border-radius:6px;padding:3px 8px;font-size:7.5px;color:#fff;font-weight:700;">99 ج</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-pm-label"><div class="jux-pm-num">20</div><div class="jux-pm-title">Open Marketplace — Coaches</div></div>
+</div>
+
+          </div></div><div class="jux-tab-panel" id="jux-tab-admin-system">
+
+          <div class="jux-mock-label jux-reveal">
+            <h3>لوحات التحكم المؤسسية — 8 أدوار RBAC</h3>
+            <div class="jux-mock-line"></div>
+            <span class="jux-mock-tag jux-tag-blue">8 نوافذ متصفح · Full Access Control</span>
+          </div>
+
+          <div class="jux-dw-grid">
+
+<div class="jux-dw jux-reveal jux-reveal-d1">
+  <div class="jux-dw-titlebar">
+    <div class="jux-dw-dots"><div class="jux-dw-dot jux-dw-red"></div><div class="jux-dw-dot jux-dw-yellow"></div><div class="jux-dw-dot jux-dw-green"></div></div>
+    <div class="jux-dw-url">fitmate-admin.com/super</div>
+    <div class="jux-dw-badge" style="color:#38bdf8;">01 · Super Admin</div>
+  </div>
+  <div class="jux-dw-body">
+    <div class="jux-dw-sidebar">
+      <div class="jux-dw-logo">FM</div>
+      <div class="jux-dw-nav jux-dw-nav-active">📊 Overview</div>
+      <div class="jux-dw-nav">👥 Users</div>
+      <div class="jux-dw-nav">🏋️ Gyms</div>
+      <div class="jux-dw-nav">💰 Revenue</div>
+      <div class="jux-dw-nav">🤖 AI Engine</div>
+      <div class="jux-dw-nav">⚙️ Settings</div>
+    </div>
+    <div class="jux-dw-main">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;">
+        <div class="jux-dw-stat-card" style="--sc:var(--accent-blue)"><div class="jux-dw-stat-val">12,840</div><div class="jux-dw-stat-lbl">مستخدمون</div></div>
+        <div class="jux-dw-stat-card" style="--sc:var(--accent-green)"><div class="jux-dw-stat-val">148</div><div class="jux-dw-stat-lbl">جيمات</div></div>
+        <div class="jux-dw-stat-card" style="--sc:var(--accent-amber)"><div class="jux-dw-stat-val">284K</div><div class="jux-dw-stat-lbl">إيرادات ج</div></div>
+        <div class="jux-dw-stat-card" style="--sc:var(--accent-purple)"><div class="jux-dw-stat-val">73.2%</div><div class="jux-dw-stat-lbl">Retention</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+        <div class="jux-dw-chart-box">
+          <div class="jux-dw-chart-title">نمو المستخدمين — 8 أشهر</div>
+          <div class="jux-dw-bar-group">
+            <div class="jux-dw-bar" style="--bh:35%;--bc:var(--accent-blue);"></div>
+            <div class="jux-dw-bar" style="--bh:50%;--bc:var(--accent-blue);"></div>
+            <div class="jux-dw-bar" style="--bh:42%;--bc:var(--accent-blue);"></div>
+            <div class="jux-dw-bar" style="--bh:62%;--bc:var(--accent-blue);"></div>
+            <div class="jux-dw-bar" style="--bh:55%;--bc:var(--accent-blue);"></div>
+            <div class="jux-dw-bar" style="--bh:75%;--bc:var(--accent-blue);"></div>
+            <div class="jux-dw-bar" style="--bh:68%;--bc:var(--accent-blue);"></div>
+            <div class="jux-dw-bar" style="--bh:90%;--bc:var(--accent-blue);box-shadow:0 0 4px rgba(56,189,248,.5);"></div>
+          </div>
+        </div>
+        <div class="jux-dw-chart-box">
+          <div class="jux-dw-chart-title">الإيرادات الشهرية</div>
+          <div class="jux-dw-bar-group">
+            <div class="jux-dw-bar" style="--bh:40%;--bc:var(--accent-green);"></div>
+            <div class="jux-dw-bar" style="--bh:55%;--bc:var(--accent-green);"></div>
+            <div class="jux-dw-bar" style="--bh:48%;--bc:var(--accent-green);"></div>
+            <div class="jux-dw-bar" style="--bh:70%;--bc:var(--accent-green);"></div>
+            <div class="jux-dw-bar" style="--bh:60%;--bc:var(--accent-green);"></div>
+            <div class="jux-dw-bar" style="--bh:80%;--bc:var(--accent-green);"></div>
+            <div class="jux-dw-bar" style="--bh:72%;--bc:var(--accent-green);"></div>
+            <div class="jux-dw-bar" style="--bh:95%;--bc:var(--accent-green);box-shadow:0 0 4px rgba(16,185,129,.5);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="jux-dw-chart-box" style="padding:5px;">
+        <div class="jux-dw-chart-title" style="margin-bottom:4px;">Heatmap نشاط المستخدمين</div>
+        <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:2px;">
+          <div class="jux-dw-heat" style="--op:.1;"></div><div class="jux-dw-heat" style="--op:.3;"></div><div class="jux-dw-heat" style="--op:.6;"></div><div class="jux-dw-heat" style="--op:.4;"></div><div class="jux-dw-heat" style="--op:.8;"></div><div class="jux-dw-heat" style="--op:1;"></div><div class="jux-dw-heat" style="--op:.9;"></div><div class="jux-dw-heat" style="--op:.7;"></div><div class="jux-dw-heat" style="--op:.5;"></div><div class="jux-dw-heat" style="--op:.3;"></div><div class="jux-dw-heat" style="--op:.2;"></div><div class="jux-dw-heat" style="--op:.1;"></div>
+          <div class="jux-dw-heat" style="--op:.2;"></div><div class="jux-dw-heat" style="--op:.5;"></div><div class="jux-dw-heat" style="--op:.7;"></div><div class="jux-dw-heat" style="--op:.9;"></div><div class="jux-dw-heat" style="--op:1;"></div><div class="jux-dw-heat" style="--op:.8;"></div><div class="jux-dw-heat" style="--op:.6;"></div><div class="jux-dw-heat" style="--op:.4;"></div><div class="jux-dw-heat" style="--op:.3;"></div><div class="jux-dw-heat" style="--op:.4;"></div><div class="jux-dw-heat" style="--op:.3;"></div><div class="jux-dw-heat" style="--op:.2;"></div>
+          <div class="jux-dw-heat" style="--op:.3;"></div><div class="jux-dw-heat" style="--op:.4;"></div><div class="jux-dw-heat" style="--op:.5;"></div><div class="jux-dw-heat" style="--op:.7;"></div><div class="jux-dw-heat" style="--op:.9;"></div><div class="jux-dw-heat" style="--op:1;"></div><div class="jux-dw-heat" style="--op:.8;"></div><div class="jux-dw-heat" style="--op:.5;"></div><div class="jux-dw-heat" style="--op:.4;"></div><div class="jux-dw-heat" style="--op:.6;"></div><div class="jux-dw-heat" style="--op:.5;"></div><div class="jux-dw-heat" style="--op:.3;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-dw-footer"><span class="jux-mock-tag jux-tag-blue">Role 01 · Full Access</span><span style="font-size:9px;color:#475569;">Super Admin Dashboard</span></div>
+</div>
+
+<div class="jux-dw jux-reveal jux-reveal-d2">
+  <div class="jux-dw-titlebar">
+    <div class="jux-dw-dots"><div class="jux-dw-dot jux-dw-red"></div><div class="jux-dw-dot jux-dw-yellow"></div><div class="jux-dw-dot jux-dw-green"></div></div>
+    <div class="jux-dw-url">fitmate-admin.com/users</div>
+    <div class="jux-dw-badge" style="color:#10b981;">02 · User Mgmt</div>
+  </div>
+  <div class="jux-dw-body">
+    <div class="jux-dw-sidebar">
+      <div class="jux-dw-logo">FM</div>
+      <div class="jux-dw-nav jux-dw-nav-active">👥 Users</div>
+      <div class="jux-dw-nav">📊 Stats</div>
+      <div class="jux-dw-nav">💳 Subs</div>
+      <div class="jux-dw-nav">🚫 Bans</div>
+    </div>
+    <div class="jux-dw-main">
+      <div style="display:flex;gap:5px;margin-bottom:8px;align-items:center;">
+        <div style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:5px;padding:4px 8px;font-size:8px;color:#475569;">🔍 بحث عن مستخدم...</div>
+        <div style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);border-radius:5px;padding:4px 8px;font-size:8px;color:#10b981;cursor:pointer;">+ إضافة</div>
+      </div>
+      <div class="jux-dw-table">
+        <div class="jux-dw-table-head"><div>الاسم</div><div>الاشتراك</div><div>الرانك</div><div>الحالة</div><div>إجراء</div></div>
+        <div class="jux-dw-table-row">
+          <div style="display:flex;align-items:center;gap:4px;"><div style="width:14px;height:14px;border-radius:50%;background:rgba(56,189,248,.3);font-size:7px;display:flex;align-items:center;justify-content:center;">أ</div><span>أحمد محمد</span></div>
+          <div><span style="color:#10b981;">Pro ✓</span></div>
+          <div><span style="color:#fbbf24;">Gold</span></div>
+          <div><span style="color:#10b981;">● نشط</span></div>
+          <div><span style="color:#38bdf8;cursor:pointer;">عرض</span></div>
+        </div>
+        <div class="jux-dw-table-row">
+          <div style="display:flex;align-items:center;gap:4px;"><div style="width:14px;height:14px;border-radius:50%;background:rgba(167,139,250,.3);font-size:7px;display:flex;align-items:center;justify-content:center;">ن</div><span>نور علي</span></div>
+          <div><span style="color:#38bdf8;">Basic</span></div>
+          <div><span style="color:#94a3b8;">Silver</span></div>
+          <div><span style="color:#10b981;">● نشط</span></div>
+          <div><span style="color:#38bdf8;cursor:pointer;">عرض</span></div>
+        </div>
+        <div class="jux-dw-table-row">
+          <div style="display:flex;align-items:center;gap:4px;"><div style="width:14px;height:14px;border-radius:50%;background:rgba(244,63,94,.3);font-size:7px;display:flex;align-items:center;justify-content:center;">م</div><span>محمود سعد</span></div>
+          <div><span style="color:#f87171;">Free</span></div>
+          <div><span style="color:#64748b;">Bronze</span></div>
+          <div><span style="color:#f87171;">● معلق</span></div>
+          <div><span style="color:#f87171;cursor:pointer;">فحص</span></div>
+        </div>
+        <div class="jux-dw-table-row">
+          <div style="display:flex;align-items:center;gap:4px;"><div style="width:14px;height:14px;border-radius:50%;background:rgba(16,185,129,.3);font-size:7px;display:flex;align-items:center;justify-content:center;">س</div><span>سارة خالد</span></div>
+          <div><span style="color:#10b981;">Pro ✓</span></div>
+          <div><span style="color:#a78bfa;">Platinum</span></div>
+          <div><span style="color:#10b981;">● نشط</span></div>
+          <div><span style="color:#38bdf8;cursor:pointer;">عرض</span></div>
+        </div>
+      </div>
+      <div style="margin-top:6px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:6px;padding:6px;">
+        <div style="font-size:8px;font-weight:700;color:#fbbf24;margin-bottom:3px;">⏳ بانتظار التحقق (3)</div>
+        <div style="font-size:7px;color:#94a3b8;">مستخدمون طلبوا تحقق الهوية</div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-dw-footer"><span class="jux-mock-tag jux-tag-green">Role 02 · User Management</span><span style="font-size:9px;color:#475569;">12,840 مستخدم مسجل</span></div>
+</div>
+
+<div class="jux-dw jux-reveal jux-reveal-d3">
+  <div class="jux-dw-titlebar">
+    <div class="jux-dw-dots"><div class="jux-dw-dot jux-dw-red"></div><div class="jux-dw-dot jux-dw-yellow"></div><div class="jux-dw-dot jux-dw-green"></div></div>
+    <div class="jux-dw-url">fitmate-admin.com/ai-engine</div>
+    <div class="jux-dw-badge" style="color:#a78bfa;">03 · AI Engine</div>
+  </div>
+  <div class="jux-dw-body">
+    <div class="jux-dw-sidebar">
+      <div class="jux-dw-logo">🤖</div>
+      <div class="jux-dw-nav jux-dw-nav-active">📚 مكتبة</div>
+      <div class="jux-dw-nav">🎯 Angles</div>
+      <div class="jux-dw-nav">📹 Camera</div>
+      <div class="jux-dw-nav">🧪 Test</div>
+    </div>
+    <div class="jux-dw-main">
+      <div style="margin-bottom:7px;">
+        <div style="font-size:8px;font-weight:700;color:#94a3b8;margin-bottom:4px;">شجرة التمارين</div>
+        <div style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:6px;padding:6px;font-size:7.5px;">
+          <div style="color:#c4b5fd;margin-bottom:3px;">📁 الجزء العلوي</div>
+          <div style="padding-right:10px;color:#94a3b8;margin-bottom:2px;">├─ Bench Press <span style="color:#10b981;margin-right:4px;">✓ AI</span></div>
+          <div style="padding-right:10px;color:#94a3b8;margin-bottom:2px;">├─ Push Up <span style="color:#10b981;margin-right:4px;">✓ AI</span></div>
+          <div style="padding-right:10px;color:#fbbf24;">└─ Shoulder Press <span style="color:#fbbf24;margin-right:4px;">⚙ قيد الإعداد</span></div>
+          <div style="color:#c4b5fd;margin-top:3px;margin-bottom:3px;">📁 الجزء السفلي</div>
+          <div style="padding-right:10px;color:#94a3b8;margin-bottom:2px;">├─ Squat <span style="color:#10b981;margin-right:4px;">✓ AI</span></div>
+          <div style="padding-right:10px;color:#94a3b8;">└─ Deadlift <span style="color:#10b981;margin-right:4px;">✓ AI</span></div>
+        </div>
+      </div>
+      <div style="background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.12);border-radius:6px;padding:6px;">
+        <div style="font-size:8px;font-weight:700;color:#38bdf8;margin-bottom:4px;">⚙️ Squat — إعداد زوايا AI</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+          <div style="font-size:7px;color:#94a3b8;">زاوية الركبة المثالية: <span style="color:#f8fafc;">85–95°</span></div>
+          <div style="font-size:7px;color:#94a3b8;">زاوية الورك: <span style="color:#f8fafc;">75–90°</span></div>
+          <div style="font-size:7px;color:#94a3b8;">عمق الأداء: <span style="color:#f8fafc;">Parallel</span></div>
+          <div style="font-size:7px;color:#94a3b8;">دقة النموذج: <span style="color:#10b981;">96.4%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-dw-footer"><span class="jux-mock-tag jux-tag-purple">Role 03 · AI Logic</span><span style="font-size:9px;color:#475569;">48 تمرين مفعّل بالذكاء الاصطناعي</span></div>
+</div>
+
+<div class="jux-dw jux-reveal jux-reveal-d4">
+  <div class="jux-dw-titlebar">
+    <div class="jux-dw-dots"><div class="jux-dw-dot jux-dw-red"></div><div class="jux-dw-dot jux-dw-yellow"></div><div class="jux-dw-dot jux-dw-green"></div></div>
+    <div class="jux-dw-url">fitmate-admin.com/programs</div>
+    <div class="jux-dw-badge" style="color:#f59e0b;">04 · Programs</div>
+  </div>
+  <div class="jux-dw-body">
+    <div class="jux-dw-sidebar">
+      <div class="jux-dw-logo">📋</div>
+      <div class="jux-dw-nav jux-dw-nav-active">📋 البرامج</div>
+      <div class="jux-dw-nav">🎯 القواعد</div>
+      <div class="jux-dw-nav">👩 سيدات</div>
+      <div class="jux-dw-nav">📅 جداول</div>
+    </div>
+    <div class="jux-dw-main">
+      <div style="font-size:8px;font-weight:700;color:#94a3b8;margin-bottom:5px;">بانيء البرنامج — Agile</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:6px;">
+        <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:6px;padding:5px;">
+          <div style="font-size:7.5px;color:#fbbf24;font-weight:700;margin-bottom:3px;">📥 مسودة</div>
+          <div style="background:rgba(255,255,255,.04);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;margin-bottom:2px;">برنامج التضخم X</div>
+          <div style="background:rgba(255,255,255,.04);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;">برنامج الحرق Z</div>
+        </div>
+        <div style="background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.15);border-radius:6px;padding:5px;">
+          <div style="font-size:7.5px;color:#38bdf8;font-weight:700;margin-bottom:3px;">⚙️ قيد البناء</div>
+          <div style="background:rgba(255,255,255,.04);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;margin-bottom:2px;">برنامج السيدات Pro</div>
+        </div>
+        <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:6px;padding:5px;">
+          <div style="font-size:7.5px;color:#10b981;font-weight:700;margin-bottom:3px;">✓ منشور</div>
+          <div style="background:rgba(255,255,255,.04);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;margin-bottom:2px;">Beginner 8W</div>
+          <div style="background:rgba(255,255,255,.04);border-radius:4px;padding:3px 5px;font-size:7px;color:#94a3b8;">Advanced Cut</div>
+        </div>
+      </div>
+      <div style="background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.12);border-radius:6px;padding:6px;">
+        <div style="font-size:8px;font-weight:700;color:#c4b5fd;margin-bottom:4px;">🧠 محرر القواعد Rule Engine</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;font-size:7px;color:#94a3b8;">
+          <div style="background:rgba(56,189,248,.1);border-radius:3px;padding:2px 5px;color:#38bdf8;">IF</div> وزن المستخدم &gt; 90kg
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;font-size:7px;color:#94a3b8;">
+          <div style="background:rgba(16,185,129,.1);border-radius:3px;padding:2px 5px;color:#10b981;">THEN</div> اضف كارديو × 3/أسبوع
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:7px;color:#94a3b8;">
+          <div style="background:rgba(245,158,11,.1);border-radius:3px;padding:2px 5px;color:#fbbf24;">AND</div> رفع البروتين إلى 2.5g/kg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-dw-footer"><span class="jux-mock-tag jux-tag-amber">Role 04 · Programs</span><span style="font-size:9px;color:#475569;">24 برنامج نشط</span></div>
+</div>
+
+<div class="jux-dw jux-reveal jux-reveal-d5">
+  <div class="jux-dw-titlebar">
+    <div class="jux-dw-dots"><div class="jux-dw-dot jux-dw-red"></div><div class="jux-dw-dot jux-dw-yellow"></div><div class="jux-dw-dot jux-dw-green"></div></div>
+    <div class="jux-dw-url">fitmate-admin.com/nutrition</div>
+    <div class="jux-dw-badge" style="color:#10b981;">05 · Nutrition DB</div>
+  </div>
+  <div class="jux-dw-body">
+    <div class="jux-dw-sidebar">
+      <div class="jux-dw-logo">🥗</div>
+      <div class="jux-dw-nav jux-dw-nav-active">🍽️ أطعمة</div>
+      <div class="jux-dw-nav">📊 ماكروز</div>
+      <div class="jux-dw-nav">🍳 وجبات</div>
+      <div class="jux-dw-nav">🔄 بدائل</div>
+    </div>
+    <div class="jux-dw-main">
+      <div style="font-size:8px;font-weight:700;color:#94a3b8;margin-bottom:4px;">قاعدة بيانات الأغذية</div>
+      <div class="jux-dw-table">
+        <div class="jux-dw-table-head"><div>الطعام</div><div>سعرات/100g</div><div>بروتين</div><div>كارب</div><div>دهن</div></div>
+        <div class="jux-dw-table-row">
+          <div>🍗 دجاج صدر</div><div style="color:#f8fafc;">165</div><div style="color:#38bdf8;">31g</div><div style="color:#fbbf24;">0g</div><div style="color:#f87171;">3.6g</div>
+        </div>
+        <div class="jux-dw-table-row">
+          <div>🐟 سلمون</div><div style="color:#f8fafc;">208</div><div style="color:#38bdf8;">20g</div><div style="color:#fbbf24;">0g</div><div style="color:#f87171;">13g</div>
+        </div>
+        <div class="jux-dw-table-row">
+          <div>🥚 بيض كامل</div><div style="color:#f8fafc;">155</div><div style="color:#38bdf8;">13g</div><div style="color:#fbbf24;">1.1g</div><div style="color:#f87171;">11g</div>
+        </div>
+        <div class="jux-dw-table-row">
+          <div>🍚 أرز بني</div><div style="color:#f8fafc;">216</div><div style="color:#38bdf8;">5g</div><div style="color:#fbbf24;">45g</div><div style="color:#f87171;">1.8g</div>
+        </div>
+      </div>
+      <div style="margin-top:6px;background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.12);border-radius:6px;padding:5px;">
+        <div style="font-size:7.5px;color:#10b981;font-weight:700;margin-bottom:4px;">⚙️ إعداد ماكروز البرنامج</div>
+        <div style="margin-bottom:3px;"><div style="display:flex;justify-content:space-between;margin-bottom:1px;"><span style="font-size:7px;color:#38bdf8;">بروتين</span><span style="font-size:7px;color:#38bdf8;">35%</span></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:2px;"><div style="width:35%;height:100%;background:#38bdf8;border-radius:2px;"></div></div></div>
+        <div style="margin-bottom:3px;"><div style="display:flex;justify-content:space-between;margin-bottom:1px;"><span style="font-size:7px;color:#fbbf24;">كارب</span><span style="font-size:7px;color:#fbbf24;">45%</span></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:2px;"><div style="width:45%;height:100%;background:#fbbf24;border-radius:2px;"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;margin-bottom:1px;"><span style="font-size:7px;color:#f87171;">دهون</span><span style="font-size:7px;color:#f87171;">20%</span></div><div style="height:4px;background:rgba(255,255,255,.06);border-radius:2px;"><div style="width:20%;height:100%;background:#f87171;border-radius:2px;"></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-dw-footer"><span class="jux-mock-tag jux-tag-green">Role 05 · Nutrition</span><span style="font-size:9px;color:#475569;">3,400+ طعام في القاعدة</span></div>
+</div>
+
+<div class="jux-dw jux-reveal jux-reveal-d6">
+  <div class="jux-dw-titlebar">
+    <div class="jux-dw-dots"><div class="jux-dw-dot jux-dw-red"></div><div class="jux-dw-dot jux-dw-yellow"></div><div class="jux-dw-dot jux-dw-green"></div></div>
+    <div class="jux-dw-url">fitmate-admin.com/gym-portal</div>
+    <div class="jux-dw-badge" style="color:#38bdf8;">06 · B2B Portal</div>
+  </div>
+  <div class="jux-dw-body">
+    <div class="jux-dw-sidebar">
+      <div class="jux-dw-logo">🏋️</div>
+      <div class="jux-dw-nav jux-dw-nav-active">🏢 الجيمات</div>
+      <div class="jux-dw-nav">📲 QR Tokens</div>
+      <div class="jux-dw-nav">📊 زيارات</div>
+      <div class="jux-dw-nav">💳 عقود</div>
+    </div>
+    <div class="jux-dw-main">
+      <div style="margin-bottom:6px;">
+        <div style="font-size:8px;font-weight:700;color:#94a3b8;margin-bottom:4px;">الجيمات الشريكة</div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:5px;padding:4px 6px;display:flex;align-items:center;gap:5px;">
+            <div style="font-size:9px;">🏋️</div>
+            <div style="flex:1;font-size:7.5px;color:#f8fafc;">FitZone Elite — القاهرة</div>
+            <div style="font-size:7px;color:#10b981;">● نشط</div>
+            <div style="font-size:7px;color:#64748b;">248 زيارة/أسبوع</div>
+          </div>
+          <div style="background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.15);border-radius:5px;padding:4px 6px;display:flex;align-items:center;gap:5px;">
+            <div style="font-size:9px;">🏋️</div>
+            <div style="flex:1;font-size:7.5px;color:#f8fafc;">PowerGym — الإسكندرية</div>
+            <div style="font-size:7px;color:#10b981;">● نشط</div>
+            <div style="font-size:7px;color:#64748b;">132 زيارة/أسبوع</div>
+          </div>
+          <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:5px;padding:4px 6px;display:flex;align-items:center;gap:5px;">
+            <div style="font-size:9px;">🏋️</div>
+            <div style="flex:1;font-size:7.5px;color:#f8fafc;">BodyBuilders — الجيزة</div>
+            <div style="font-size:7px;color:#fbbf24;">⚙ إعداد</div>
+            <div style="font-size:7px;color:#64748b;">—</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.12);border-radius:6px;padding:5px;">
+        <div style="font-size:8px;font-weight:700;color:#38bdf8;margin-bottom:4px;">📲 إدارة QR Tokens</div>
+        <div style="display:flex;gap:4px;margin-bottom:4px;">
+          <div style="flex:1;background:rgba(255,255,255,.03);border-radius:4px;padding:4px;text-align:center;"><div style="font-size:9px;color:#f8fafc;font-weight:700;">148</div><div style="font-size:7px;color:#64748b;">جيم مفعّل</div></div>
+          <div style="flex:1;background:rgba(255,255,255,.03);border-radius:4px;padding:4px;text-align:center;"><div style="font-size:9px;color:#f8fafc;font-weight:700;">30s</div><div style="font-size:7px;color:#64748b;">تجديد تلقائي</div></div>
+          <div style="flex:1;background:rgba(255,255,255,.03);border-radius:4px;padding:4px;text-align:center;"><div style="font-size:9px;color:#10b981;font-weight:700;">99.8%</div><div style="font-size:7px;color:#64748b;">Uptime</div></div>
+        </div>
+        <div style="font-size:7px;color:#475569;">Token الحالي: <span style="color:#38bdf8;font-family:monospace;">TKN-7X4F-29QM</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-dw-footer"><span class="jux-mock-tag jux-tag-blue">Role 06 · B2B Gym Portal</span><span style="font-size:9px;color:#475569;">148 صالة رياضية</span></div>
+</div>
+
+<div class="jux-dw jux-reveal jux-reveal-d7">
+  <div class="jux-dw-titlebar">
+    <div class="jux-dw-dots"><div class="jux-dw-dot jux-dw-red"></div><div class="jux-dw-dot jux-dw-yellow"></div><div class="jux-dw-dot jux-dw-green"></div></div>
+    <div class="jux-dw-url">fitmate-admin.com/economy</div>
+    <div class="jux-dw-badge" style="color:#f59e0b;">07 · Economy</div>
+  </div>
+  <div class="jux-dw-body">
+    <div class="jux-dw-sidebar">
+      <div class="jux-dw-logo">💰</div>
+      <div class="jux-dw-nav jux-dw-nav-active">🪙 عملات</div>
+      <div class="jux-dw-nav">🛍️ متجر</div>
+      <div class="jux-dw-nav">🧑‍💼 مدربون</div>
+      <div class="jux-dw-nav">📊 معاملات</div>
+    </div>
+    <div class="jux-dw-main">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:7px;">
+        <div class="jux-dw-stat-card" style="--sc:#fbbf24;"><div class="jux-dw-stat-val">2.4M</div><div class="jux-dw-stat-lbl">🟡 Coins</div></div>
+        <div class="jux-dw-stat-card" style="--sc:#f472b6;"><div class="jux-dw-stat-val">186K</div><div class="jux-dw-stat-lbl">💎 Gems</div></div>
+        <div class="jux-dw-stat-card" style="--sc:#10b981;"><div class="jux-dw-stat-val">48K ج</div><div class="jux-dw-stat-lbl">إيراد متجر</div></div>
+      </div>
+      <div style="font-size:8px;font-weight:700;color:#94a3b8;margin-bottom:4px;">🧑‍💼 طلبات المدربين الخارجيين</div>
+      <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:6px;">
+        <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:5px;padding:4px 7px;display:flex;align-items:center;gap:5px;">
+          <div style="font-size:9px;">💪</div>
+          <div style="flex:1;font-size:7.5px;color:#f8fafc;">Coach Omar — برنامج Mass Builder</div>
+          <div style="font-size:7px;color:#fbbf24;">⏳ مراجعة</div>
+          <div style="background:rgba(16,185,129,.15);border-radius:4px;padding:2px 6px;font-size:7px;color:#10b981;cursor:pointer;">اعتماد</div>
+        </div>
+        <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:5px;padding:4px 7px;display:flex;align-items:center;gap:5px;">
+          <div style="font-size:9px;">🏃</div>
+          <div style="flex:1;font-size:7.5px;color:#f8fafc;">Coach Nada — Fat Burn X</div>
+          <div style="font-size:7px;color:#10b981;">✓ معتمد</div>
+          <div style="background:rgba(56,189,248,.15);border-radius:4px;padding:2px 6px;font-size:7px;color:#38bdf8;cursor:pointer;">عرض</div>
+        </div>
+      </div>
+      <div style="background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.12);border-radius:6px;padding:5px;">
+        <div style="font-size:7.5px;color:#c4b5fd;font-weight:700;margin-bottom:3px;">💎 أسعار Gem Bundles</div>
+        <div style="display:flex;gap:4px;font-size:7px;color:#94a3b8;">
+          <div>50 💎 = 9.99ج</div>
+          <div>·</div>
+          <div>150 💎 = 24.99ج</div>
+          <div>·</div>
+          <div>500 💎 = 69.99ج</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-dw-footer"><span class="jux-mock-tag jux-tag-amber">Role 07 · Economy</span><span style="font-size:9px;color:#475569;">2.4M عملة متداولة</span></div>
+</div>
+
+<div class="jux-dw jux-reveal jux-reveal-d8">
+  <div class="jux-dw-titlebar">
+    <div class="jux-dw-dots"><div class="jux-dw-dot jux-dw-red"></div><div class="jux-dw-dot jux-dw-yellow"></div><div class="jux-dw-dot jux-dw-green"></div></div>
+    <div class="jux-dw-url">fitmate-admin.com/support</div>
+    <div class="jux-dw-badge" style="color:#f43f5e;">08 · CS &amp; PR</div>
+  </div>
+  <div class="jux-dw-body">
+    <div class="jux-dw-sidebar">
+      <div class="jux-dw-logo">🤝</div>
+      <div class="jux-dw-nav jux-dw-nav-active">🎫 Tickets</div>
+      <div class="jux-dw-nav">🤝 شركاء</div>
+      <div class="jux-dw-nav">📧 تواصل</div>
+      <div class="jux-dw-nav">📊 SLA</div>
+    </div>
+    <div class="jux-dw-main">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:6px;">
+        <div class="jux-dw-stat-card" style="--sc:#f87171;"><div class="jux-dw-stat-val">12</div><div class="jux-dw-stat-lbl">🔴 مفتوح</div></div>
+        <div class="jux-dw-stat-card" style="--sc:#fbbf24;"><div class="jux-dw-stat-val">8</div><div class="jux-dw-stat-lbl">⏳ جارٍ</div></div>
+        <div class="jux-dw-stat-card" style="--sc:#10b981;"><div class="jux-dw-stat-val">94%</div><div class="jux-dw-stat-lbl">SLA ✓</div></div>
+      </div>
+      <div style="font-size:8px;font-weight:700;color:#94a3b8;margin-bottom:4px;">🎫 قائمة التذاكر</div>
+      <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:6px;">
+        <div style="background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.2);border-radius:5px;padding:4px 7px;display:flex;align-items:center;gap:4px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#f87171;flex-shrink:0;"></div>
+          <div style="flex:1;font-size:7.5px;color:#f8fafc;">مشكلة في تسجيل الحضور QR</div>
+          <div style="font-size:7px;color:#f87171;">عاجل</div>
+          <div style="font-size:7px;color:#64748b;">منذ ساعة</div>
+        </div>
+        <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:5px;padding:4px 7px;display:flex;align-items:center;gap:4px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#fbbf24;flex-shrink:0;"></div>
+          <div style="flex:1;font-size:7.5px;color:#f8fafc;">استفسار عن الاشتراك Pro</div>
+          <div style="font-size:7px;color:#fbbf24;">متوسط</div>
+          <div style="font-size:7px;color:#64748b;">منذ 3 س</div>
+        </div>
+        <div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:5px;padding:4px 7px;display:flex;align-items:center;gap:4px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#10b981;flex-shrink:0;"></div>
+          <div style="flex:1;font-size:7.5px;color:#94a3b8;">طلب شراكة جيم — الإسكندرية</div>
+          <div style="font-size:7px;color:#10b981;">✓ محلول</div>
+          <div style="font-size:7px;color:#64748b;">أمس</div>
+        </div>
+      </div>
+      <div style="background:rgba(56,189,248,.04);border:1px solid rgba(56,189,248,.1);border-radius:6px;padding:5px;">
+        <div style="font-size:7.5px;color:#38bdf8;font-weight:700;margin-bottom:3px;">📊 SLA Performance — 30 يوم</div>
+        <div class="jux-dw-bar-group" style="height:25px;">
+          <div class="jux-dw-bar" style="--bh:80%;--bc:#10b981;"></div>
+          <div class="jux-dw-bar" style="--bh:90%;--bc:#10b981;"></div>
+          <div class="jux-dw-bar" style="--bh:85%;--bc:#10b981;"></div>
+          <div class="jux-dw-bar" style="--bh:95%;--bc:#10b981;"></div>
+          <div class="jux-dw-bar" style="--bh:88%;--bc:#10b981;"></div>
+          <div class="jux-dw-bar" style="--bh:94%;--bc:#10b981;"></div>
+          <div class="jux-dw-bar" style="--bh:100%;--bc:#10b981;box-shadow:0 0 4px rgba(16,185,129,.4);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jux-dw-footer"><span class="jux-mock-tag jux-tag-purple">Role 08 · CS &amp; PR</span><span style="font-size:9px;color:#475569;">SLA 94% — هذا الشهر</span></div>
+</div>
+
+          </div></div></div></div>
+  </section>
+</div>
+
+<div class="section-divider"></div>
+
 <!-- ══════════════════════════════════════════
-     SECTION 2: SHARED RESPONSIBILITY
+     SECTION 3: SHARED RESPONSIBILITY
 ══════════════════════════════════════════ -->
 <section id="shared">
   <div class="container">
@@ -1894,8 +3384,123 @@
 
 <div class="section-divider"></div>
 
+
 <!-- ══════════════════════════════════════════
-     SECTION 3: V1.0 – CORE ENGINE
+     SECTION 4: ROADMAP
+══════════════════════════════════════════ -->
+<section id="roadmap">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">🗺️ خريطة الطريق</div>
+      <h2 class="section-title">خريطة الطريق <span>(من MVP إلى منصة متكاملة)</span></h2>
+    </div>
+    <div class="roadmap-steps">
+      <div class="roadmap-step v1 reveal reveal-delay-1">
+        <div class="step-version v1">V1</div>
+        <div class="step-title">المرحلة الأولى — Core MVP</div>
+        <div class="step-desc">مرونة مكان التمرين، نظام الدايت الديناميكي، برامج السيدات، تحليل الفيديو اللحظي، التهيئة البصرية للكاميرا، التوجيه الصوتي الهجين، محرك العادات، تتبع التقدم، مركز القيادة.</div>
+        <div class="step-flag v1">🚩 الأساس والانطلاق</div>
+      </div>
+      <div class="roadmap-step v2 reveal reveal-delay-2">
+        <div class="step-version v2">V2</div>
+        <div class="step-title">المرحلة الثانية — Virtual Economy</div>
+        <div class="step-desc">اقتصاد الأفاتار والعملات، الذكاء الاصطناعي الشرطي، Rule-based AI، نظام الجيمات والـ QR، الرانكات والمراتب، التحديات الجماعية.</div>
+        <div class="step-flag v2">🚀 التوسع والانتشار</div>
+      </div>
+      <div class="roadmap-step v3 reveal reveal-delay-3">
+        <div class="step-version v3">V3</div>
+        <div class="step-title">المرحلة الثالثة — AI Automation</div>
+        <div class="step-desc">تكامل Wearables، الكوتش الذكي 24/7، التوقع الجسدي 3D، الماركت بليس المفتوح، نظام المدربين الخارجيين.</div>
+        <div class="step-flag v3">🤖 الأتمتة الكاملة</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 5: FINANCIALS
+══════════════════════════════════════════ -->
+<section id="financials">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">💰 الاستثمار المالي</div>
+      <h2 class="section-title">الاستثمار المالي <span>(شفافية كاملة)</span></h2>
+      <p class="section-text">إجمالي الاستثمار المالي 225,000 ج.م، مقسمة استراتيجياً على ثلاث مراحل تطوير واضحة:</p>
+    </div>
+    <div class="financials-wrapper">
+      <div class="total-box reveal reveal-delay-1">
+        <span class="total-label">إجمالي الاستثمار</span>
+        <span class="total-amount">225,000</span>
+        <span class="total-currency">جنيه مصري</span>
+        <div style="height:1px;width:100%;background:var(--border-subtle);margin:1rem 0;"></div>
+        <div style="font-size:0.8rem;color:var(--text-muted);text-align:center;line-height:1.6;">3 مراحل تطوير<br>ضمان شهر مجاناً<br>تسليم احترافي</div>
+      </div>
+      <div class="payment-phases reveal reveal-delay-2">
+        <!-- V1.0 -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <span class="phase-name">🚩 أولاً: V1.0 — Core MVP</span>
+            <span class="phase-amount">125,000 ج.م</span>
+          </div>
+          <div class="phase-milestones">
+            <div class="milestone-item">
+              <div class="milestone-dot blue"></div>
+              <span class="milestone-pct">40%</span>
+              <span style="flex:1;">الدفعة المقدمة — تأسيس البنية التحتية</span>
+              <span class="milestone-val">50,000 ج.م</span>
+            </div>
+            <div class="milestone-item">
+              <div class="milestone-dot blue"></div>
+              <span class="milestone-pct">30%</span>
+              <span style="flex:1;">تسليم النظام الأساسي</span>
+              <span class="milestone-val">37,500 ج.م</span>
+            </div>
+            <div class="milestone-item">
+              <div class="milestone-dot blue"></div>
+              <span class="milestone-pct">20%</span>
+              <span style="flex:1;">النسخة التجريبية والتكامل</span>
+              <span class="milestone-val">25,000 ج.م</span>
+            </div>
+            <div class="milestone-item">
+              <div class="milestone-dot green"></div>
+              <span class="milestone-pct">10%</span>
+              <span style="flex:1;">التسليم النهائي والإطلاق الرسمي</span>
+              <span class="milestone-val">12,500 ج.م</span>
+            </div>
+            <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; font-weight: 700; color: var(--accent-orange); background: rgba(251,146,60,0.08); border: 1px dashed rgba(251,146,60,0.3); padding: 10px; border-radius: 8px;">
+                ⏱️ إجمالي مدة التسليم المتوقعة للمرحلة الأولى: 3 إلى 4 أشهر
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- V2.0 -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <span class="phase-name">🚀 ثانياً: V2.0 — إصدار الجيمات</span>
+            <span class="phase-amount green">50,000 ج.م</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-muted);">تُنفذ لاحقاً — بعد نجاح V1.0 وتأكيد الشراكات مع الجيمات.</div>
+        </div>
+        <!-- V3.0 -->
+        <div class="phase-card">
+          <div class="phase-header">
+            <span class="phase-name">🤖 ثالثاً: V3.0 — محركات AI</span>
+            <span class="phase-amount purple">50,000 ج.م</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-muted);">تُنفذ لاحقاً — بعد جمع البيانات الكافية لتدريب النماذج وتفعيل V2.0.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 6: V1.0 – CORE ENGINE
 ══════════════════════════════════════════ -->
 <section id="v1" class="section-pad">
   <div class="container">
@@ -1920,161 +3525,29 @@
         <div class="feature-desc">برامج جاهزة (Arnold, Push/Pull/Legs) باشتراكات وباقات، وتخصيصات دقيقة للسيدات والأولاد.</div>
       </div>
       <div class="feature-card reveal reveal-delay-1">
-        <span class="feature-icon">👤</span>
-        <div class="feature-title">مركز القيادة (User Hub)</div>
-        <div class="feature-desc">تحديث الطول والوزن وإضافة تحاليل InBody لمتابعة التطور الجسدي الكامل.</div>
+        <span class="feature-icon">🎯</span>
+        <div class="feature-title">تحليل التمرين اللحظي (Real-time Tracking)</div>
+        <div class="feature-desc">الكاميرا تقرأ المفاصل (X, Y, Z) وتحلل التمرين من 3 مناظير في الوقت الفعلي.</div>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <span class="feature-icon">💡</span>
-        <div class="feature-title">التبريرات والملاحظات (Insights)</div>
-        <div class="feature-desc">الـ AI يقرأ تحديثات المستخدم ويطلعله تبريرات مخصصة بناءً على بياناته الشخصية.</div>
+        <span class="feature-icon">📐</span>
+        <div class="feature-title">التهيئة البصرية (AR Camera Setup)</div>
+        <div class="feature-desc">رسم مخطط كروكي 3D لتحديد مسافة الموبايل قبل بدء التحليل بدقة عالية.</div>
       </div>
-    </div>
-
-    <!-- MOCKUPS 1 & 2 -->
-    <div class="mockups-row">
-      <!-- MOCKUP 1: PRIVATE COACH / STREAK -->
-      <div class="mockup-scale-wrapper reveal reveal-delay-1">
-        <div class="phone">
-          <div class="phone-content">
-            <div class="phone-status-bar">
-              <span>9:41</span><span>●●● ⚡ 87%</span>
-            </div>
-            <div class="phone-header">
-              <div class="phone-app-title">الكوتش الخاص</div>
-              <div class="phone-app-subtitle">يوم الاثنين — تمرين الصدر</div>
-            </div>
-
-            <div class="mockup-streak-badge">
-              <span class="streak-fire">🔥</span>
-              <div class="streak-info">
-                <div class="streak-number">18</div>
-                <div class="streak-text">يوم متواصل — سلسلة ذهبية</div>
-              </div>
-              <div style="font-size:1.1rem;color:rgba(255,255,255,0.5);">🏆</div>
-            </div>
-
-            <div class="checkin-label">تسجيل حضور اليوم</div>
-            <div class="checkin-item">
-              <span class="checkin-name">🏋️ تمرين اليوم</span>
-              <div class="toggle on"></div>
-            </div>
-            <div class="checkin-item">
-              <span class="checkin-name">🥗 الوجبات اليومية</span>
-              <div class="toggle on"></div>
-            </div>
-            <div class="checkin-item">
-              <span class="checkin-name">😴 النوم (8 ساعات)</span>
-              <div class="toggle off"></div>
-            </div>
-            <div class="checkin-item">
-              <span class="checkin-name">💧 المياه (3 لتر)</span>
-              <div class="toggle on"></div>
-            </div>
-
-            <div class="progress-section">
-              <div class="progress-header">
-                <span class="progress-title">إنجاز الأسبوع</span>
-                <span class="progress-pct">73%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width:73%"></div>
-              </div>
-            </div>
-
-            <div class="mini-workout-card">
-              <div class="mwc-top">
-                <span class="mwc-name">بنش بريس</span>
-                <span class="mwc-badge">صدر</span>
-              </div>
-              <div class="mwc-sets">
-                <span class="mwc-set">4 × 10 تكرار</span>
-                <span class="mwc-set">80 كيلو</span>
-                <span class="mwc-set">90 ث راحة</span>
-              </div>
-            </div>
-
-            <div class="mini-workout-card" style="background:rgba(16,185,129,0.06); border-color:rgba(16,185,129,0.2);">
-              <div class="mwc-top">
-                <span class="mwc-name">دمبل كتف</span>
-                <span class="mwc-badge" style="background:rgba(16,185,129,0.2);color:#10b981;">كتف</span>
-              </div>
-              <div class="mwc-sets">
-                <span class="mwc-set">3 × 12 تكرار</span>
-                <span class="mwc-set">20 كيلو</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">Private Coach UI</div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">🎧</span>
+        <div class="feature-title">التوجيه الصوتي الهجين (Hybrid Audio Coach)</div>
+        <div class="feature-desc">دمج التسجيلات البشرية التحفيزية مع تقنية (TTS) لتوجيه المتدرب صوتياً ولحظياً أثناء التمرين كأنه معه مدرب خاص.</div>
       </div>
-
-      <!-- MOCKUP 2: LOCATION SWAP -->
-      <div class="mockup-scale-wrapper reveal reveal-delay-2">
-        <div class="phone">
-          <div class="phone-content">
-            <div class="phone-status-bar">
-              <span>9:41</span><span>●●● ⚡ 87%</span>
-            </div>
-            <div class="phone-header">
-              <div class="phone-app-title">مرونة المكان</div>
-              <div class="phone-app-subtitle">اختر بيئة تمرينك</div>
-            </div>
-
-            <div class="location-toggle-group">
-              <div class="loc-btn active">🏋️ جيم</div>
-              <div class="loc-btn inactive">🏠 بيت</div>
-              <div class="loc-btn inactive">💼 مكتب</div>
-            </div>
-
-            <div style="font-size:0.6rem; color:var(--text-muted); text-align:center; flex-shrink:0;">تمرين الصدر — الجيم محدد</div>
-
-            <div class="exercise-card-swap">
-              <div class="exc-top">
-                <div class="exc-icon-box">🔵</div>
-                <div class="exc-info">
-                  <div class="exc-name">بنش بريس حديد</div>
-                  <div class="exc-muscle">▲ الصدر العلوي</div>
-                </div>
-              </div>
-              <div class="exc-params">
-                <span class="exc-param">4 × 10</span>
-                <span class="exc-param">80 كجم</span>
-                <span class="exc-param">جيم ✓</span>
-              </div>
-            </div>
-
-            <div class="swap-arrow">⟳ تبديل فوري</div>
-
-            <div class="exercise-card-swap" style="border-color:rgba(16,185,129,0.3); background:linear-gradient(135deg,rgba(16,185,129,0.07),rgba(56,189,248,0.03));">
-              <div class="exc-top">
-                <div class="exc-icon-box" style="background:linear-gradient(135deg,var(--accent-green),#059669);">🟢</div>
-                <div class="exc-info">
-                  <div class="exc-name">ضغط أرضي</div>
-                  <div class="exc-muscle" style="color:var(--accent-green);">▲ الصدر العلوي</div>
-                </div>
-              </div>
-              <div class="exc-params">
-                <span class="exc-param">4 × 15</span>
-                <span class="exc-param">وزن الجسم</span>
-                <span class="exc-param" style="color:var(--accent-green);border-color:rgba(16,185,129,0.3);">بيت ✓</span>
-              </div>
-            </div>
-
-            <div style="font-size:0.6rem; color:var(--accent-green); text-align:center; flex-shrink:0;">✓ نفس العضلة — نفس الحجم التدريبي</div>
-
-            <div class="progress-section" style="margin-top:auto;">
-              <div class="progress-header">
-                <span class="progress-title">التمارين المتبقية اليوم</span>
-                <span class="progress-pct">3 / 6</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width:50%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">Location Swap UI</div>
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🏆</span>
+        <div class="feature-title">محرك العادات وتتبع التقدم (Habit & Progress Engine)</div>
+        <div class="feature-desc">تتبع يومي ذكي (تمرين، تغذية، نوم) مع نظام (Streak)، بالإضافة لتحديث الوزن وتحاليل InBody لمتابعة التطور الجسدي.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">🎛️</span>
+        <div class="feature-title">مركز القيادة (RBAC Dashboard)</div>
+        <div class="feature-desc">لوحة تحكم مركزية لإدارة التمارين، إضافة الوجبات، وتفعيل الاشتراكات اليدوية عبر (InstaPay/Vodafone Cash).</div>
       </div>
     </div>
   </div>
@@ -2083,7 +3556,7 @@
 <div class="section-divider"></div>
 
 <!-- ══════════════════════════════════════════
-     SECTION 4: V2.0 – GAMIFICATION
+     SECTION 7: V2.0 – GAMIFICATION
 ══════════════════════════════════════════ -->
 <section id="v2" class="section-pad" style="background: linear-gradient(180deg, var(--bg-deep), rgba(16,28,56,0.4));">
   <div class="container">
@@ -2092,6 +3565,21 @@
       <h2 class="section-title">التلعيب، التحديات، <span>وربط الصالات الرياضية</span></h2>
     </div>
     <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🧠</span>
+        <div class="feature-title">الذكاء الاصطناعي الشرطي (Rule-based AI)</div>
+        <div class="feature-desc">أتمتة توليد خطط التمارين والأنظمة الغذائية تلقائياً للمستخدمين الجدد بناءً على مدخلاتهم (الهدف، الوزن، المستوى).</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">🏢</span>
+        <div class="feature-title">نظام الجيمات (B2B Dashboards)</div>
+        <div class="feature-desc">لوحات تحكم فرعية متخصصة للصالات الرياضية لمتابعة المشتركين النشطين وإحصائيات الزيارات والمبيعات.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">📍</span>
+        <div class="feature-title">الـ QR الديناميكي والرادار (GPS)</div>
+        <div class="feature-desc">رادار لإيجاد أقرب جيم معتمد، وتوليد أكواد QR لحظية (Time-stamped) داخل الجيم لمسحها ومضاعفة النقاط.</div>
+      </div>
       <div class="feature-card reveal reveal-delay-1">
         <span class="feature-icon">🏆</span>
         <div class="feature-title">نظام الرانك والولاء</div>
@@ -2103,171 +3591,19 @@
         <div class="feature-desc">مسابقات بين المستخدمين والجيمات وتحليل العدادات بالكاميرا بشكل لحظي.</div>
       </div>
       <div class="feature-card reveal reveal-delay-3">
-        <span class="feature-icon">📍</span>
-        <div class="feature-title">الرادار المحلي (GPS Radar)</div>
-        <div class="feature-desc">إيجاد أقرب جيم معتمد في محيط 10 كيلومترات مع عروض حصرية.</div>
-      </div>
-      <div class="feature-card reveal reveal-delay-1">
-        <span class="feature-icon">📱</span>
-        <div class="feature-title">الـ QR الديناميكي اللحظي</div>
-        <div class="feature-desc">كود يتولد لحظياً (Time-stamped Token) لمنع الغش. الجيم يأخذ تمارينه لرفع الماركت شير.</div>
-      </div>
-      <div class="feature-card reveal reveal-delay-2">
         <span class="feature-icon">👥</span>
         <div class="feature-title">الديجيتال توين</div>
         <div class="feature-desc">بروفايل مصغر ديناميكي للمنافسة الاجتماعية ومشاركة التحولات الجسدية.</div>
       </div>
-    </div>
-
-    <!-- MOCKUPS 3 & 4 -->
-    <div class="mockups-row">
-      <!-- MOCKUP 3: DIET SWAP -->
-      <div class="mockup-scale-wrapper reveal reveal-delay-1">
-        <div class="phone">
-          <div class="phone-content">
-            <div class="phone-status-bar">
-              <span>9:41</span><span>●●● ⚡ 87%</span>
-            </div>
-            <div class="phone-header">
-              <div class="phone-app-title">الدايت الذكي</div>
-              <div class="phone-app-subtitle">وجبة الغداء — استبدال ذكي</div>
-            </div>
-
-            <div style="font-size:0.6rem; color:var(--text-muted); flex-shrink:0;">الوجبة الأصلية</div>
-            <div class="diet-card">
-              <div class="diet-top">
-                <span class="diet-name">صدر دجاج مشوي</span>
-                <span class="diet-amount">150 جم</span>
-              </div>
-              <div class="macro-row">
-                <div class="macro-pill protein"><div class="macro-val">33g</div><div class="macro-lbl">بروتين</div></div>
-                <div class="macro-pill carb"><div class="macro-val">0g</div><div class="macro-lbl">كارب</div></div>
-                <div class="macro-pill fat"><div class="macro-val">3.5g</div><div class="macro-lbl">دهون</div></div>
-              </div>
-              <div style="text-align:center; font-size:0.6rem; color:var(--text-muted);">165 سعرة حرارية</div>
-              <button class="swap-btn">⟳ استبدال بنفس الماكروز</button>
-            </div>
-
-            <div class="swap-arrow">↓</div>
-
-            <div style="font-size:0.6rem; color:var(--text-muted); flex-shrink:0;">الوجبة البديلة المقترحة</div>
-            <div class="swap-result">
-              <div class="swap-result-top">
-                <span class="swap-result-badge">✓ مطابق</span>
-                <span class="swap-result-name">سمك بلطي مشوي</span>
-              </div>
-              <div class="macro-row">
-                <div class="macro-pill protein"><div class="macro-val">34g</div><div class="macro-lbl">بروتين</div></div>
-                <div class="macro-pill carb"><div class="macro-val">0g</div><div class="macro-lbl">كارب</div></div>
-                <div class="macro-pill fat"><div class="macro-val">3g</div><div class="macro-lbl">دهون</div></div>
-              </div>
-              <div class="swap-result-match">✓ +1g بروتين · -0.5g دهون · 160 سعرة</div>
-            </div>
-
-            <div style="display:flex; gap:6px; flex-shrink:0; margin-top:auto;">
-              <button style="flex:1; padding:7px; background:rgba(16,185,129,0.15); border:1px solid var(--accent-green); border-radius:8px; color:var(--accent-green); font-family:var(--font); font-size:0.65rem; font-weight:700; cursor:pointer;">✓ تأكيد البديل</button>
-              <button style="flex:1; padding:7px; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); border-radius:8px; color:var(--accent-blue); font-family:var(--font); font-size:0.65rem; font-weight:700; cursor:pointer;">↓ بدائل أخرى</button>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">Diet Swap UI</div>
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">🛍️</span>
+        <div class="feature-title">متجر الأفاتار (Avatar Shop)</div>
+        <div class="feature-desc">شراء ملابس رياضية، أقنعة، وتأثيرات بصرية مميزة لتخصيص الأفاتار الرقمي للمستخدم.</div>
       </div>
-
-      <!-- MOCKUP 4: HISTORY TIMELINE -->
-      <div class="mockup-scale-wrapper reveal reveal-delay-2">
-        <div class="phone">
-          <div class="phone-content">
-            <div class="phone-status-bar">
-              <span>9:41</span><span>●●● ⚡ 87%</span>
-            </div>
-            <div class="phone-header">
-              <div class="phone-app-title">سجل التطور</div>
-              <div class="phone-app-subtitle">التاريخ الكامل لرحلتي</div>
-            </div>
-
-            <!-- Mini stats bar -->
-            <div style="display:flex; gap:6px; flex-shrink:0;">
-              <div style="flex:1; background:var(--bg-card); border-radius:8px; padding:6px; text-align:center; border:1px solid var(--border-subtle);">
-                <div style="font-size:1rem; font-weight:900; color:var(--accent-blue);">78.5</div>
-                <div style="font-size:0.5rem; color:var(--text-muted);">الوزن كجم</div>
-              </div>
-              <div style="flex:1; background:var(--bg-card); border-radius:8px; padding:6px; text-align:center; border:1px solid var(--border-subtle);">
-                <div style="font-size:1rem; font-weight:900; color:var(--accent-green);">14.2%</div>
-                <div style="font-size:0.5rem; color:var(--text-muted);">نسبة الدهون</div>
-              </div>
-              <div style="flex:1; background:var(--bg-card); border-radius:8px; padding:6px; text-align:center; border:1px solid var(--border-subtle);">
-                <div style="font-size:1rem; font-weight:900; color:var(--accent-purple);">42</div>
-                <div style="font-size:0.5rem; color:var(--text-muted);">يوم في الجيم</div>
-              </div>
-            </div>
-
-            <div style="font-size:0.6rem; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; flex-shrink:0;">السجل الزمني</div>
-
-            <div class="timeline">
-              <div class="timeline-item">
-                <div class="timeline-line">
-                  <div class="tl-dot blue"></div>
-                  <div class="tl-connector"></div>
-                </div>
-                <div class="tl-content">
-                  <div class="tl-title">تحديث InBody</div>
-                  <div class="tl-date">اليوم، 10:00 ص</div>
-                  <div class="tl-detail">كتلة عضلية: 38.2 كجم</div>
-                  <span class="tl-badge up">▲ +0.5 كجم عضلة</span>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-line">
-                  <div class="tl-dot orange"></div>
-                  <div class="tl-connector"></div>
-                </div>
-                <div class="tl-content">
-                  <div class="tl-title">تغيير الوزن</div>
-                  <div class="tl-date">أمس، 8:30 ص</div>
-                  <div class="tl-detail">من 79.0 → 78.5 كجم</div>
-                  <span class="tl-badge down">▼ -0.5 كجم</span>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-line">
-                  <div class="tl-dot green"></div>
-                  <div class="tl-connector"></div>
-                </div>
-                <div class="tl-content">
-                  <div class="tl-title">أتممت تمرين الساق 🦵</div>
-                  <div class="tl-date">الأحد، 6:00 م</div>
-                  <div class="tl-detail">6 تمارين — 52 دقيقة</div>
-                  <span class="tl-badge up">▲ +85 نقطة خبرة</span>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-line">
-                  <div class="tl-dot purple"></div>
-                  <div class="tl-connector"></div>
-                </div>
-                <div class="tl-content">
-                  <div class="tl-title">رفع مستوى الرانك 🎖️</div>
-                  <div class="tl-date">السبت، 9:00 ص</div>
-                  <div class="tl-detail">Gold → Platinum</div>
-                  <span class="tl-badge up">▲ ترقية</span>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-line">
-                  <div class="tl-dot blue"></div>
-                  <div class="tl-connector"></div>
-                </div>
-                <div class="tl-content">
-                  <div class="tl-title">تحديث InBody</div>
-                  <div class="tl-date">الجمعة، 11:00 ص</div>
-                  <div class="tl-detail">دهون: 14.8% → 14.2%</div>
-                  <span class="tl-badge up">▲ -0.6% دهون</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">History UI</div>
+      <div class="feature-card reveal reveal-delay-2">
+        <span class="feature-icon">💎</span>
+        <div class="feature-title">Virtual Economy</div>
+        <div class="feature-desc">نظام عملات (Coins & Gems) يتيح للمستخدمين الشراء من متجر الأفاتار</div>
       </div>
     </div>
   </div>
@@ -2276,7 +3612,7 @@
 <div class="section-divider"></div>
 
 <!-- ══════════════════════════════════════════
-     SECTION 5: V3.0 – AI MAGIC
+     SECTION 8: V3.0 – AI MAGIC
 ══════════════════════════════════════════ -->
 <section id="v3" class="section-pad">
   <div class="container">
@@ -2286,14 +3622,14 @@
     </div>
     <div class="features-grid">
       <div class="feature-card reveal reveal-delay-1">
-        <span class="feature-icon">📐</span>
-        <div class="feature-title">التهيئة البصرية (AR Camera Setup)</div>
-        <div class="feature-desc">رسم مخطط كروكي 3D لتحديد مسافة الموبايل قبل بدء التحليل بدقة عالية.</div>
+        <span class="feature-icon">⌚</span>
+        <div class="feature-title">تكامل الساعات الذكية (Wearables)</div>
+        <div class="feature-desc">الربط مع (Apple Health & Garmin) لسحب بيانات النبض، جودة النوم، والسعرات المحروقة فعلياً لتغذية النظام.</div>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <span class="feature-icon">🎯</span>
-        <div class="feature-title">تحليل التمرين اللحظي (Real-time Tracking)</div>
-        <div class="feature-desc">الكاميرا تقرأ المفاصل (X, Y, Z) وتحلل التمرين من 3 مناظير في الوقت الفعلي.</div>
+        <span class="feature-icon">🛍️</span>
+        <div class="feature-title">المتجر المفتوح (Marketplace)</div>
+        <div class="feature-desc">تحويل التطبيق لمنصة اقتصادية تتيح للمدربين بيع برامجهم التدريبية مع دمج بوابات الدفع العالمية (Visa/Mastercard).</div>
       </div>
       <div class="feature-card reveal reveal-delay-3">
         <span class="feature-icon">🤖</span>
@@ -2306,362 +3642,13 @@
         <div class="feature-desc">توقع ورسم شكل الجسم المستقبلي بناءً على تحليل InBody والبرنامج التدريبي المتبع.</div>
       </div>
     </div>
-
-    <!-- MOCKUPS 5, 6, 7, 8 -->
-    <div class="mockups-row" style="flex-wrap:wrap; gap:1.5rem;">
-
-      <!-- MOCKUP 5: GAMIFICATION/LEADERBOARD -->
-      <div class="mockup-scale-wrapper reveal reveal-delay-1">
-        <div class="phone">
-          <div class="phone-content">
-            <div class="phone-status-bar"><span>9:41</span><span>●●● ⚡ 87%</span></div>
-            <div class="phone-header">
-              <div class="phone-app-title">الرانك والتحديات</div>
-              <div class="phone-app-subtitle">منافسات لحظية</div>
-            </div>
-
-            <div class="rank-card">
-              <div class="rank-row">
-                <div>
-                  <div class="rank-name">🥇 Platinum Fighter</div>
-                  <div style="font-size:0.55rem;color:var(--text-muted);">رتبتك الحالية</div>
-                </div>
-                <div style="text-align:center;">
-                  <div class="rank-pts">4,820</div>
-                  <div class="rank-lbl">نقطة خبرة</div>
-                </div>
-              </div>
-              <div style="margin-top:6px;">
-                <div class="progress-header">
-                  <span class="progress-title" style="font-size:0.55rem;">للوصول لـ Diamond</span>
-                  <span class="progress-pct" style="font-size:0.55rem;">96%</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" style="width:96%;background:linear-gradient(90deg,#a78bfa,#7c3aed);"></div></div>
-              </div>
-            </div>
-
-            <div class="leaderboard">
-              <div class="lb-title">🏆 لوحة المتصدرين المحلية</div>
-              <div class="lb-item">
-                <span class="lb-rank gold">1</span>
-                <div class="lb-avatar" style="background:rgba(251,191,36,0.2);color:#fbbf24;">أ</div>
-                <span class="lb-uname">Ahmed_Fit</span>
-                <span class="lb-upts">5,240</span>
-              </div>
-              <div class="lb-item">
-                <span class="lb-rank silver">2</span>
-                <div class="lb-avatar" style="background:rgba(148,163,184,0.2);color:#94a3b8;">م</div>
-                <span class="lb-uname">Mohamed_Pro</span>
-                <span class="lb-upts">5,100</span>
-              </div>
-              <div class="lb-item">
-                <span class="lb-rank bronze">3</span>
-                <div class="lb-avatar" style="background:rgba(180,83,9,0.2);color:#b45309;">ي</div>
-                <span class="lb-uname">Yasser_King</span>
-                <span class="lb-upts">4,950</span>
-              </div>
-              <div class="lb-item" style="border-color:rgba(56,189,248,0.3); background:rgba(56,189,248,0.04);">
-                <span class="lb-rank you">4</span>
-                <div class="lb-avatar" style="background:rgba(56,189,248,0.2);color:var(--accent-blue);">أ</div>
-                <span class="lb-uname" style="color:var(--accent-blue);font-weight:700;">أنت</span>
-                <span class="lb-upts" style="color:var(--accent-blue);">4,820</span>
-              </div>
-            </div>
-
-            <div class="qr-box">
-              <div class="qr-scan-icon">⬚</div>
-              <div>
-                <div class="qr-scan-text">QR لدخول الجيم</div>
-                <div style="font-size:0.5rem;color:var(--text-muted);">صالح لـ 30 ثانية فقط</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">Gamification UI</div>
-      </div>
-
-      <!-- MOCKUP 6: AI CAMERA -->
-      <div class="mockup-scale-wrapper reveal reveal-delay-2">
-        <div class="phone">
-          <div class="phone-content">
-            <div class="phone-status-bar" style="color:rgba(255,255,255,0.4);">
-              <span>REC ●</span><span style="color:var(--accent-green);">AI ACTIVE</span>
-            </div>
-
-            <div class="camera-view">
-              <div class="ar-grid"></div>
-              <div class="ar-corner tl"></div>
-              <div class="ar-corner tr"></div>
-              <div class="ar-corner bl"></div>
-              <div class="ar-corner br"></div>
-              <div class="ar-label status">SQUAT DETECTED</div>
-              <div class="ar-label angle">Angle: 92°</div>
-
-              <!-- STICK FIGURE SQUAT POSE -->
-              <div class="stick-figure">
-                <!-- Head -->
-                <div class="sf-head" style="top:0;left:50%;transform:translateX(-50%);"></div>
-
-                <!-- Neck joint -->
-                <div class="sf-joint" style="top:24px;left:55px;"></div>
-
-                <!-- Torso (vertical line) -->
-                <div class="sf-limb" style="width:2px;height:35px;top:24px;left:54px;transform:rotate(0deg);"></div>
-
-                <!-- Left shoulder joint -->
-                <div class="sf-joint" style="top:26px;left:30px;background:var(--accent-blue);box-shadow:0 0 8px var(--accent-blue);"></div>
-                <!-- Right shoulder joint -->
-                <div class="sf-joint" style="top:26px;left:72px;background:var(--accent-blue);box-shadow:0 0 8px var(--accent-blue);"></div>
-
-                <!-- Left upper arm -->
-                <div class="sf-limb" style="width:2px;height:25px;top:30px;left:29px;transform:rotate(-30deg);"></div>
-                <!-- Right upper arm -->
-                <div class="sf-limb" style="width:2px;height:25px;top:30px;left:72px;transform:rotate(30deg);"></div>
-
-                <!-- Left elbow joint -->
-                <div class="sf-joint" style="top:52px;left:18px;width:6px;height:6px;"></div>
-                <!-- Right elbow joint -->
-                <div class="sf-joint" style="top:52px;left:84px;width:6px;height:6px;"></div>
-
-                <!-- Left forearm -->
-                <div class="sf-limb" style="width:2px;height:20px;top:57px;left:17px;transform:rotate(20deg);"></div>
-                <!-- Right forearm -->
-                <div class="sf-limb" style="width:2px;height:20px;top:57px;left:84px;transform:rotate(-20deg);"></div>
-
-                <!-- Hip joint -->
-                <div class="sf-joint" style="top:58px;left:51px;background:var(--accent-orange);box-shadow:0 0 8px var(--accent-orange);"></div>
-
-                <!-- Left hip side -->
-                <div class="sf-joint" style="top:60px;left:36px;width:6px;height:6px;"></div>
-                <!-- Right hip side -->
-                <div class="sf-joint" style="top:60px;left:66px;width:6px;height:6px;"></div>
-
-                <!-- Left upper leg (squat angle) -->
-                <div class="sf-limb" style="width:2px;height:32px;top:64px;left:35px;transform:rotate(-40deg);"></div>
-                <!-- Right upper leg -->
-                <div class="sf-limb" style="width:2px;height:32px;top:64px;left:66px;transform:rotate(40deg);"></div>
-
-                <!-- Left knee joint -->
-                <div class="sf-joint" style="top:88px;left:14px;background:#f59e0b;box-shadow:0 0 10px #f59e0b;width:10px;height:10px;"></div>
-                <!-- Right knee joint -->
-                <div class="sf-joint" style="top:88px;left:84px;background:#f59e0b;box-shadow:0 0 10px #f59e0b;width:10px;height:10px;"></div>
-
-                <!-- Left lower leg -->
-                <div class="sf-limb" style="width:2px;height:28px;top:96px;left:13px;transform:rotate(35deg);"></div>
-                <!-- Right lower leg -->
-                <div class="sf-limb" style="width:2px;height:28px;top:96px;left:84px;transform:rotate(-35deg);"></div>
-
-                <!-- Left ankle -->
-                <div class="sf-joint" style="top:122px;left:28px;width:6px;height:6px;"></div>
-                <!-- Right ankle -->
-                <div class="sf-joint" style="top:122px;left:70px;width:6px;height:6px;"></div>
-              </div>
-
-              <!-- Angle arc indicator -->
-              <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;z-index:3;">
-                <div style="width:50px;height:2px;background:linear-gradient(90deg,transparent,var(--accent-green));"></div>
-                <div style="font-size:0.65rem;color:var(--accent-green);font-weight:700;background:rgba(16,185,129,0.15);padding:2px 8px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">✓ شكل صحيح</div>
-                <div style="width:50px;height:2px;background:linear-gradient(90deg,var(--accent-green),transparent);"></div>
-              </div>
-            </div>
-
-            <div class="camera-controls">
-              <div class="cam-ctrl">
-                <div class="cam-ctrl-dot">↗</div>
-                <span>ظهر</span>
-              </div>
-              <div class="cam-ctrl">
-                <div class="cam-ctrl-dot active">●</div>
-                <span>تسجيل</span>
-              </div>
-              <div class="cam-ctrl">
-                <div class="cam-ctrl-dot">👁</div>
-                <span>عداد</span>
-              </div>
-              <div class="cam-ctrl">
-                <div class="cam-ctrl-dot">📊</div>
-                <span>تقرير</span>
-              </div>
-            </div>
-
-            <div style="display:flex;gap:6px;flex-shrink:0;">
-              <div style="flex:1;background:var(--bg-card);border-radius:8px;padding:5px 8px;border:1px solid var(--border-subtle);font-size:0.55rem;text-align:center;">
-                <div style="color:var(--accent-blue);font-weight:700;font-size:0.8rem;">12</div>
-                <div style="color:var(--text-muted);">تكرار</div>
-              </div>
-              <div style="flex:1;background:var(--bg-card);border-radius:8px;padding:5px 8px;border:1px solid var(--border-subtle);font-size:0.55rem;text-align:center;">
-                <div style="color:var(--accent-green);font-weight:700;font-size:0.8rem;">3</div>
-                <div style="color:var(--text-muted);">سيت</div>
-              </div>
-              <div style="flex:1;background:var(--bg-card);border-radius:8px;padding:5px 8px;border:1px solid var(--border-subtle);font-size:0.55rem;text-align:center;">
-                <div style="color:var(--accent-orange);font-weight:700;font-size:0.8rem;">92°</div>
-                <div style="color:var(--text-muted);">زاوية</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">AI Camera UI</div>
-      </div>
-
-      <!-- MOCKUP 7: AI CHATBOT -->
-      <div class="mockup-scale-wrapper reveal reveal-delay-3">
-        <div class="phone">
-          <div class="phone-content">
-            <div class="phone-status-bar"><span>9:41</span><span>●●● ⚡ 87%</span></div>
-            <div class="phone-header">
-              <div class="phone-app-title">الكوتش الذكي 24/7</div>
-              <div class="phone-app-subtitle" style="color:var(--accent-green);">● متصل الآن</div>
-            </div>
-
-            <!-- Context bar -->
-            <div style="background:rgba(251,146,60,0.08); border:1px solid rgba(251,146,60,0.25); border-radius:8px; padding:6px 10px; flex-shrink:0; display:flex; align-items:center; gap:6px;">
-              <span style="font-size:0.8rem;">⚠️</span>
-              <span style="font-size:0.55rem; color:var(--accent-orange);">ملاحظة: إصابة في الرباط الصليبي الأيسر — تمارين محدودة</span>
-            </div>
-
-            <div class="chat-area">
-              <div class="chat-bubble-container">
-                <div class="chat-bubble user">عايز أعمل تمرين squats النهارده</div>
-                <div style="margin-top:2px;">
-                  <div class="ai-name-tag"><div class="ai-dot"></div> FitMate AI</div>
-                  <div class="chat-bubble ai warning">
-                    أنا شايف إن عندك إصابة في الرباط الصليبي، التمرين ده ممكن يضر حالتك دلوقتي. مش هينفع.
-                  </div>
-                </div>
-                <div class="chat-bubble user">طب إيه البديل؟</div>
-                <div style="margin-top:2px;">
-                  <div class="ai-name-tag"><div class="ai-dot"></div> FitMate AI</div>
-                  <div class="chat-bubble ai">
-                    بناءً على تاريخك، الأنسب دلوقتي هو:
-                    ✓ Leg Press زاوية خفيفة
-                    ✓ Wall Sit (30 ث)
-                    ✓ Hip Abduction
-                    
-                    هيوصّلك نفس نتيجة الساق من غير ضغط على الركبة 💪
-                  </div>
-                </div>
-                <div class="chat-bubble user">تمام، فين الفيديو؟</div>
-                <div style="margin-top:2px;">
-                  <div class="ai-name-tag"><div class="ai-dot"></div> FitMate AI</div>
-                  <div class="chat-bubble ai">
-                    ↗ شوف الفيديوهات دي في التطبيق، فيه زاوية أمامية وجانبية لكل تمرين.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="chat-input-bar">
-              <span class="chat-input-fake">اسأل كوتشك...</span>
-              <div class="chat-send-btn">→</div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">AI Chatbot UI</div>
-      </div>
-
-      <!-- MOCKUP 8: DIGITAL TWIN -->
-      <div class="mockup-scale-wrapper reveal reveal-delay-4">
-        <div class="phone">
-          <div class="phone-content">
-            <div class="phone-status-bar"><span>9:41</span><span>●●● ⚡ 87%</span></div>
-            <div class="phone-header">
-              <div class="phone-app-title">Digital Twin</div>
-              <div class="phone-app-subtitle">بروفايلك الرقمي</div>
-            </div>
-
-            <!-- Tabs -->
-            <div style="display:flex;background:var(--bg-elevated);border-radius:8px;padding:3px;flex-shrink:0;">
-              <div style="flex:1;text-align:center;padding:5px;border-radius:6px;background:var(--accent-blue);color:#fff;font-size:0.6rem;font-weight:700;">الحالي</div>
-              <div style="flex:1;text-align:center;padding:5px;color:var(--text-muted);font-size:0.6rem;">توقع 3 أشهر</div>
-              <div style="flex:1;text-align:center;padding:5px;color:var(--text-muted);font-size:0.6rem;">المقارنة</div>
-            </div>
-
-            <div class="digital-twin-view" style="position:relative;">
-              <!-- Glow aura behind body -->
-              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:180px;background:radial-gradient(ellipse,rgba(56,189,248,0.08),transparent 70%);border-radius:50%;pointer-events:none;"></div>
-
-              <div class="body-silhouette">
-                <div class="bs-head"></div>
-                <div class="bs-neck"></div>
-                <div class="bs-torso">
-                  <div class="bs-torso-line"></div>
-                  <!-- Chest muscle area -->
-                  <div style="position:absolute;top:10px;left:5px;right:5px;height:14px;background:rgba(56,189,248,0.08);border-radius:3px;border-top:1px solid rgba(56,189,248,0.2);"></div>
-                </div>
-                <div class="bs-hips"></div>
-                <div class="bs-legs">
-                  <div class="bs-leg"></div>
-                  <div class="bs-leg"></div>
-                </div>
-              </div>
-
-              <!-- Left side data points -->
-              <div class="data-point" style="top:22px;left:4px;">
-                <div class="dp-label" style="color:var(--accent-blue);">الكتف</div>
-                <div class="dp-line" style="width:16px;"></div>
-                <div class="dp-dot" style="background:var(--accent-blue);box-shadow:0 0 6px var(--accent-blue);"></div>
-              </div>
-              <div class="data-point" style="top:52px;left:0px;">
-                <div class="dp-label" style="color:var(--accent-green);">الصدر</div>
-                <div class="dp-line" style="width:14px;"></div>
-                <div class="dp-dot" style="background:var(--accent-green);box-shadow:0 0 6px var(--accent-green);"></div>
-              </div>
-              <div class="data-point" style="top:95px;left:4px;">
-                <div class="dp-label" style="color:var(--accent-purple);">الخصر</div>
-                <div class="dp-line" style="width:14px;"></div>
-                <div class="dp-dot" style="background:var(--accent-purple);box-shadow:0 0 6px var(--accent-purple);"></div>
-              </div>
-
-              <!-- Right side data points -->
-              <div class="data-point" style="top:22px;right:4px;flex-direction:row-reverse;">
-                <div class="dp-label" style="color:var(--accent-blue);">العضلة</div>
-                <div class="dp-line" style="width:16px;"></div>
-                <div class="dp-dot" style="background:var(--accent-blue);"></div>
-              </div>
-              <div class="data-point" style="top:52px;right:0px;flex-direction:row-reverse;">
-                <div class="dp-label" style="color:var(--accent-orange);">الذراع</div>
-                <div class="dp-line" style="width:14px;"></div>
-                <div class="dp-dot" style="background:var(--accent-orange);box-shadow:0 0 6px var(--accent-orange);"></div>
-              </div>
-              <div class="data-point" style="top:118px;right:4px;flex-direction:row-reverse;">
-                <div class="dp-label" style="color:var(--accent-green);">الساق</div>
-                <div class="dp-line" style="width:14px;"></div>
-                <div class="dp-dot" style="background:var(--accent-green);"></div>
-              </div>
-            </div>
-
-            <!-- Body stats row -->
-            <div style="display:flex;gap:5px;flex-shrink:0;margin-top:auto;">
-              <div style="flex:1;background:var(--bg-card);border-radius:7px;padding:5px;text-align:center;border:1px solid var(--border-subtle);">
-                <div style="font-size:0.8rem;font-weight:900;color:var(--accent-blue);">78.5</div>
-                <div style="font-size:0.45rem;color:var(--text-muted);">كجم</div>
-              </div>
-              <div style="flex:1;background:var(--bg-card);border-radius:7px;padding:5px;text-align:center;border:1px solid var(--border-subtle);">
-                <div style="font-size:0.8rem;font-weight:900;color:var(--accent-green);">38.2</div>
-                <div style="font-size:0.45rem;color:var(--text-muted);">عضلة كجم</div>
-              </div>
-              <div style="flex:1;background:var(--bg-card);border-radius:7px;padding:5px;text-align:center;border:1px solid var(--border-subtle);">
-                <div style="font-size:0.8rem;font-weight:900;color:var(--accent-orange);">14.2</div>
-                <div style="font-size:0.45rem;color:var(--text-muted);">دهون %</div>
-              </div>
-              <div style="flex:1;background:var(--bg-card);border-radius:7px;padding:5px;text-align:center;border:1px solid rgba(167,139,250,0.3);">
-                <div style="font-size:0.8rem;font-weight:900;color:var(--accent-purple);">22.8</div>
-                <div style="font-size:0.45rem;color:var(--text-muted);">BMI</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="phone-label">Digital Twin UI</div>
-      </div>
-
-    </div><!-- end mockups-row -->
   </div>
 </section>
 
 <div class="section-divider"></div>
 
 <!-- ══════════════════════════════════════════
-     SECTION 6: ENGINE ROOM – RBAC DASHBOARDS
+     SECTION 9: ENGINE ROOM – RBAC DASHBOARDS
 ══════════════════════════════════════════ -->
 <section id="dashboards" class="section-pad" style="background:linear-gradient(180deg,rgba(14,22,42,0.6),var(--bg-deep));">
   <div class="container">
@@ -2672,278 +3659,52 @@
     <div class="features-grid" style="margin-bottom:3rem;">
       <div class="feature-card reveal reveal-delay-1">
         <span class="feature-icon">👑</span>
-        <div class="feature-title">لوحة المالك (Super Admin)</div>
-        <div class="feature-desc">يملك Access كامل. يرى تحليلات كاملة وتوزيع جغرافي لكل المستخدمين والجيمات.</div>
+        <div class="feature-title">لوحة الإدارة العليا (Super Admin)</div>
+        <div class="feature-desc">تحكم مطلق في النظام. رؤية تحليلات شاملة، خرائط حرارية للنشاط، ومراقبة مؤشرات الأداء (KPIs) وإجمالي الإيرادات المالية لحظياً.</div>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <span class="feature-icon">🏢</span>
-        <div class="feature-title">لوحة تحكم الجيمات</div>
-        <div class="feature-desc">توليد الـ QR اللحظي (Token) وإحصائيات الزوار والمبيعات بشكل فوري.</div>
+        <span class="feature-icon">👥</span>
+        <div class="feature-title">إدارة المستخدمين والاشتراكات (User Management)</div>
+        <div class="feature-desc">تتبع تقدم المتدربين ومدى التزامهم، مراجعة واعتماد التحويلات المالية اليدوية (InstaPay/Vodafone Cash)، وإدارة ترقيات الباقات وحظر الحسابات.</div>
       </div>
       <div class="feature-card reveal reveal-delay-3">
         <span class="feature-icon">🏋️</span>
-        <div class="feature-title">مسؤول التمرين</div>
-        <div class="feature-desc">يضيف شجرة التمارين، الفيديوهات (أمامي/جانبي/علوي) لخوارزميات الـ AI.</div>
+        <div class="feature-title">مكتبة التمارين ومحرك الكاميرا (Exercise & AI Logic)</div>
+        <div class="feature-desc">بناء "مكتبة التمارين" وربط بدائلها (جيم/بيت/مكتب)، ورفع الفيديوهات بالزوايا الهندسية لتدريب خوارزميات تحليل الحركة اللحظي (MediaPipe).</div>
       </div>
       <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">📋</span>
+        <div class="feature-title">إدارة البرامج والخطط التدريبية (Programs & Rules)</div>
+        <div class="feature-desc">صياغة القوالب الجاهزة (مثل PPL و Arnold)، وبناء قواعد الذكاء الاصطناعي الشرطي (Rule-based) لتوليد الخطط تلقائياً، وتخصيص برامج السيدات.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
         <span class="feature-icon">🥗</span>
-        <div class="feature-title">قطاع التغذية</div>
-        <div class="feature-desc">إدخال الوجبات الغذائية ومتابعة المستخدمين وضبط الماكروز والسعرات.</div>
+        <div class="feature-title">مكتبة التغذية والوجبات (Nutrition Database)</div>
+        <div class="feature-desc">إدخال قاعدة بيانات الأطعمة، بناء وتحديث خوارزمية البدائل الديناميكية، وضبط حسابات الماكروز والسعرات الحرارية بدقة متناهية.</div>
+      </div>
+            <div class="feature-card reveal reveal-delay-3">
+        <span class="feature-icon">🏢</span>
+        <div class="feature-title">بوابة الصالات الرياضية (Gym B2B Portal)</div>
+        <div class="feature-desc">إدارة حسابات الجيمات المعتمدة، توليد الـ QR اللحظي (Time-stamped Token) ومنع الغش، ومتابعة إحصائيات الزوار والمبيعات المشتركة.</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <span class="feature-icon">💎</span>
+        <div class="feature-title">إدارة الاقتصاد والمتجر (Economy & Marketplace)</div>
+        <div class="feature-desc">التحكم في تسعير عناصر متجر الأفاتار والعملات الافتراضية (Coins/Gems)، ومراجعة واعتماد البرامج التدريبية للمدربين الخارجيين قبل نشرها.</div>
       </div>
       <div class="feature-card reveal reveal-delay-2">
         <span class="feature-icon">🤝</span>
-        <div class="feature-title">مسؤول العلاقات العامة</div>
-        <div class="feature-desc">إضافة الجيمات المعتمدة وإدارة خدمة العملاء والشراكات الاستراتيجية.</div>
+        <div class="feature-title">خدمة العملاء والشراكات (CS & PR)</div>
+        <div class="feature-desc">نظام تذاكر (Ticketing System) لإدارة الشكاوى، تقديم الدعم الفني للمتدربين، وتوسيع شبكة الشراكات الاستراتيجية مع المنشآت الرياضية.</div>
       </div>
     </div>
-
-    <!-- DESKTOP MOCKUP 9: SUPER ADMIN -->
-    <div class="reveal" style="margin-bottom:3rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem;text-align:center;">لوحة المالك — Super Admin Dashboard</div>
-      <div class="desktop-mockup">
-        <div class="desktop-titlebar">
-          <span class="mac-dot red"></span>
-          <span class="mac-dot yellow"></span>
-          <span class="mac-dot green"></span>
-          <div class="desktop-url-bar">
-            <div class="url-dot"></div>
-            <span>admin.fitmate.app/dashboard</span>
-          </div>
-          <div style="font-size:0.6rem;color:var(--text-muted);">Super Admin</div>
-        </div>
-        <div class="admin-body">
-          <!-- Sidebar -->
-          <div class="admin-sidebar">
-            <div class="sidebar-logo">FitMate<br>Admin</div>
-            <div class="sidebar-item active">
-              <span class="sidebar-icon">📊</span> Dashboard
-            </div>
-            <div class="sidebar-item">
-              <span class="sidebar-icon">👥</span> المستخدمون
-            </div>
-            <div class="sidebar-item">
-              <span class="sidebar-icon">🏢</span> الجيمات
-            </div>
-            <div class="sidebar-item">
-              <span class="sidebar-icon">💰</span> الإيرادات
-            </div>
-            <div class="sidebar-item">
-              <span class="sidebar-icon">🤖</span> الذكاء الاصطناعي
-            </div>
-            <div class="sidebar-item">
-              <span class="sidebar-icon">📍</span> الخريطة
-            </div>
-            <div class="sidebar-item">
-              <span class="sidebar-icon">⚙️</span> الإعدادات
-            </div>
-          </div>
-          <!-- Main area -->
-          <div class="admin-main">
-            <div class="admin-topbar">
-              <div class="admin-page-title">نظرة عامة — يونيو 2025</div>
-              <div class="admin-topbar-actions">
-                <span class="topbar-btn">↓ تصدير</span>
-                <span class="topbar-btn" style="background:rgba(16,185,129,0.1);color:var(--accent-green);border-color:rgba(16,185,129,0.2);">● مباشر</span>
-              </div>
-            </div>
-            <div class="admin-content">
-              <!-- Stat cards -->
-              <div class="stat-cards-row">
-                <div class="stat-card">
-                  <span class="sc-label">المستخدمون</span>
-                  <span class="sc-value blue">12,840</span>
-                  <span class="sc-change up">▲ +8.4% هذا الشهر</span>
-                </div>
-                <div class="stat-card">
-                  <span class="sc-label">الجيمات المفعلة</span>
-                  <span class="sc-value green">148</span>
-                  <span class="sc-change up">▲ +12 هذا الشهر</span>
-                </div>
-                <div class="stat-card">
-                  <span class="sc-label">الإيرادات (ج.م)</span>
-                  <span class="sc-value orange">284,500</span>
-                  <span class="sc-change up">▲ +22.1%</span>
-                </div>
-                <div class="stat-card">
-                  <span class="sc-label">معدل الالتزام</span>
-                  <span class="sc-value purple">73.2%</span>
-                  <span class="sc-change up">▲ +4.5%</span>
-                </div>
-              </div>
-              <!-- Charts row -->
-              <div class="charts-row">
-                <div class="chart-panel" style="flex:2;">
-                  <div class="chart-title">نمو المستخدمين — آخر 8 أشهر</div>
-                  <div class="bar-chart">
-                    <div class="bar-col"><div class="bar-fill" style="height:30%;"></div><span class="bar-lbl">نوف</span></div>
-                    <div class="bar-col"><div class="bar-fill" style="height:40%;"></div><span class="bar-lbl">ديس</span></div>
-                    <div class="bar-col"><div class="bar-fill" style="height:50%;"></div><span class="bar-lbl">يان</span></div>
-                    <div class="bar-col"><div class="bar-fill" style="height:44%;"></div><span class="bar-lbl">فبر</span></div>
-                    <div class="bar-col"><div class="bar-fill" style="height:62%;"></div><span class="bar-lbl">مار</span></div>
-                    <div class="bar-col"><div class="bar-fill" style="height:74%;"></div><span class="bar-lbl">أبر</span></div>
-                    <div class="bar-col"><div class="bar-fill" style="height:85%;"></div><span class="bar-lbl">ماي</span></div>
-                    <div class="bar-col"><div class="bar-fill" style="height:100%;box-shadow:0 0 10px rgba(56,189,248,0.5);"></div><span class="bar-lbl">يون</span></div>
-                  </div>
-                </div>
-                <div class="chart-panel" style="flex:2;">
-                  <div class="chart-title">الإيرادات (ج.م) — آخر 8 أشهر</div>
-                  <div class="bar-chart">
-                    <div class="bar-col"><div class="bar-fill green-bar" style="height:20%;"></div><span class="bar-lbl">نوف</span></div>
-                    <div class="bar-col"><div class="bar-fill green-bar" style="height:32%;"></div><span class="bar-lbl">ديس</span></div>
-                    <div class="bar-col"><div class="bar-fill green-bar" style="height:41%;"></div><span class="bar-lbl">يان</span></div>
-                    <div class="bar-col"><div class="bar-fill green-bar" style="height:38%;"></div><span class="bar-lbl">فبر</span></div>
-                    <div class="bar-col"><div class="bar-fill green-bar" style="height:58%;"></div><span class="bar-lbl">مار</span></div>
-                    <div class="bar-col"><div class="bar-fill green-bar" style="height:69%;"></div><span class="bar-lbl">أبر</span></div>
-                    <div class="bar-col"><div class="bar-fill green-bar" style="height:80%;"></div><span class="bar-lbl">ماي</span></div>
-                    <div class="bar-col"><div class="bar-fill green-bar" style="height:96%;box-shadow:0 0 10px rgba(16,185,129,0.5);"></div><span class="bar-lbl">يون</span></div>
-                  </div>
-                </div>
-                <div class="chart-panel" style="flex:1.5;">
-                  <div class="chart-title">خريطة الحرارة — نشاط أسبوعي</div>
-                  <div class="heatmap">
-                    <div class="heatmap-row"><div class="hm-cell hm-1"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-1"></div></div>
-                    <div class="heatmap-row"><div class="hm-cell hm-2"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div></div>
-                    <div class="heatmap-row"><div class="hm-cell hm-3"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-1"></div></div>
-                    <div class="heatmap-row"><div class="hm-cell hm-1"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div></div>
-                    <div class="heatmap-row"><div class="hm-cell hm-2"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-1"></div><div class="hm-cell hm-empty"></div></div>
-                    <div class="heatmap-row"><div class="hm-cell hm-4"></div><div class="hm-cell hm-4"></div><div class="hm-cell hm-3"></div><div class="hm-cell hm-2"></div><div class="hm-cell hm-1"></div><div class="hm-cell hm-empty"></div><div class="hm-cell hm-empty"></div></div>
-                  </div>
-                  <div style="display:flex;gap:3px;align-items:center;margin-top:4px;">
-                    <span style="font-size:0.45rem;color:var(--text-muted);">أقل</span>
-                    <div class="hm-cell hm-empty" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
-                    <div class="hm-cell hm-1" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
-                    <div class="hm-cell hm-2" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
-                    <div class="hm-cell hm-3" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
-                    <div class="hm-cell hm-4" style="width:10px;height:10px;border-radius:2px;flex-shrink:0;"></div>
-                    <span style="font-size:0.45rem;color:var(--text-muted);">أكثر</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- DESKTOP MOCKUP 10: GYM B2B -->
-    <div class="reveal">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:1rem;text-align:center;">لوحة الجيم — Gym B2B Dashboard</div>
-      <div class="desktop-mockup">
-        <div class="desktop-titlebar">
-          <span class="mac-dot red"></span>
-          <span class="mac-dot yellow"></span>
-          <span class="mac-dot green"></span>
-          <div class="desktop-url-bar">
-            <div class="url-dot"></div>
-            <span>gym.fitmate.app/powerhouse-cairo</span>
-          </div>
-          <div style="font-size:0.6rem;color:var(--text-muted);">Gym Manager</div>
-        </div>
-        <div class="gym-body">
-          <div class="gym-main">
-            <div class="gym-topbar">
-              <div class="gym-page-title">PowerHouse Cairo — لوحة التحكم</div>
-              <span class="gym-badge">● مفعل ومتصل</span>
-            </div>
-            <div class="gym-content">
-              <!-- QR Panel -->
-              <div class="qr-panel">
-                <div class="qr-panel-title">🔑 QR الدخول اللحظي</div>
-                <!-- CSS QR Code -->
-                <div class="css-qr">
-                  <!-- Row 1 -->
-                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div>
-                  <!-- Row 2 -->
-                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
-                  <!-- Row 3 -->
-                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
-                  <!-- Row 4 -->
-                  <div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div>
-                  <!-- Row 5 -->
-                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
-                  <!-- Row 6 -->
-                  <div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div>
-                  <!-- Row 7 -->
-                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
-                  <!-- Row 8 -->
-                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div>
-                  <!-- Row 9 -->
-                  <div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-off"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div><div class="qr-cell qr-on"></div>
-                </div>
-                <div class="qr-token">TKN-7X4F-29QM</div>
-                <div class="qr-timer">⏱ ينتهي خلال 00:24</div>
-                <button class="qr-regen-btn">↺ تجديد Token</button>
-              </div>
-
-              <!-- Stats Panel -->
-              <div class="gym-stats-panel">
-                <div class="gym-stat-row">
-                  <div class="gym-stat-card">
-                    <div class="gsc-label">الزوار اليوم</div>
-                    <div class="gsc-value blue">127</div>
-                    <div class="gsc-sub">▲ +18 عن أمس</div>
-                  </div>
-                  <div class="gym-stat-card">
-                    <div class="gsc-label">الأعضاء النشطون</div>
-                    <div class="gsc-value green">480</div>
-                    <div class="gsc-sub">▲ +24 هذا الشهر</div>
-                  </div>
-                  <div class="gym-stat-card">
-                    <div class="gsc-label">دخول عبر QR اليوم</div>
-                    <div class="gsc-value orange">94</div>
-                    <div class="gsc-sub">74% من الكل</div>
-                  </div>
-                </div>
-
-                <div class="gym-chart-panel">
-                  <div class="chart-title">زوار اليوم بالساعة</div>
-                  <div class="visitors-bars">
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:20%;"></div><span class="bar-lbl">6ص</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:35%;"></div><span class="bar-lbl">7ص</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:55%;"></div><span class="bar-lbl">8ص</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:48%;"></div><span class="bar-lbl">9ص</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:30%;"></div><span class="bar-lbl">10ص</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:20%;"></div><span class="bar-lbl">11ص</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:15%;"></div><span class="bar-lbl">12م</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:25%;"></div><span class="bar-lbl">1م</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:42%;"></div><span class="bar-lbl">2م</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-past" style="height:60%;"></div><span class="bar-lbl">3م</span></div>
-                    <div class="vb-col"><div class="vb-fill vb-today" style="height:80%;box-shadow:0 0 8px rgba(16,185,129,0.4);"></div><span class="bar-lbl" style="color:var(--accent-green);">4م</span></div>
-                    <div class="vb-col"><div class="vb-fill" style="height:10%;background:rgba(56,189,248,0.15);border:1px dashed rgba(56,189,248,0.3);border-radius:2px 2px 0 0;"></div><span class="bar-lbl">5م</span></div>
-                  </div>
-                </div>
-
-                <div style="display:flex; gap:10px;">
-                  <div class="gym-stat-card" style="flex:1;">
-                    <div class="gsc-label">أكثر تمرين اليوم</div>
-                    <div style="font-size:0.85rem;font-weight:800;color:var(--text-primary);">بنش بريس</div>
-                    <div class="gsc-sub" style="color:var(--accent-blue);">34 مستخدم</div>
-                  </div>
-                  <div class="gym-stat-card" style="flex:1;">
-                    <div class="gsc-label">متوسط وقت التمرين</div>
-                    <div style="font-size:0.85rem;font-weight:800;color:var(--text-primary);">58 دقيقة</div>
-                    <div class="gsc-sub">▲ +7 دق عن الشهر الماضي</div>
-                  </div>
-                  <div class="gym-stat-card" style="flex:1;">
-                    <div class="gsc-label">اشتراكات منتهية</div>
-                    <div style="font-size:0.85rem;font-weight:800;color:var(--accent-orange);">12 عضو</div>
-                    <div class="gsc-sub" style="color:var(--accent-orange);">⚠ تحتاج تجديد</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
-
 <div class="section-divider"></div>
 
+
 <!-- ══════════════════════════════════════════
-     SECTION 7: TECH STACK
+     SECTION 10: TECH STACK
 ══════════════════════════════════════════ -->
 <section id="techstack">
   <div class="container">
@@ -2995,116 +3756,7 @@
 <div class="section-divider"></div>
 
 <!-- ══════════════════════════════════════════
-     SECTION 8: ROADMAP
-══════════════════════════════════════════ -->
-<section id="roadmap">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-tag">🗺️ خريطة الطريق</div>
-      <h2 class="section-title">خريطة الطريق <span>(من MVP إلى منصة متكاملة)</span></h2>
-    </div>
-    <div class="roadmap-steps">
-      <div class="roadmap-step v1 reveal reveal-delay-1">
-        <div class="step-version v1">V1</div>
-        <div class="step-title">المرحلة الأولى — Core MVP</div>
-        <div class="step-desc">تطبيق برايفت كوتش، الدايت والتمارين المرنة، أرشيف InBody، وبوابات الدفع الكاملة.</div>
-        <div class="step-flag v1">🚩 الأساس والانطلاق</div>
-      </div>
-      <div class="roadmap-step v2 reveal reveal-delay-2">
-        <div class="step-version v2">V2</div>
-        <div class="step-title">المرحلة الثانية — Viral Loop</div>
-        <div class="step-desc">تفعيل الجيمات بالكامل، QR ديناميكي، خرائط GPS، الرانك المحلي والعالمي.</div>
-        <div class="step-flag v2">🚀 التوسع والانتشار</div>
-      </div>
-      <div class="roadmap-step v3 reveal reveal-delay-3">
-        <div class="step-version v3">V3</div>
-        <div class="step-title">المرحلة الثالثة — AI Automation</div>
-        <div class="step-desc">تحليل الفيديو اللحظي، AR، الكوتش الذكي 24/7، وتوقع شكل الجسم المستقبلي.</div>
-        <div class="step-flag v3">🤖 الأتمتة الكاملة</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ══════════════════════════════════════════
-     SECTION 9: FINANCIALS
-══════════════════════════════════════════ -->
-<section id="financials">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-tag">💰 الاستثمار المالي</div>
-      <h2 class="section-title">الاستثمار المالي <span>(شفافية كاملة)</span></h2>
-      <p class="section-text">إجمالي الاستثمار المالي 225,000 ج.م، مقسمة استراتيجياً على ثلاث مراحل تطوير واضحة:</p>
-    </div>
-    <div class="financials-wrapper">
-      <div class="total-box reveal reveal-delay-1">
-        <span class="total-label">إجمالي الاستثمار</span>
-        <span class="total-amount">225,000</span>
-        <span class="total-currency">جنيه مصري</span>
-        <div style="height:1px;width:100%;background:var(--border-subtle);margin:1rem 0;"></div>
-        <div style="font-size:0.8rem;color:var(--text-muted);text-align:center;line-height:1.6;">3 مراحل تطوير<br>ضمان شهر مجاناً<br>تسليم احترافي</div>
-      </div>
-      <div class="payment-phases reveal reveal-delay-2">
-        <!-- V1.0 -->
-        <div class="phase-card">
-          <div class="phase-header">
-            <span class="phase-name">🚩 أولاً: V1.0 — Core MVP</span>
-            <span class="phase-amount">125,000 ج.م</span>
-          </div>
-          <div class="phase-milestones">
-            <div class="milestone-item">
-              <div class="milestone-dot blue"></div>
-              <span class="milestone-pct">40%</span>
-              <span style="flex:1;">الدفعة المقدمة — تأسيس البنية التحتية</span>
-              <span class="milestone-val">50,000 ج.م</span>
-            </div>
-            <div class="milestone-item">
-              <div class="milestone-dot blue"></div>
-              <span class="milestone-pct">30%</span>
-              <span style="flex:1;">تسليم النظام الأساسي</span>
-              <span class="milestone-val">37,500 ج.م</span>
-            </div>
-            <div class="milestone-item">
-              <div class="milestone-dot blue"></div>
-              <span class="milestone-pct">20%</span>
-              <span style="flex:1;">النسخة التجريبية والتكامل</span>
-              <span class="milestone-val">25,000 ج.م</span>
-            </div>
-            <div class="milestone-item">
-              <div class="milestone-dot green"></div>
-              <span class="milestone-pct">10%</span>
-              <span style="flex:1;">التسليم النهائي والإطلاق الرسمي</span>
-              <span class="milestone-val">12,500 ج.م</span>
-            </div>
-          </div>
-        </div>
-        <!-- V2.0 -->
-        <div class="phase-card">
-          <div class="phase-header">
-            <span class="phase-name">🚀 ثانياً: V2.0 — إصدار الجيمات</span>
-            <span class="phase-amount green">50,000 ج.م</span>
-          </div>
-          <div style="font-size:0.82rem; color:var(--text-muted);">تُنفذ لاحقاً — بعد نجاح V1.0 وتأكيد الشراكات مع الجيمات.</div>
-        </div>
-        <!-- V3.0 -->
-        <div class="phase-card">
-          <div class="phase-header">
-            <span class="phase-name">🤖 ثالثاً: V3.0 — محركات AI</span>
-            <span class="phase-amount purple">50,000 ج.م</span>
-          </div>
-          <div style="font-size:0.82rem; color:var(--text-muted);">تُنفذ لاحقاً — بعد جمع البيانات الكافية لتدريب النماذج وتفعيل V2.0.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ══════════════════════════════════════════
-     SECTION 10: TERMS & IP
+     SECTION 11: TERMS & IP
 ══════════════════════════════════════════ -->
 <section id="terms">
   <div class="container">
@@ -3140,7 +3792,7 @@
 <div class="section-divider"></div>
 
 <!-- ══════════════════════════════════════════
-     SECTION 11: FOOTER & CTA
+     SECTION 12: FOOTER & CTA
 ══════════════════════════════════════════ -->
 <section id="footer">
   <div class="footer-glow"></div>
@@ -3152,7 +3804,7 @@
       جاهزون لبناء<br><span style="background:linear-gradient(135deg,var(--accent-blue),var(--accent-green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">المنصة الرياضية الأكبر عربياً؟</span>
     </h2>
     <p class="footer-desc reveal reveal-delay-2">
-      هذا العرض يمثل الأساس التقني الصلب والتسعير العادل لضمان خروج المشروع بأعلى معايير الجودة، ويمهد الطريق لتحويل المنصة إلى "Unicorn".
+المنظومة محددة، الكود جاهز للبدء، والفريق التقني متهيئ. اعتمد المقترح الآن وابدأ رحلة البناء الحقيقية.
     </p>
     <div class="footer-cta-group reveal reveal-delay-3">
       <a href="#" class="btn-primary btn-large">✓ اعتماد خطة التطوير وبدء التنفيذ</a>
@@ -3162,12 +3814,55 @@
     <div class="footer-note reveal reveal-delay-4">
       <span>FitMate / TrainTwin — عرض تقني وتجاري مفصل</span>
       <span class="validity">⏱ هذا العرض صالح لمدة 14 يوماً من تاريخ الإرسال</span>
-      <span>🔒 هذا العرض سري. أي شاشات غير مذكورة نصاً تخضع لتسعير منفصل.</span>
-      <span style="margin-top:0.5rem; color:var(--border-glow);">مصمم ومطور بواسطة Joka · Dev — 2025</span>
+      <span style="margin-top:0.5rem; color:var(--border-glow);">مصمم ومطور بواسطة Eng Abdullah Hussein — 2026</span>
     </div>
   </div>
 </section>
+<script>
+(function() {
+  // 1. Tab System Logic
+  const tabBtns = document.querySelectorAll('.jux-tab-btn');
+  const tabPanels = document.querySelectorAll('.jux-tab-panel');
 
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+
+      tabBtns.forEach(b => b.classList.remove('jux-active'));
+      tabPanels.forEach(p => p.classList.remove('jux-active'));
+
+      btn.classList.add('jux-active');
+      const panel = document.getElementById('jux-tab-' + target);
+      if (panel) {
+        panel.classList.add('jux-active');
+        
+        // Re-trigger animations in newly opened tab
+        const reveals = panel.querySelectorAll('.jux-reveal');
+        reveals.forEach(el => {
+          el.classList.remove('jux-visible');
+          // Re-observe after a tiny delay
+          setTimeout(() => {
+            juxObserver.observe(el);
+          }, 50);
+        });
+      }
+    });
+  });
+
+  // 2. Intersection Observer for Scroll Animations
+  const revealTargets = document.querySelectorAll('.jux-reveal');
+  const juxObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('jux-visible');
+        juxObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  revealTargets.forEach(el => juxObserver.observe(el));
+})();
+</script>
 <script>
 // ── INTERSECTION OBSERVER FOR REVEALS ──
 const revealEls = document.querySelectorAll('.reveal');
