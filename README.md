@@ -6,14 +6,14 @@
 
 <p align="center">
   <!-- Banner: capsule-render - tweak text/colors via the URL -->
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=200&text=A7Joka&fontAlign=50&fontAlignY=40&color=gradient&desc=Code%20%7C%20Security%20%7C%20Design%20-%20Ship%20with%20intent&descAlignY=60" alt="A7Joka banner" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=200&text=Joka&fontAlign=50&fontAlignY=40&color=gradient&desc=Code%20%7C%20Security%20%7C%20Design%20-%20Ship%20with%20intent&descAlignY=60" alt="Joka banner" />
 </p>
 
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&pause=1000&color=00FFFF&center=true&vCenter=true&width=700&lines=Hi!+I'm+Joka+%F0%9F%91%8B;I+build+secure+web+apps+%26+clean+APIs.;Open+to+collabs+%2F+freelance+%F0%9F%9A%80" alt="typing" />
 </p>
 
-# 👋 Hi, I'm Abdallah Hussein (A7Joka)
+# 👋 Hi, I'm Abdullah Hussein (Joka)
 
 **Multidisciplinary Software Engineer | Cybersecurity Specialist | Content Creator**
 
