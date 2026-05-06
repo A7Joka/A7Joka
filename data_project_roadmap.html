@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Scraping Project Roadmap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-bg-body: #121212;
+      --color-bg-card: #1e1e1e;
+      --color-bg-modal: #2a2a2a;
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #aaaaaa;
+      --color-text-tertiary: #888888;
+      --color-border: #333333;
+      --border-radius-lg: 12px;
+
+      --purple-bg: rgba(127, 119, 221, 0.15);
+      --purple-txt: #b2aaff;
+      --teal-bg: rgba(29, 158, 117, 0.15);
+      --teal-txt: #68d3a6;
+      --coral-bg: rgba(216, 90, 48, 0.15);
+      --coral-txt: #ff9f7a;
+      --blue-bg: rgba(55, 138, 221, 0.15);
+      --blue-txt: #7bb5fb;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: var(--color-bg-body);
+      color: var(--color-text-primary);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    .phase-label {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-tertiary);
+      margin: 2rem 0 1rem;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 5px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      padding: 18px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+      border-color: #555;
+    }
+
+    .card::after {
+      content: 'اضغط لعرض خارطة الطريق والبرومبت';
+      position: absolute;
+      bottom: 10px;
+      left: 15px;
+      font-size: 10px;
+      color: var(--color-text-tertiary);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover::after {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .role-badge {
+      display: inline-block;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .av-purple,
+    .badge-purple {
+      background: var(--purple-bg);
+      color: var(--purple-txt);
+    }
+
+    .av-teal,
+    .badge-teal {
+      background: var(--teal-bg);
+      color: var(--teal-txt);
+    }
+
+    .av-coral,
+    .badge-coral {
+      background: var(--coral-bg);
+      color: var(--coral-txt);
+    }
+
+    .av-blue,
+    .badge-blue {
+      background: var(--blue-bg);
+      color: var(--blue-txt);
+    }
+
+    .tasks {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tasks li {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .dot-purple {
+      background: var(--purple-txt);
+    }
+
+    .dot-teal {
+      background: var(--teal-txt);
+    }
+
+    .dot-coral {
+      background: var(--coral-txt);
+    }
+
+    .dot-blue {
+      background: var(--blue-txt);
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .modal-content {
+      background: var(--color-bg-modal);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 650px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--color-text-tertiary);
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+      color: var(--color-text-primary);
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: var(--color-text-primary);
+    }
+
+    .modal-subtitle {
+      font-size: 15px;
+      color: var(--color-text-tertiary);
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .roadmap-container {
+      position: relative;
+      padding-right: 18px;
+      border-right: 2px dashed var(--color-border);
+      margin-bottom: 25px;
+    }
+
+    .roadmap-step {
+      position: relative;
+      margin-bottom: 22px;
+      color: var(--color-text-secondary);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .roadmap-step::before {
+      content: '';
+      position: absolute;
+      right: -26px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      background: var(--color-bg-modal);
+      border: 2px solid var(--color-text-tertiary);
+      border-radius: 50%;
+    }
+
+    .roadmap-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .prompt-box {
+      background: var(--color-bg-body);
+      padding: 18px;
+      border-radius: 8px;
+      font-size: 15px;
+      border: 1px solid var(--color-border);
+      color: #e0e0e0;
+      margin-top: 15px;
+      line-height: 1.8;
+    }
+
+    .prompt-box strong {
+      color: var(--teal-txt);
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2 class="sr-only">توزيع مهام مشروع تحليل البيانات</h2>
+
+    <!-- المرحلة الأولى -->
+    <p class="phase-label">المرحلة 1 — Web Scraping (Data Acquisition)</p>
+    <div class="cards">
+      <!-- Task 1: Wuzzuf -->
+      <div class="card"
+        data-prompt="أعمل مع فريق مكون من 4 أشخاص على مشروع Data Engineering متكامل. مهمتي هي استخراج البيانات من موقع Wuzzuf. بصفتك خبير في Python و Web Scraping، أريد منك كتابة سكريبت باستخدام مكتبتي `BeautifulSoup` و `Requests` لاستخراج الوظائف المتاحة. يجب أن يستخرج الكود بوضوح (المسمى الوظيفي، اسم الشركة، الموقع الجغرافي، وسنوات الخبرة). يرجى أيضاً تضمين شرح مفصل لكيفية بناء حلقة تكرارية (Loop) للتعامل مع الـ Pagination لاستخراج بيانات من صفحات متعددة، وكيفية استخدام الـ Headers والـ time.sleep() لتجنب حظر الـ IP الخاص بي."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-purple">T1</div>
+          <div>
+            <div class="name">Team 1</div><span class="role-badge badge-purple">Wuzzuf Scraper</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-purple"></span>استخراج بيانات الوظائف الأساسية</li>
+          <li><span class="dot dot-purple"></span>تخطي الصفحات المتعددة (Pagination)</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">تحليل هيكل صفحة الويب لموقع <strong>Wuzzuf</strong> باستخدام أدوات المطور (Inspect) لتحديد
+            مسارات الـ HTML للعناصر المطلوبة.</div>
+          <div class="step">كتابة الكود الأساسي باستخدام مكتبة <strong>Requests</strong> لجلب محتوى الصفحة، ومكتبة
+            <strong>BeautifulSoup</strong> لتحليل البيانات واستخراجها.</div>
+          <div class="step">بناء حلقة تكرارية (While/For Loop) لاكتشاف الروابط المتغيرة للصفحات لضمان تنفيذ عملية الـ
+            <strong>Pagination</strong> بنجاح.</div>
+          <div class="step">حقن <code>User-Agent</code> داخل الـ Headers الخاص بالطلب، وإضافة <code>time.sleep(2)</code>
+            بين الطلبات لتجنب الحظر الأمني.</div>
+          <div class="step">تخزين البيانات المستخرجة في هياكل بيانات بايثون (مثل List of Dictionaries) ثم تصديرها إلى
+            ملف بصيغة <code>.csv</code> لتسليمه.</div>
+        </div>
+      </div>
+
+      <!-- Task 2: Bayt -->
+      <div class="card"
+        data-prompt="أعمل مع فريق مكون من 4 أشخاص على مشروع Data Engineering متكامل. مهمتي هي استخراج البيانات من موقع Bayt (أو LinkedIn) لتكون مطابقة لبيانات موقع Wuzzuf التي يجمعها زملائي. بصفتك مهندس بيانات خبير، اكتب لي سكريبت باستخدام `BeautifulSoup` و `Requests` لجمع (المسمى الوظيفي، اسم الشركة، الموقع الجغرافي، وسنوات الخبرة). اشرح لي كيف يمكنني تتبع ومعالجة الـ Pagination في هذا الموقع بالذات، وكيف أضمن أن هيكل البيانات المستخرجة سيكون متوافقاً تماماً مع زملائي لسهولة دمجها لاحقاً."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-teal">T2</div>
+          <div>
+            <div class="name">Team 2</div><span class="role-badge badge-teal">Bayt Scraper</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-teal"></span>استخراج بيانات الوظائف الأساسية</li>
+          <li><span class="dot dot-teal"></span>توحيد هيكل البيانات مع الفريق الآخر</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">فحص وتحديد مسارات الـ HTML الدقيقة في موقع <strong>Bayt</strong>، حيث يختلف تصميمه البرمجي
+            تماماً عن المواقع الأخرى.</div>
+          <div class="step">استخدام <strong>Requests و BeautifulSoup</strong> لكتابة كود السحب المبدئي للصفحة الأولى
+            واختبار جودة البيانات المستخرجة.</div>
+          <div class="step">معالجة نظام الـ <strong>Pagination</strong> الخاص بالموقع من خلال تحليل كيفية تغير الـ URL
+            عند الانتقال للصفحة التالية.</div>
+          <div class="step">عقد اجتماع سريع مع الفريق الآخر لضمان <strong>توحيد أسماء الأعمدة</strong> المستخرجة (Title,
+            Company, Location, Experience).</div>
+          <div class="step">تصدير مجموعة البيانات إلى ملف <code>.csv</code> منفصل ليكون جاهزاً للانتقال إلى المرحلة
+            التالية وهي تنظيف البيانات.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- المرحلة الثانية -->
+    <p class="phase-label">المرحلة 2 — Data Cleaning & Preprocessing (Pandas)</p>
+    <div class="cards">
+      <!-- Task 1: Missing & Duplicates -->
+      <div class="card"
+        data-prompt="أعمل مع فريق على مشروع Data Engineering، وقد استلمنا الآن العينة المبدئية للبيانات (Sample Data) بعد عملية الـ Web Scraping. مهمتي في الفريق هي تنظيف البيانات من التكرارات والقيم المفقودة. بصفتك خبير في مكتبة `Pandas`، اكتب لي الكود اللازم لاكتشاف وحذف الصفوف المكررة بالكامل. بعد ذلك، اكتب لي كوداً للتعامل مع القيم المفقودة (Missing Values)، سواء بحذفها إذا كانت مؤثرة، أو تعويضها بقيم افتراضية (Imputation). يرجى شرح كل دالة يتم استخدامها."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-purple">T1</div>
+          <div>
+            <div class="name">Task 1</div><span class="role-badge badge-purple">Missing Values & Duplicates</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-purple"></span>معالجة القيم المفقودة (Nulls)</li>
+          <li><span class="dot dot-purple"></span>إزالة الصفوف المكررة تماماً</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">قراءة ملفات الـ CSV المستخرجة باستخدام <code>pd.read_csv()</code> واستكشاف شكل البيانات عبر
+            دوال <code>head()</code> و <code>info()</code>.</div>
+          <div class="step">حساب حجم القيم المفقودة في كل عمود باستخدام الكود <code>df.isnull().sum()</code> لتحديد حجم
+            المشكلة.</div>
+          <div class="step">اتخاذ القرار باستخدام دالة <code>dropna()</code> لحذف الصفوف التالفة تماماً، أو
+            <code>fillna()</code> لتعويض الفراغات النصية بكلمة 'Unknown'.</div>
+          <div class="step">استخدام دالة <code>drop_duplicates()</code> مع المعامل <code>keep='first'</code> لإزالة أي
+            وظائف تكرر سحبها بالخطأ.</div>
+          <div class="step">إجراء فحص أخير للـ DataFrame للتأكد من نظافة البيانات من أي تشوهات قبل تسليمها للمرحلة
+            القادمة.</div>
+        </div>
+      </div>
+
+      <!-- Task 2: Regex & Parsing -->
+      <div class="card"
+        data-prompt="أعمل مع فريق على مشروع Data Engineering. مهمتي الحالية كعضو في الفريق هي معالجة عمود 'سنوات الخبرة' (Experience) في مجموعة البيانات الخاصة بنا باستخدام مكتبة `Pandas`. البيانات الواردة في هذا العمود عبارة عن نصوص فوضوية مثل '3-5 years', '+2 Yrs', أو 'No experience'. بصفتك مهندس بيانات خبير، أريد منك كتابة دالة بايثون قوية تستخدم التعابير النمطية (Regex) لاستخراج الأرقام فقط وتحويلها إلى قيم رقمية (Numeric). أريد فصلها لعمودين: حد أدنى وحد أقصى للخبرة. اشرح الكود خطوة بخطوة."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-teal">T2</div>
+          <div>
+            <div class="name">Task 2</div><span class="role-badge badge-teal">Experience Parsing</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-teal"></span>استخراج الأرقام من النصوص المعقدة</li>
+          <li><span class="dot dot-teal"></span>تحويل البيانات إلى صيغة رقمية</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">استعراض كافة الحالات الاستثنائية والنصوص العشوائية الموجودة في عمود الخبرة باستخدام
+            <code>df['Experience'].unique()</code>.</div>
+          <div class="step">كتابة نمط تعبير نمطي (<strong>Regex Pattern</strong>) باستخدام مكتبة <code>re</code> لالتقاط
+            الأرقام المنفردة أو النطاقات الرقمية المتصلة.</div>
+          <div class="step">بناء دالة تقوم بفصل هذه الأرقام وإنشاء عمودين جديدين في الجدول: <code>Min_Experience</code>
+            و <code>Max_Experience</code>.</div>
+          <div class="step">تطبيق الدالة على العمود بأكمله باستخدام الدالة الفعالة
+            <code>df['Experience'].apply()</code>.</div>
+          <div class="step">تحويل أنواع البيانات في الأعمدة الجديدة إلى صيغ رقمية باستخدام <code>pd.to_numeric()</code>
+            لتصبح جاهزة للعمليات الحسابية.</div>
+        </div>
+      </div>
+
+      <!-- Task 3: Location Standardization -->
+      <div class="card"
+        data-prompt="أعمل مع فريق على مشروع Data Engineering. مهمتي الآن هي توحيد صيغة عمود 'الموقع/المحافظة' في مجموعة بيانات الوظائف الخاصة بنا باستخدام `Pandas`. البيانات الحالية غير منظمة (مثل: 'Maadi, Cairo, Egypt', 'Cairo', 'Alexandria - Egypt'). بصفتك خبير في تنظيف البيانات، اكتب لي كوداً يقوم باستخراج اسم المحافظة الأساسية فقط في عمود جديد، ويزيل أي رموز زائدة، المسافات، أو أسماء الدول المتكررة. يرجى تزويدي بأفضل الممارسات لعمل ذلك برمجياً."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-coral">T3</div>
+          <div>
+            <div class="name">Task 3</div><span class="role-badge badge-coral">Location Standardization</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-coral"></span>فصل المحافظة عن أسماء الشوارع</li>
+          <li><span class="dot dot-coral"></span>إزالة الرموز والمسافات الزائدة</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">تحليل المشاكل النصية في عمود الموقع من خلال استخراج عينة عشوائية وقراءتها لفهم نمط الفواصل
+            المستخدمة.</div>
+          <div class="step">استخدام الدوال النصية في البانداس مثل <code>str.split()</code> لتقسيم السلسلة النصية بناءً
+            على الفواصل (مثل الكومة أو الشرطة).</div>
+          <div class="step">إنشاء قاموس (<strong>Mapping Dictionary</strong>) لتوحيد المسميات المختلفة لنفس المكان (مثل
+            تحويل 'Al-Qahira' إلى 'Cairo').</div>
+          <div class="step">إزالة المسافات البيضاء الزائدة والرموز الغريبة من بداية ونهاية النصوص باستخدام دالة
+            <code>str.strip()</code>.</div>
+          <div class="step">استبدال العمود القديم بالعمود المنظف والتأكد من توحيد التصنيفات لضمان دقة الرسوم البيانية في
+            المرحلة القادمة.</div>
+        </div>
+      </div>
+
+      <!-- Task 4: Merging Datasets -->
+      <div class="card"
+        data-prompt="أعمل مع فريق على مشروع Data Engineering. زملائي قاموا بسحب بيانات من موقع Wuzzuf وآخرون من موقع Bayt. مهمتي الآن هي استخدام `Pandas` لدمج هاتين المجموعتين (Merging/Concatenation) في قاعدة بيانات واحدة نهائية متماسكة. بصفتك مهندس بيانات محترف، اكتب لي الكود اللازم لدمج الجداول رأسياً، مع التأكد من تطابق أسماء الأعمدة بين الجدولين. أضف أيضاً خطوة برمجية لإنشاء عمود جديد يسمى 'Source' لتحديد مصدر كل صف (سواء كان Wuzzuf أو Bayt). اشرح الكود."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-blue">T4</div>
+          <div>
+            <div class="name">Task 4</div><span class="role-badge badge-blue">Data Merging</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-blue"></span>توحيد أسماء الأعمدة بين الجدولين</li>
+          <li><span class="dot dot-blue"></span>دمج الجداول لإنشاء ملف نهائي</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">استيراد كلا المجموعتين (DataFrames) وإجراء مقارنة دقيقة بين أسماء الأعمدة باستخدام
+            <code>df.columns</code> لضمان التطابق.</div>
+          <div class="step">إعادة تسمية أي أعمدة غير متطابقة باستخدام دالة <code>rename()</code> لتجنب ظهور أعمدة فارغة
+            بعد الدمج.</div>
+          <div class="step">إضافة عمود تعريفي جديد <code>df['Source']</code> في كل جدول وتعبئته باسم الموقع لتمييز مصدر
+            كل وظيفة.</div>
+          <div class="step">دمج الجدولين رأسياً لزيادة عدد الصفوف باستخدام الدالة <code>pd.concat()</code> مع تفعيل خيار
+            <code>ignore_index=True</code>.</div>
+          <div class="step">إعادة ضبط تسلسل الفهرس (Index) للجدول النهائي لتجنب الفهارس المتكررة وتصدير النسخة النظيفة
+            كملف CSV أو قاعدة بيانات.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- المرحلة الثالثة -->
+    <p class="phase-label">المرحلة 3 — Exploratory Data Analysis (EDA) & Visualization</p>
+    <div class="cards">
+      <!-- Task 1: Salary & Skills -->
+      <div class="card"
+        data-prompt="وصلنا في مشروع Data Engineering إلى مرحلة التحليل (EDA). مطلوب مني كعضو في الفريق الإجابة على سؤالين: 'ما هو توزيع الوظائف/الرواتب حسب المجال؟' و 'ما هي أكثر المهارات التقنية طلباً في السوق؟'. بصفتك محلل بيانات خبير، اكتب لي كود Python باستخدام `Matplotlib` أو `Seaborn` لإجراء التحليل الإحصائي اللازم ورسم Chart مناسب لكل سؤال. الأهم من ذلك، أريد منك كتابة نموذج احترافي للـ Storytelling (التعليق الاستنتاجي) الذي يجب أن أكتبه أسفل كل رسم بياني لشرح الرؤى المستفادة للإدارة، بدلاً من الوصف البسيط."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-purple">T1</div>
+          <div>
+            <div class="name">Task 1</div><span class="role-badge badge-purple">Salary & Skills EDA</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-purple"></span>تحليل توزيع الرواتب والوظائف</li>
+          <li><span class="dot dot-purple"></span>رسم بياني وتوضيح الـ Storytelling</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">تجميع البيانات (Aggregation) لتصنيف الوظائف حسب القطاعات المختلفة لحساب المتوسطات.</div>
+          <div class="step">استخدام مكتبة <strong>Seaborn</strong> لإنشاء رسم بياني شريطي (Bar Chart) يعرض الرواتب
+            مقارنة بالمجالات الوظيفية.</div>
+          <div class="step">فصل النصوص في عمود 'المهارات' باستخدام دوال بايثون وعدّ تكرار كل مهارة لاستخراج أعلى 10
+            مهارات مطلوبة.</div>
+          <div class="step">تصميم رسم بياني دائري أو شريطي متقدم لعرض المهارات التقنية الأكثر انتشاراً في الإعلانات.
+          </div>
+          <div class="step">كتابة <strong>Storytelling</strong> احترافي يربط بين ندرة مهارات معينة وارتفاع متوسط الأجور
+            المخصصة لها.</div>
+        </div>
+      </div>
+
+      <!-- Task 2: Locations & Remote -->
+      <div class="card"
+        data-prompt="وصلنا في مشروع Data Engineering إلى مرحلة التحليل (EDA). مهمتي الإجابة على سؤالين من خلال البيانات النظيفة: 'كيف تتوزع الوظائف جغرافياً عبر المحافظات؟' و 'ما هي نسبة الوظائف المتاحة عن بُعد (Remote Jobs) مقارنة بالدوام المكتبي؟'. بصفتك محلل بيانات خبير، اكتب لي كود Python باستخدام `Seaborn` أو `Matplotlib` لعمل التحليل الإحصائي ورسم Charts معبرة. وزودني بنموذج لكتابة Storytelling يفسر هذه التوجهات بناءً على طبيعة السوق الحالي."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-teal">T2</div>
+          <div>
+            <div class="name">Task 2</div><span class="role-badge badge-teal">Locations & Remote EDA</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-teal"></span>توزيع الوظائف حسب التمركز الجغرافي</li>
+          <li><span class="dot dot-teal"></span>رسم بياني وتوضيح الـ Storytelling</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">تطبيق دالة <code>value_counts()</code> على عمود المحافظات لاكتشاف أكثر المناطق تمركزاً لفرص
+            العمل.</div>
+          <div class="step">رسم خريطة حرارية (Heatmap) مبسطة أو Bar Chart يوضح الفجوة بين العاصمة والمحافظات الأخرى.
+          </div>
+          <div class="step">إنشاء فلتر (Boolean Mask) لاستخراج الوظائف التي تحتوي على كلمة 'Remote' أو 'Hybrid' من
+            البيانات.</div>
+          <div class="step">استخدام <strong>Matplotlib</strong> لرسم Pie Chart يقارن نسبة العمل عن بعد بالعمل الميداني
+            بشكل مرئي واضح.</div>
+          <div class="step">صياغة <strong>Storytelling</strong> يحلل توجه الشركات وتقليل النفقات عن طريق توفير بيئة عمل
+            مرنة للموظفين.</div>
+        </div>
+      </div>
+
+      <!-- Task 3: Experience & Companies -->
+      <div class="card"
+        data-prompt="وصلنا في مشروع Data Engineering إلى مرحلة التحليل (EDA). مطلوب مني الإجابة على سؤالين: 'ما هي طبيعة العلاقة بين سنوات الخبرة المطلوبة والراتب (أو المسمى الوظيفي)؟' و 'من هي الشركات الأكثر إعلاناً وطرحاً للوظائف في السوق؟'. بصفتك خبير استخراج رؤى، اكتب لي كود التحليل والرسم باستخدام `Seaborn`. وزودني بأسلوب صياغة للـ Storytelling (الاستنتاج السردي) ليوضع تحت الرسم البياني ليعطي للإدارة تفسيراً منطقياً وليس مجرد قراءة للأرقام."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-coral">T3</div>
+          <div>
+            <div class="name">Task 3</div><span class="role-badge badge-coral">Experience & Companies EDA</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-coral"></span>العلاقة بين الخبرات والمسميات</li>
+          <li><span class="dot dot-coral"></span>رسم بياني وتوضيح الـ Storytelling</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">إنشاء رسم بياني تشتت (Scatter Plot) أو Box Plot يوضح العلاقة الطردية بين تدرج الراتب وسنوات
+            الخبرة.</div>
+          <div class="step">تحليل البيانات لاستكشاف إذا كانت الشركات تفضل تعيين المبتدئين أم أصحاب الخبرات المتقدمة
+            أكثر.</div>
+          <div class="step">فرز وتجميع البيانات بناءً على اسم الشركة واستخدام <code>nlargest()</code> لتحديد أعلى 10
+            شركات توظيفاً.</div>
+          <div class="step">تصميم رسم بياني أفقي (Horizontal Bar Chart) يعرض بوضوح أسماء هذه الشركات الكبرى في السوق.
+          </div>
+          <div class="step">كتابة <strong>Storytelling</strong> استراتيجي يشرح كيف تعكس كثافة الإعلانات نمو قطاعات محددة
+            اقتصادياً.</div>
+        </div>
+      </div>
+
+      <!-- Task 4: Portals & Job Types -->
+      <div class="card"
+        data-prompt="وصلنا في مشروع Data Engineering إلى مرحلة التحليل (EDA). مطلوب مني الإجابة على سؤالين: 'ما هو حجم الوظائف المتاحة في موقع Wuzzuf مقارنة بموقع Bayt؟' و 'ما هو التوزيع العام لأنواع الوظائف المتاحة (Full-time vs Part-time vs Freelance)؟'. بصفتك محلل بيانات، اكتب الكود الإحصائي وكود الرسم باستخدام `Matplotlib`، وأعطني نموذجاً لكتابة Storytelling يفسر هذه الاختلافات والتوجهات بطريقة احترافية لتدعيم التقرير النهائي للمشروع."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-blue">T4</div>
+          <div>
+            <div class="name">Task 4</div><span class="role-badge badge-blue">Market & Types EDA</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-blue"></span>مقارنة حجم البيانات بين المنصات</li>
+          <li><span class="dot dot-blue"></span>رسم بياني وتوضيح الـ Storytelling</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">استخدام Count Plot من مكتبة <strong>Seaborn</strong> لعمل مقارنة بصرية سريعة لحجم البيانات
+            المسحوبة من كل مصدر.</div>
+          <div class="step">تحليل حصة المنصات في عرض الوظائف لمعرفة أي المنصات تُعتبر المهيمنة في السوق المحلي.</div>
+          <div class="step">تصنيف عمود 'نوع الوظيفة' لإظهار النسبة المئوية للوظائف الكاملة مقابل الوظائف الجزئية
+            والتدريب.</div>
+          <div class="step">إنشاء رسم بياني مجمع (Grouped Bar Chart) يقارن توافر أنواع الوظائف داخل كل منصة على حدة.
+          </div>
+          <div class="step">إضافة <strong>Storytelling</strong> يحلل توجهات الباحثين عن عمل وأي المنصات تُعد الوجهة
+            الأفضل حسب طبيعة التعاقد.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- المرحلة الرابعة -->
+    <p class="phase-label">المرحلة 4 — Database Integration & SQL Mastery (10 Queries)</p>
+    <div class="cards">
+      <!-- Task 1: Basic & Group By -->
+      <div class="card"
+        data-prompt="في مشروع Data Engineering الخاص بنا، قمنا بتصدير البيانات النظيفة إلى قاعدة بيانات `SQLite` وحفظناها في جدول اسمه `jobs_data`. بصفتك مهندس قواعد بيانات، مطلوب مني كتابة 3 استعلامات (Queries) لتلبية متطلبات المشروع. اكتب لي الاستعلامات التالية مع شرح لكيفية عملها: 1. استعلام بسيط يستخدم `SELECT` و `WHERE` لفلترة وظائف بمحافظة معينة. 2. استعلام تجميعي يستخدم `GROUP BY` و `COUNT` لحساب عدد الوظائف في كل مجال. 3. استعلام يستخدم `ORDER BY` و `LIMIT` لاستخراج أكثر 5 شركات طلباً للموظفين."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-purple">T1</div>
+          <div>
+            <div class="name">Task 1</div><span class="role-badge badge-purple">Basic & GROUP BY Queries</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-purple"></span>استعلامات التصفية والعد</li>
+          <li><span class="dot dot-purple"></span>استعلامات التجميع والترتيب</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">إعداد الاتصال بقاعدة بيانات <strong>SQLite</strong> عبر بايثون باستخدام مكتبة
+            <code>sqlite3</code> وإنشاء الـ Cursor لتنفيذ الأوامر.</div>
+          <div class="step">تصميم استعلام <code>SELECT</code> مباشر لفحص توافر الوظائف في منطقة معينة باستخدام شرط
+            <code>WHERE</code> بسيط.</div>
+          <div class="step">بناء استعلام إحصائي يعتمد على <code>GROUP BY</code> لحساب إجمالي عدد الإعلانات الوظيفية
+            مقسمة حسب القطاعات.</div>
+          <div class="step">استخدام الدالة <code>COUNT()</code> مع التجميع لإنشاء تقرير يوضح القطاعات الأكثر نمواً في
+            السوق.</div>
+          <div class="step">تطبيق ترتيب تنازلي باستخدام <code>ORDER BY DESC</code> مصحوباً بـ <code>LIMIT 5</code> لعرض
+            الشركات الخمس الأكثر استقطاباً للعمالة.</div>
+        </div>
+      </div>
+
+      <!-- Task 2: Having & Aggregations -->
+      <div class="card"
+        data-prompt="في مشروع Data Engineering الخاص بنا، نعمل على قاعدة بيانات `SQLite` تحتوي على جدول `jobs_data`. مهمتي هي كتابة 3 استعلامات SQL متقدمة نسبياً كجزء من متطلبات التقييم. بصفتك خبير SQL، اكتب لي الاستعلامات التالية واشرح منطقها: 1. استعلام يستخدم `GROUP BY` مع `HAVING` لتصفية المجالات التي طرحت أكثر من 50 وظيفة فقط. 2. استعلام يستخدم دوال التجميع (`AVG` و `MAX`) لحساب متوسط وأقصى خبرة مطلوبة. 3. استعلام يستخدم عوامل منطقية (`AND` / `OR`) لتصفية الوظائف بنوع الدوام الكامل في محافظة محددة."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-teal">T2</div>
+          <div>
+            <div class="name">Task 2</div><span class="role-badge badge-teal">HAVING & Aggregations</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-teal"></span>استعلامات المجاميع المشروطة</li>
+          <li><span class="dot dot-teal"></span>الاستعلام باستخدام دوال الإحصاء</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">تطوير استعلام تجميعي يعتمد على <code>HAVING</code> كفلتر بعد عملية التجميع (بدلاً من WHERE)
+            لتنقية البيانات المجملة.</div>
+          <div class="step">تطبيق الشرط الرياضي لاستبعاد القطاعات ذات النشاط الوظيفي الضعيف والتركيز على القطاعات ذات
+            الكثافة (أكثر من 50 وظيفة).</div>
+          <div class="step">استخدام الدوال التجميعية <code>AVG()</code> لحساب متوسط سنوات الخبرة للسوق و
+            <code>MAX()</code> لتحديد السقف الأعلى للخبرات.</div>
+          <div class="step">بناء استعلام مركب يدمج عدة شروط باستخدام <code>AND</code> و <code>OR</code> لاستهداف الوظائف
+            التي تلبي معايير محددة معاً.</div>
+          <div class="step">توثيق جميع الاستعلامات الناتجة وتجربتها على واجهة SQLite للتأكد من خلوها من الأخطاء
+            المنطقية.</div>
+        </div>
+      </div>
+
+      <!-- Task 3: Joins & Subqueries -->
+      <div class="card"
+        data-prompt="كجزء من مشروع Data Engineering الخاص بنا باستخدام `SQLite`، نفترض وجود جدولين مرتبطين: جدول للوظائف (`jobs`) وجدول لتفاصيل الشركات (`companies`). مهمتي هي إظهار مهارات متقدمة في ربط البيانات. بصفتك مهندس قواعد بيانات، اكتب لي 3 استعلامات مع الشرح: 1. استعلام يستخدم `INNER JOIN` لدمج بيانات الجدولين معاً. 2. استعلام فرعي (`Subquery`) لاستخراج الوظائف التي تتطلب خبرة أعلى من المتوسط العام للسوق. 3. استعلام يستخدم معامل `LIKE` للبحث المرن عن أي مسمى وظيفي يحتوي على الكلمات ('Data' أو 'Engineer')."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-coral">T3</div>
+          <div>
+            <div class="name">Task 3</div><span class="role-badge badge-coral">JOINs & Subqueries</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-coral"></span>استعلامات دمج الجداول العلائقية</li>
+          <li><span class="dot dot-coral"></span>البحث النصي المرن والاستعلامات الفرعية</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">تحليل بنية الجداول لتحديد المفتاح الأساسي (Primary Key) والمفتاح الأجنبي (Foreign Key) لضمان
+            الربط الصحيح.</div>
+          <div class="step">كتابة استعلام <code>INNER JOIN</code> قوي يدمج تفاصيل إعلان الوظيفة مع معلومات الشركة
+            المُعلنة في صف واحد متصل.</div>
+          <div class="step">هندسة استعلام فرعي ديناميكي (<strong>Subquery</strong>) يقوم بحساب متوسط الخبرة أولاً، ثم
+            تمرير الناتج كشرط للاستعلام الرئيسي.</div>
+          <div class="step">تطبيق عامل البحث <code>LIKE</code> مقترناً بعلامات <code>%</code> للبحث عن الأنماط النصية
+            داخل المسميات الوظيفية بمرونة عالية.</div>
+          <div class="step">مراجعة كفاءة الاستعلامات وسرعة تنفيذها لضمان مطابقتها للمتطلبات التقنية للمشروع.</div>
+        </div>
+      </div>
+
+      <!-- Task 4: Case When & Unions -->
+      <div class="card"
+        data-prompt="في المرحلة النهائية لمشروع Data Engineering عبر `SQLite`، طُلب مني كتابة 3 استعلامات SQL متقدمة لتقديم إحصائيات معقدة للإدارة. بصفتك خبير قواعد بيانات، أريد منك كتابة الاستعلامات التالية مع الشرح الكامل: 1. استعلام يستخدم العبارة الشرطية `CASE WHEN` لإنشاء عمود تصنيف جديد يُقيم الوظائف كـ (مبتدئ، متوسط، خبير) بناءً على سنوات الخبرة. 2. استعلام يستخدم `UNION` أو `UNION ALL` لدمج نتائج استعلامين مختلفين في جدول نتائج واحد. 3. استعلام متقدم ومُركب يجمع بين استخدام `JOIN` و `GROUP BY` لتقديم تقرير إداري شامل."
+        onclick="openRoadmap(this)">
+        <div class="card-header">
+          <div class="avatar av-blue">T4</div>
+          <div>
+            <div class="name">Task 4</div><span class="role-badge badge-blue">Advanced Logic Queries</span>
+          </div>
+        </div>
+        <ul class="tasks">
+          <li><span class="dot dot-blue"></span>استعلامات الجمل الشرطية (CASE)</li>
+          <li><span class="dot dot-blue"></span>الدمج المتقدم (UNION) والتقارير الشاملة</li>
+        </ul>
+        <div class="roadmap-details" style="display: none;">
+          <div class="step">توظيف البنية الشرطية <code>CASE WHEN ... THEN</code> لإنشاء أبعاد تحليلية جديدة داخل
+            البيانات دون الحاجة لتغيير الجدول الأصلي.</div>
+          <div class="step">تقسيم الوظائف برمجياً عبر الـ SQL إلى فئات (Junior, Mid-Level, Senior) بناءً على شروط رقمية
+            لسنوات الخبرة.</div>
+          <div class="step">استخدام أمر الدمج <code>UNION</code> لضم صفوف ناتجة عن استعلامين مختلفين (مثل وظائف من
+            قطاعين مختلفين بشروط مختلفة) في قائمة واحدة.</div>
+          <div class="step">بناء استعلام معقد (<strong>Master Query</strong>) يربط بين جداول متعددة (JOIN) ويقوم بتجميع
+            البيانات (GROUP BY) لإنتاج خلاصة تنفيذية.</div>
+          <div class="step">مراجعة قائمة الاستعلامات العشرة (الخاصة بالفريق ككل) للتأكد من تنوعها وتغطيتها الكاملة لمنهج
+            الـ SQL المطلوب للمشروع.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- النافذة المنبثقة (Modal) -->
+  <div id="taskModal" class="modal-overlay" onclick="closeModalOnOutsideClick(event)">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h3 class="modal-title" id="modalName">الاسم</h3>
+      <p class="modal-subtitle" id="modalRole">الدور</p>
+
+      <div class="roadmap-container" id="modalRoadmap">
+        <!-- يتم تعبئة الخطوات هنا عبر الجافاسكريبت من العناصر المخفية -->
+      </div>
+
+      <div class="prompt-box">
+        <strong>💡 الموجه المقترح (Prompt):</strong>
+        <span id="modalPromptText">النص هنا</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openRoadmap(cardElement) {
+      // استخراج البيانات الأساسية من الكرت المُنقر عليه
+      const name = cardElement.querySelector('.name').innerText;
+      const role = cardElement.querySelector('.role-badge').innerText;
+      const promptText = cardElement.getAttribute('data-prompt');
+
+      // قراءة خطوات الـ Roadmap من العنصر المخفي الخاص بهذا الكارت تحديداً
+      const roadmapSteps = cardElement.querySelectorAll('.roadmap-details .step');
+
+      // تعبئة النافذة (Modal) بالبيانات
+      document.getElementById('modalName').innerText = `خارطة طريق: ${name}`;
+      document.getElementById('modalRole').innerText = `المهمة: ${role}`;
+      document.getElementById('modalPromptText').innerText = promptText;
+
+      // بناء خطوات الـ Roadmap بناءً على العناصر المخفية بشكل متماثل
+      let roadmapHTML = '';
+      roadmapSteps.forEach((step) => {
+        const stepText = step.innerHTML.trim();
+        roadmapHTML += `<div class="roadmap-step">${stepText}</div>`;
+      });
+      document.getElementById('modalRoadmap').innerHTML = roadmapHTML;
+
+      // إظهار النافذة
+      document.getElementById('taskModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('taskModal').style.display = 'none';
+    }
+
+    function closeModalOnOutsideClick(event) {
+      if (event.target === document.getElementById('taskModal')) {
+        closeModal();
+      }
+    }
+  </script>
+
+</body>
+
+</html>
