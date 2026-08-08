@@ -51,6 +51,21 @@ Built the computer vision and performance-analysis pipeline for a real-time fitn
 
 > **Note:** These repositories contain architecture documentation and project write-ups only. Source code is kept private due to client agreements and ownership considerations.
 
+### 🧩 Lernexa — Interactive Algorithm Visualization Platform
+`Feb 2026 – Jun 2026` · *Associated with Sphinx University*
+ 
+A dependency-free, single-page platform that visualizes 36 algorithms across 8 categories — Searching, Sorting, Data Structures, Graphs, Trees, Dynamic Programming, Machine Learning, and Mathematics. Developed under Sphinx University's Faculty of Computers and Artificial Intelligence, in collaboration with the Information Technology Institute (ITI) — Assiut Branch, as part of a work-based professional training program.
+ 
+- Designed a data-driven architecture where every algorithm is defined as JSON metadata, routed at runtime to one of 8 rendering engines through a fixed callback contract that keeps algorithm logic fully decoupled from the DOM
+- Built a state-snapshot time-travel mechanism enabling frame-accurate step-forward and step-backward replay without re-running any algorithm
+- Implemented full playback controls — play, pause, 8 speed levels, and custom input — across all 36 algorithms, including machine learning visualizations (K-Means, KNN, Linear Regression) rarely covered by existing tools
+- Validated correctness by benchmarking measured operation counts against theoretical time-complexity curves across sorting and searching algorithms
+Developed as a university project for CSC227 (Work-based Professional Project, Level 2), under the supervision of ITI Assiut Branch.
+ 
+**Stack:** JavaScript · System Architecture · Data Structures & Algorithms
+ 
+---
+
 ### 🎟️ Event Ticketing & Entry Management System
 `2023 – Present`
 
